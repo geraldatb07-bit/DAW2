@@ -43,7 +43,7 @@ No vull que inventis cap valor. Analitza quines opcions tenim per representar aq
 
 Després de comparar les diferents opcions proposades, he decidit passar
 el límit de l'enviament express com a paràmetre de la funció.
-## resultat
+## Resultat
 He escollit aquesta opció perquè és senzilla i evita definir arbitràriament
 un valor dins del codi, com passava a la primera implementació amb els
 2 dies. D'aquesta manera, el límit pot venir de la configuració de la
