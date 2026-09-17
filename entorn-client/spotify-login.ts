@@ -1,3 +1,4 @@
+export { };
 interface Usuari {
     password: string;
     correu: string;
