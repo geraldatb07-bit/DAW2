@@ -1,16 +1,48 @@
-function autentificar(correu: string, contrasenya: string, edat: number): boolean {
-
-    const correuValid = correu.includes("@") && correu.includes(".");
-
-    const contrasenyaValida = contrasenya.length >= 8;
-
-    const edatValida = edat > 14;
-
-
-    return correuValid && contrasenyaValida && edatValida;
+interface Usuari {
+    password: string;
+    correu: string;
+    edat: number;
 }
 
-// Exemples
-console.log(autentificar("gerald@gmail.com", "contrasenya123", 18)); // true
-console.log(autentificar("gerald@gmail.com", "123", 18));            // false
-console.log(autentificar("gerald@gmail.com", "contrasenya123", 13)); // false
+function autentificar(usuari: Usuari): boolean {
+
+    let correcte: boolean = false;
+
+    if (
+        usuari.correu === "correuOK" &&
+        usuari.password === "passwordOK" &&
+        usuari.edat > 14
+    ) {
+        correcte = true;
+    }
+
+    return correcte;
+}
+
+function imprimir(auth: boolean): void {
+
+    if (auth) {
+        console.log("Usuari autentificat correcte");
+    } else {
+        console.log("Usuari, password o edat no vàlid");
+    }
+}
+
+const usuariCorrecte: Usuari = {
+    password: "passwordOK",
+    correu: "correuOK",
+    edat: 15
+}
+
+let autoOK: boolean = autentificar(usuariCorrecte);
+imprimir(autoOK);
+
+
+const usuariIncorrecte: Usuari = {
+    password: "passwordOK",
+    correu: "correuOK",
+    edat: 9
+}
+
+autoOK = autentificar(usuariIncorrecte);
+imprimir(autoOK);
