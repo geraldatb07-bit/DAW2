@@ -72,3 +72,29 @@ imprimir(existeixCanco);
 
 existeixCanco = buscarCanco("Despacito", cancons);
 imprimir(existeixCanco);
+
+function buscarCanconsLlargues(cancoList: Canco[], durada: number): Canco[] {
+
+    const totalCancons = cancoList.length;
+    let canconsLlargues: Canco[] = [];
+
+    for (let i: number = 0; i < totalCancons; i++) {
+
+        if (cancoList[i].durada >= durada) {
+            canconsLlargues.push(cancoList[i]);
+        }
+    }
+
+    return canconsLlargues;
+}
+
+
+function imprimirArray(cancons: Canco[]): void {
+
+    for (let i: number = 0; i < cancons.length; i++) {
+        imprimir(cancons[i]);
+    }
+
+}
+
+const canconsL1: Canco[] = buscarCanconsLlargues(cancons, 30);

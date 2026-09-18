@@ -1,3 +1,9 @@
+interface Canco {
+    id: string;
+    titol: string;
+    artista: string;
+    durada: number;
+}
 
 const cancons: Canco[] = [
     {
@@ -21,9 +27,20 @@ const cancons: Canco[] = [
 ];
 
 
-function buscarCanco(titol: string, cancoList: Canco[]): Canco | undefined {
+function buscarCanco(titol: string, cancoList: Canco[]): Canco | null {
 
-    return cancoList.find((canco: Canco) => canco.titol === titol);
+    const totalCancons: number = cancoList.length;
+    let i: number = 0;
+
+    while (i < totalCancons && titol !== cancoList[i].titol) {
+        i++;
+    }
+
+    if (i < totalCancons) {
+        return cancoList[i];
+    }
+
+    return null;
 }
 
 function imprimir(canco: Canco | undefined): void {
@@ -39,7 +56,7 @@ let titol: string = "Blinding Lights";
 
 const songsSearch: Canco[] = cancons.filter(
     (canco: Canco) => {
-        return canco.titol === titol;
+        return canco.titol === titol && canco.durada > 120;
     }
 );
 
