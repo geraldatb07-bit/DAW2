@@ -1,16 +1,20 @@
-
 import express, { Express, Request, Response } from "express";
+import { APICONFIG } from "./config/apiConfig.js";
+import { tracks } from "./data/track/track.js";
+import { Track } from "./interfaces/data/track.js";
 
-const app = express();
+const app: Express = express();
 
-const port = 3000;
-
-app.use(express.json());
-
-app.get("/", (req, res) => {
-    res.send("API funcionant!");
+app.get("/", (_req: Request, res: Response) => {
+    return res.json(APICONFIG);
 });
 
-app.listen(port, () => {
-    console.log("Servidor iniciat al port " + port);
+app.get("/tracks/:id", (req: Request, res: Response) => {
+    const idTrack: string = req.params.id as string;
+    const track: Track[] = tracks.filter((t: Track) => t.id === idTrack);
+    return res.status(200).json(track);
+});
+
+app.listen(APICONFIG.port, APICONFIG.host, () => {
+    console.log(`Servidor escoltant a http://${APICONFIG.host}:${APICONFIG.port}`);
 });

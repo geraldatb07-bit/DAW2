@@ -4,12 +4,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const apiConfig_js_1 = require("./config/apiConfig.js");
+const track_js_1 = require("./data/track/track.js");
 const app = (0, express_1.default)();
-const port = 3000;
-app.use(express_1.default.json());
-app.get("/", (req, res) => {
-    res.send("API funcionant!");
+app.get("/", (_req, res) => {
+    return res.json(apiConfig_js_1.APICONFIG);
 });
-app.listen(port, () => {
-    console.log("Servidor iniciat al port " + port);
+app.get("/tracks/:id", (req, res) => {
+    const idTrack = req.params.id;
+    const track = track_js_1.tracks.filter((t) => t.id === idTrack);
+    return res.status(200).json(track);
+});
+app.listen(apiConfig_js_1.APICONFIG.port, apiConfig_js_1.APICONFIG.host, () => {
+    console.log(`Servidor escoltant a http://${apiConfig_js_1.APICONFIG.host}:${apiConfig_js_1.APICONFIG.port}`);
 });
