@@ -1,4 +1,4 @@
-# Resum: Mini API amb Node.js, Express i TypeScript
+# Resum: Spotify API amb Node.js, Express i TypeScript
 
 ## Què és una API?
 
@@ -77,15 +77,15 @@ Elimina el videojoc amb ID `1`.
 ## 1. Crear la carpeta
 
 ```powershell
-mkdir mini-api
+mkdir spotify-api
 ```
 
-Crea una carpeta anomenada `mini-api`.
+Crea una carpeta anomenada `spotify-api`.
 
 ## 2. Entrar a la carpeta
 
 ```powershell
-cd mini-api
+cd spotify-api
 ```
 
 Ens situa dins de la carpeta del projecte.
@@ -133,7 +133,7 @@ El fitxer `tsconfig.json` conté la configuració de TypeScript.
 # Estructura mínima del projecte
 
 ```text
-mini-api/
+spotify-api/
 ├── node_modules/
 ├── src/
 │   └── index.ts
