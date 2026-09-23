@@ -33,7 +33,7 @@ const jugadorsTitulars: Jugador[] = equipTitular(equips, nomEquip);
 
 function equipTitular(equips: Equip[], nomEquip: string): Jugador[] {
 
-    const equip = equips.find((e: Equip) => {
+    const equip: Equip | undefined = equips.find((e: Equip) => {
         return e.nom === nomEquip;
     });
 
@@ -42,7 +42,7 @@ function equipTitular(equips: Equip[], nomEquip: string): Jugador[] {
     }
 
     return equip.jugadors.filter((j: Jugador) => {
-        return j.titular === true;
+        return j.titular;
     });
 }
 
