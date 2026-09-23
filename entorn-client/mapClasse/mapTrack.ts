@@ -67,4 +67,3 @@ const resultat: string[] = cancons.map((c: Canco) => {
 });
 
 
-
