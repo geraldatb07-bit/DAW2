@@ -1,8 +1,15 @@
-import './style.css'
-import { tracks } from './data/track'
+import './style.css';
+import { crearCerca } from './view/cerca/cerca';
+import { crearTitol } from './view/tableSongs/crearTitol';
+import { crearTableSongs } from './view/tableSongs/crearTableSongs';
 
+const appObj: HTMLElement = document.querySelector<HTMLDivElement>('#app')!;
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-<h1>Spotify</h1>
-<p>${tracks[0].title}</p>
-`
+const titol: HTMLHeadElement = crearTitol();
+const table: HTMLTableElement = crearTableSongs();
+const form: HTMLFormElement = crearCerca();
+
+appObj.appendChild(titol);
+appObj.appendChild(table);
+appObj.appendChild(form);
+
