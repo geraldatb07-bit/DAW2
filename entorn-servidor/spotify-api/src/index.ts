@@ -2,8 +2,10 @@ import express, { Express, Request, Response } from "express";
 import { APICONFIG } from "./config/apiConfig.js";
 import { tracks } from "./data/track/track.js";
 import { Track } from "./interfaces/data/track.js";
+import { isValidTrack } from "./validators/track.validator.js";
 
 const app: Express = express();
+app.use(express.json());
 
 app.get("/", (_req: Request, res: Response) => {
     return res.json(JSON.stringify(APICONFIG));
@@ -24,6 +26,17 @@ app.get("/tracks/:id", (req: Request, res: Response) => {
     }
     return res.status(200).json(track);
 });
+
+
+
+app.post("/tracks", (req: Request, res: Response) => {
+    const track: Track = req.body;
+    if (!isValidTrack(track)) {
+        return res.status(400).json({ message: "Invalid data" })
+    }
+    return res.status(201).json(req.body);
+});
+
 
 app.listen(APICONFIG.port, APICONFIG.host, () => {
     console.log(`Servidor escoltant a http://${APICONFIG.host}:${APICONFIG.port}`);
