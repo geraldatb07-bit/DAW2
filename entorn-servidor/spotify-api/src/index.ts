@@ -3,7 +3,8 @@ import { APICONFIG } from "./config/apiConfig.js";
 import { tracks } from "./data/track/track.js";
 import { Track } from "./interfaces/data/track.js";
 import { isValidTrack } from "./validators/track.validator.js";
-
+import { randomUUID } from "crypto";
+import { TrackBD } from "./interfaces/track/trackBD.js";
 const app: Express = express();
 app.use(express.json());
 
@@ -34,7 +35,16 @@ app.post("/tracks", (req: Request, res: Response) => {
     if (!isValidTrack(track)) {
         return res.status(400).json({ message: "Invalid data" })
     }
-    return res.status(201).json(req.body);
+    const uuid: string = randomUUID();
+    const trackRecord: TrackBD = {
+        id: uuid,
+        title: track.title.trim().replace(/\s+/g, " "),
+        artist: track.artist.trim().replace(/\s+/g, " "),
+        duration: track.duration
+    };
+
+
+    return res.status(201).json(trackRecord);
 });
 
 
