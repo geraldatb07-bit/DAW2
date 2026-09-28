@@ -8,17 +8,27 @@ import { llistaCancons } from './view/tableSongs/llistaCancons';
 
 const appObj: HTMLElement = document.querySelector<HTMLDivElement>('#app')!;
 const tbody: HTMLTableSectionElement = document.createElement('tbody');
+const cardTrackDiv: HTMLDivElement = document.querySelector<HTMLDivElement>('#cardTrack')!;
 
+const cardTrack = (idTrack: string): void => {
+    const track: Track | undefined = tracks.find(
+        (t: Track) => t.id === idTrack
+    );
 
-const cercar:(textABuscar:string) => void = (textABuscar:string) => {
-    const llistaTracks:Track[] = tracks.filter(
-        (t: Track) => { return t.title.toLowerCase().includes(textABuscar.trim().toLowerCase())}
+    if (track) {
+        cardTrackDiv.textContent = `${track.title} - ${track.artist}`;
+    }
+};
+
+const cercar: (textABuscar: string) => void = (textABuscar: string) => {
+    const llistaTracks: Track[] = tracks.filter(
+        (t: Track) => { return t.title.toLowerCase().includes(textABuscar.trim().toLowerCase()) }
     );
     tbody.innerHTML = "";
-    llistaCancons(llistaTracks,tbody);
+    llistaCancons(llistaTracks, tbody, cardTrack);
 
 }
 appObj.appendChild(crearTitol());
 appObj.appendChild(crearCerca(cercar));
-appObj.appendChild(crearTableSongs(tbody));
+appObj.appendChild(crearTableSongs(tbody, cardTrack));
 

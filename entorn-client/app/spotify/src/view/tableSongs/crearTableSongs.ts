@@ -2,13 +2,16 @@ import { tracks } from "../../data/track";
 import { createTableHead } from "./createTableHead";
 import { llistaCancons } from "./llistaCancons";
 
-export function crearTableSongs(tbody: HTMLTableSectionElement): HTMLTableElement {
+export function crearTableSongs(
+    tbody: HTMLTableSectionElement,
+    cardTrack: (idTrack: string) => void
+): HTMLTableElement {
 
     const table: HTMLTableElement = document.createElement("table");
     table.appendChild(createTableHead());
 
 
-    llistaCancons(tracks, tbody);
+    llistaCancons(tracks, tbody, cardTrack);
     table.appendChild(tbody);
     return table
 

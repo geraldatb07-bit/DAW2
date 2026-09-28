@@ -1,6 +1,6 @@
 import type { Track } from "../interface/interface-track";
 
-export function createRowSong(track: Track): HTMLTableRowElement {
+export function createRowSong(track: Track, cardTrack: (idTrack: string) => void): HTMLTableRowElement {
     const songTr: HTMLTableRowElement = document.createElement("tr");
 
     const titleTd: HTMLTableCellElement = document.createElement("td");
@@ -14,14 +14,16 @@ export function createRowSong(track: Track): HTMLTableRowElement {
 
     titleTd.addEventListener("click",
         () => {
-
-            console.log(getIdTrack(track));
+            const idTrack: string = getIdTrack(track);
+            console.log(idTrack);
+            cardTrack(idTrack);
         }
     )
     durationTd.addEventListener("click",
         () => {
-
-            console.log(getIdTrack(track));
+            const idTrack: string = getIdTrack(track);
+            console.log(idTrack);
+            cardTrack(idTrack);
         }
     )
 
