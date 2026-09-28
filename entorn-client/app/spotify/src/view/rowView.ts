@@ -12,8 +12,23 @@ export function createRowSong(track: Track): HTMLTableRowElement {
     songTr.appendChild(titleTd);
     songTr.appendChild(durationTd);
 
+    titleTd.addEventListener("click",
+        () => {
+
+            console.log(getIdTrack(track));
+        }
+    )
+    durationTd.addEventListener("click",
+        () => {
+
+            console.log(getIdTrack(track));
+        }
+    )
+
     return songTr;
-
-
-
 }
+
+function getIdTrack(track: Track): string {
+    return track.id
+}
+
