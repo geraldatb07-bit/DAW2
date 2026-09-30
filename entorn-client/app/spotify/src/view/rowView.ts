@@ -13,13 +13,16 @@ export function createRowSong(track: Track, cardTrack: (idTrack: string) => void
     const reproductionsTd: HTMLTableCellElement = document.createElement("td");
     reproductionsTd.textContent = "0";
 
+    const playTd: HTMLTableCellElement = document.createElement("td");
     const playBtn: HTMLButtonElement = document.createElement("button");
     playBtn.textContent = "Play";
+    playTd.appendChild(playBtn);
 
 
     songTr.appendChild(titleTd);
     songTr.appendChild(durationTd);
-    songTr.appendChild(reproductionsTd)
+    songTr.appendChild(reproductionsTd);
+    songTr.appendChild(playTd);
 
     titleTd.addEventListener("click",
         () => {

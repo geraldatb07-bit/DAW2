@@ -10,10 +10,6 @@ export function crearTableSongs(
     const table: HTMLTableElement = document.createElement("table");
     table.appendChild(createTableHead());
 
-    const thReproductions = document.createElement("th");
-    thReproductions.textContent = "Reproduccions";
-
-
     llistaCancons(tracks, tbody, cardTrack);
     table.appendChild(tbody);
     return table
