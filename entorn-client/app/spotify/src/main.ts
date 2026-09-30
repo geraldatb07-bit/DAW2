@@ -16,7 +16,15 @@ const cardTrack = (idTrack: string): void => {
     );
 
     if (track) {
-        cardTrackDiv.textContent = `${track.title} - ${track.artist}`;
+        cardTrackDiv.innerHTML = `Cançó: ${track.title} - Artista: ${track.artist} `;
+
+        const botoTancar: HTMLButtonElement = document.getElementById('btnTancar');
+        botoTancar.textContent = 'x';
+        botoTancar.addEventListener('click', () => {
+            cardTrackDiv.textContent = '';
+        });
+
+        cardTrackDiv.appendChild(botoTancar);
     }
 };
 
