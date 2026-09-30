@@ -8,7 +8,7 @@ import { llistaCancons } from './view/tableSongs/llistaCancons';
 
 const appObj: HTMLElement = document.querySelector<HTMLDivElement>('#app')!;
 const tbody: HTMLTableSectionElement = document.createElement('tbody');
-const cardTrackDiv: HTMLDivElement = document.querySelector<HTMLDivElement>('#cardTrack')!;
+const cardTrackDiv: HTMLDivElement = document.createElement('div')!;
 
 const cardTrack = (idTrack: string): void => {
     const track: Track | undefined = tracks.find(
@@ -16,7 +16,7 @@ const cardTrack = (idTrack: string): void => {
     );
 
     if (track) {
-        cardTrackDiv.innerHTML = `<strong>Cançó:</strong> ${track.title} - <strong>Artista:</strong> ${track.artist} `;
+        cardTrackDiv.innerHTML = `<p><strong>Cançó:</strong> ${track.title} - <strong>Artista:</strong> ${track.artist} </p>`;
 
         const botoTancar: HTMLButtonElement = document.createElement('button');
         botoTancar.textContent = 'x';
