@@ -16,12 +16,12 @@ const cardTrack = (idTrack: string): void => {
     );
 
     if (track) {
-        cardTrackDiv.innerHTML = `Cançó: ${track.title} - Artista: ${track.artist} `;
+        cardTrackDiv.innerHTML = `<strong>Cançó:</strong> ${track.title} - <strong>Artista:</strong> ${track.artist} `;
 
-        const botoTancar: HTMLButtonElement = document.getElementById('btnTancar');
+        const botoTancar: HTMLButtonElement = document.createElement('button');
         botoTancar.textContent = 'x';
         botoTancar.addEventListener('click', () => {
-            cardTrackDiv.textContent = '';
+            cardTrackDiv.innerHTML = '';
         });
 
         cardTrackDiv.appendChild(botoTancar);
@@ -39,4 +39,4 @@ const cercar: (textABuscar: string) => void = (textABuscar: string) => {
 appObj.appendChild(crearTitol());
 appObj.appendChild(crearCerca(cercar));
 appObj.appendChild(crearTableSongs(tbody, cardTrack));
-
+appObj.appendChild(cardTrackDiv);
