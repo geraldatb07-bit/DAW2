@@ -12,10 +12,16 @@ export function createRowSong(track: Track, cardTrack: (idTrack: string) => void
 
     const reproductionsTd: HTMLTableCellElement = document.createElement("td");
     reproductionsTd.textContent = "0";
+    let reproduccions: number = 0;
 
     const playTd: HTMLTableCellElement = document.createElement("td");
     const playBtn: HTMLButtonElement = document.createElement("button");
     playBtn.textContent = "Play";
+    playBtn.addEventListener("click", () => {
+        reproduccions++;
+        reproductionsTd.textContent = reproduccions.toString();
+        playBtn.textContent = "Playing";
+    });
     playTd.appendChild(playBtn);
 
 
