@@ -6,6 +6,10 @@ export function llistaCancons(
     tbody: HTMLTableSectionElement,
     cardTrack: (idTrack: string) => void
 ): void {
+    let currentlyPlayingButton: HTMLButtonElement | null = null;
+    const PlayingButton = (button: HTMLButtonElement): boolean => {
+
+    };
     tracks.forEach(
         (t: Track) => { tbody.appendChild(createRowSong(t, cardTrack)); }
     )
