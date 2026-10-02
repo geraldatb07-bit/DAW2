@@ -1,0 +1,1 @@
+export const PAISSOS = ["ESPANYA", "ANGLATERRA", "ITALIA"];

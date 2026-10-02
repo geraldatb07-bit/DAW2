@@ -5,7 +5,9 @@ import { Track } from "./interfaces/data/track.js";
 import { isValidTrack } from "./validators/track.validator.js";
 import { randomUUID } from "crypto";
 import { TrackBD } from "./interfaces/track/trackBD.js";
-import { Artist } from "./interfaces/track/artist";
+import { Artist } from "./interfaces/artist/artist.js";
+import { isValidArtist } from "./validators/artist.validador.js";
+import { ArtistBD } from "./interfaces/artist/artistBD.js";
 
 const app: Express = express();
 app.use(express.json());
@@ -52,15 +54,19 @@ app.post("/tracks", (req: Request, res: Response) => {
 const artists: Artist[] = [];
 app.post("/artists", (req: Request, res: Response) => {
     const artist: Artist = req.body;
-    const validCountries: string[] = ["Espanya", "Estats Units", "Regne Unit", "Japó"];
-
-    const paisTrobat = validCountries.find(pais => pais === artist.pais);
-
-    if (!paisTrobat) {
-        return res.status(400).json({ message: "País no vàlid" });
+    if (!isValidArtist(artist)) {
+        return res.status(400).json({ message: "Invalid data" })
     }
+    const uuid: string = randomUUID();
+    const artistRecord: ArtistBD = {
+        id: uuid,
+        pseudonim: artist.pseudonim.trim().replace(/\s+/g, " "),
+        nom: artist.nom.trim().replace(/\s+/g, " "),
+        pais: artist.pais
+    };
+
     artists.push(artist);
-    return res.status(201).json(artist);
+    return res.status(201).json(artists);
 })
 
 app.get("/artists", (_req: Request, res: Response) => {
