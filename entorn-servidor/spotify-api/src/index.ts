@@ -5,6 +5,8 @@ import { Track } from "./interfaces/data/track.js";
 import { isValidTrack } from "./validators/track.validator.js";
 import { randomUUID } from "crypto";
 import { TrackBD } from "./interfaces/track/trackBD.js";
+import { Artist } from "./interfaces/track/artist";
+
 const app: Express = express();
 app.use(express.json());
 
@@ -43,10 +45,27 @@ app.post("/tracks", (req: Request, res: Response) => {
         duration: track.duration
     };
 
-
+    tracks.push(trackRecord);
     return res.status(201).json(trackRecord);
 });
 
+const artists: Artist[] = [];
+app.post("/artists", (req: Request, res: Response) => {
+    const artist: Artist = req.body;
+    const validCountries: string[] = ["Espanya", "Estats Units", "Regne Unit", "Japó"];
+
+    const paisTrobat = validCountries.find(pais => pais === artist.pais);
+
+    if (!paisTrobat) {
+        return res.status(400).json({ message: "País no vàlid" });
+    }
+    artists.push(artist);
+    return res.status(201).json(artist);
+})
+
+app.get("/artists", (_req: Request, res: Response) => {
+    return res.status(200).json(artists);
+});
 
 app.listen(APICONFIG.port, APICONFIG.host, () => {
     console.log(`Servidor escoltant a http://${APICONFIG.host}:${APICONFIG.port}`);
