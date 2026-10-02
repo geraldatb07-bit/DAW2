@@ -53,11 +53,38 @@ app.post("/artists", (req, res) => {
         nom: artist.nom.trim().replace(/\s+/g, " "),
         pais: artist.pais
     };
-    artists.push(artist);
+    artists.push(artistRecord);
     return res.status(201).json(artists);
 });
 app.get("/artists", (_req, res) => {
     return res.status(200).json(artists);
+});
+app.put("/tracks/:id", (req, res) => {
+    const track = req.body;
+    if (!(0, track_validator_js_1.isValidTrack)(track)) {
+        return res.status(400).json({ message: "Invalid data" });
+    }
+    const idTrack = req.params.id;
+    const index = track_js_1.tracks.findIndex((t) => { return t.id === idTrack; });
+    if (index === -1) {
+        return res.status(404).json({ message: `Track ${idTrack} not found` });
+    }
+    track_js_1.tracks[index] = {
+        id: idTrack,
+        title: track.title.trim().replace(/\s+/g, " "),
+        artist: track.artist.trim().replace(/\s+/g, " "),
+        duration: track.duration
+    };
+    return res.status(200).json(track_js_1.tracks[index]);
+});
+app.delete("/tracks/:id", (req, res) => {
+    const idTrack = req.params.id;
+    const index = track_js_1.tracks.findIndex((t) => { return t.id === idTrack; });
+    if (index === -1) {
+        return res.status(404).json({ message: `Track ${idTrack} not found` });
+    }
+    track_js_1.tracks.splice(index, 1);
+    return res.status(204).send();
 });
 app.listen(apiConfig_js_1.APICONFIG.port, apiConfig_js_1.APICONFIG.host, () => {
     console.log(`Servidor escoltant a http://${apiConfig_js_1.APICONFIG.host}:${apiConfig_js_1.APICONFIG.port}`);

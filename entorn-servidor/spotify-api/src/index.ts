@@ -55,7 +55,7 @@ const artists: Artist[] = [];
 app.post("/artists", (req: Request, res: Response) => {
     const artist: Artist = req.body;
     if (!isValidArtist(artist)) {
-        return res.status(400).json({ message: "Invalid data" })
+        return res.status(400).json({ message: "Invalid data" });
     }
     const uuid: string = randomUUID();
     const artistRecord: ArtistBD = {
@@ -65,12 +65,50 @@ app.post("/artists", (req: Request, res: Response) => {
         pais: artist.pais
     };
 
-    artists.push(artist);
+    artists.push(artistRecord);
     return res.status(201).json(artists);
 })
 
 app.get("/artists", (_req: Request, res: Response) => {
     return res.status(200).json(artists);
+});
+
+
+app.put("/tracks/:id", (req: Request, res: Response) => {
+    const track: Track = req.body;
+    if (!isValidTrack(track)) {
+        return res.status(400).json({ message: "Invalid data" })
+    }
+
+    const idTrack: string = req.params.id as string;
+    const index: number = tracks.findIndex((t: TrackBD) => { return t.id === idTrack; });
+
+    if (index === -1) {
+        return res.status(404).json({ message: `Track ${idTrack} not found` });
+    }
+
+    tracks[index] = {
+        id: idTrack,
+        title: track.title.trim().replace(/\s+/g, " "),
+        artist: track.artist.trim().replace(/\s+/g, " "),
+        duration: track.duration
+    };
+
+    return res.status(200).json(tracks[index]);
+});
+
+app.delete("/tracks/:id", (req: Request, res: Response) => {
+
+
+    const idTrack: string = req.params.id as string;
+    const index: number = tracks.findIndex((t: TrackBD) => { return t.id === idTrack; });
+
+    if (index === -1) {
+        return res.status(404).json({ message: `Track ${idTrack} not found` });
+    }
+
+    tracks.splice(index, 1);
+    return res.status(204).send();
 });
 
 app.listen(APICONFIG.port, APICONFIG.host, () => {
