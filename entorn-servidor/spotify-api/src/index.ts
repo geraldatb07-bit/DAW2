@@ -108,7 +108,7 @@ app.delete("/tracks/:id", (req: Request, res: Response) => {
     }
 
     tracks.splice(index, 1);
-    return res.status(204).send();
+    return res.status(204).json({ message: "Track deleted" })
 });
 
 app.listen(APICONFIG.port, APICONFIG.host, () => {

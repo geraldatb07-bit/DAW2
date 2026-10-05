@@ -1,9 +1,9 @@
 import { MAXPSEUDONIM, MAXNOMREAL } from "../interfaces/artist/artist.constants.js";
 import { Artist } from "../interfaces/artist/artist.js";
 import { PAISSOS } from "../interfaces/data/pais.data.js";
-import { MAXARTIST, MAXTITOL } from "../interfaces/track/track.constants.js";
 
-export function isValidArtist(artist: Artist): boolean | string | undefined {
+
+export function isValidArtist(artist: Artist): boolean {
 
     if (!artist.nom || !artist.pseudonim || !artist.pais) {
         return false;
@@ -18,6 +18,5 @@ export function isValidArtist(artist: Artist): boolean | string | undefined {
     const pais: string | undefined = PAISSOS.find((p: string) => { return p === artist.pais.toUpperCase() });
     if (!pais) { return false; }
     else { return true; }
-
-
+    
 }
