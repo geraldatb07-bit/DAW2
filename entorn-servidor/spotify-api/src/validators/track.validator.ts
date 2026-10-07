@@ -1,7 +1,7 @@
-import { Track } from "../interfaces/data/track.js";
+import type { TrackInput } from "../interfaces/track/trackBD.js";
 import { MAXARTIST, MAXTITOL } from "../interfaces/track/track.constants.js";
 
-export function isValidTrack(track: Track): boolean {
+export function isValidTrack(track: TrackInput): boolean {
   
 
     if (track.artist === null || track.duration === null || track.title === null) {

@@ -10,6 +10,10 @@ import { ArtistBD } from "./interfaces/artist/artistBD.js";
 import { Country } from "./interfaces/Country/country.js";
 import { countries } from "./data/country/country.data.js";
 import { isValidCountry } from "./validators/country.validator.js";
+import { createTrack, getAllTracks, getTrackById } from "./interfaces/data/Services/trackService.js";
+import type { TrackBD } from "./interfaces/track/trackBD.js";
+import type { ErrorService } from "./interfaces/error/errorService.js";
+import type { SuccessService } from "./interfaces/error/sucessService.js";
 
 const app: Express = express();
 app.use(express.json());
@@ -19,38 +23,28 @@ app.get("/", (_req: Request, res: Response) => {
 });
 
 app.get("/tracks", (_req: Request, res: Response) => {
-    return res.status(200).json(tracks);
+    return res.status(200).json(getAllTracks());
 });
 
 app.get("/tracks/:id", (req: Request, res: Response) => {
-    const idTrack: string = req.params.id as string;
 
-    const track: Track[] = tracks.filter(
-        (t: Track) => { return t.id === idTrack }
-    );
-    if (track.length === 0) {
-        return res.status(404).json({ message: `Track ${idTrack} not found` })
+    const findTrack: TrackBD | undefined = getTrackById(req.params.id as string);
+
+    if (!findTrack) {
+        return res.status(404).json({ message: `Track ${req.params.id} not found` });
     }
-    return res.status(200).json(track);
+    return res.status(200).json(findTrack);
 });
 
 
 
 app.post("/tracks", (req: Request, res: Response) => {
-    const track: Track = req.body;
-    if (!isValidTrack(track)) {
-        return res.status(400).json({ message: "Invalid data" })
-    }
-    const uuid: string = randomUUID();
-    const trackRecord: Track = {
-        id: uuid,
-        title: track.title.trim().replace(/\s+/g, " "),
-        artist: track.artist.trim().replace(/\s+/g, " "),
-        duration: track.duration
-    };
+    const result: SuccessService<TrackBD> | ErrorService = createTrack(req.body);
 
-    tracks.push(trackRecord);
-    return res.status(201).json(trackRecord);
+    if (!result.success) {
+        return res.status(result.code).json({ message: result.message });
+    }
+    return res.status(result.code).json(result.data);
 });
 
 const artists: Artist[] = [];
