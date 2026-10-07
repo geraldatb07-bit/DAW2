@@ -4,10 +4,12 @@ import { tracks } from "./data/track/track.js";
 import { Track } from "./interfaces/data/track.js";
 import { isValidTrack } from "./validators/track.validator.js";
 import { randomUUID } from "crypto";
-import { TrackBD } from "./interfaces/track/trackBD.js";
 import { Artist } from "./interfaces/artist/artist.js";
 import { isValidArtist } from "./validators/artist.validador.js";
 import { ArtistBD } from "./interfaces/artist/artistBD.js";
+import { Country } from "./interfaces/Country/country.js";
+import { countries } from "./data/country/country.data.js";
+import { isValidCountry } from "./validators/country.validator.js";
 
 const app: Express = express();
 app.use(express.json());
@@ -40,7 +42,7 @@ app.post("/tracks", (req: Request, res: Response) => {
         return res.status(400).json({ message: "Invalid data" })
     }
     const uuid: string = randomUUID();
-    const trackRecord: TrackBD = {
+    const trackRecord: Track = {
         id: uuid,
         title: track.title.trim().replace(/\s+/g, " "),
         artist: track.artist.trim().replace(/\s+/g, " "),
@@ -81,7 +83,7 @@ app.put("/tracks/:id", (req: Request, res: Response) => {
     }
 
     const idTrack: string = req.params.id as string;
-    const index: number = tracks.findIndex((t: TrackBD) => { return t.id === idTrack; });
+    const index: number = tracks.findIndex((t: Track) => { return t.id === idTrack; });
 
     if (index === -1) {
         return res.status(404).json({ message: `Track ${idTrack} not found` });
@@ -101,7 +103,7 @@ app.delete("/tracks/:id", (req: Request, res: Response) => {
 
 
     const idTrack: string = req.params.id as string;
-    const index: number = tracks.findIndex((t: TrackBD) => { return t.id === idTrack; });
+    const index: number = tracks.findIndex((t: Track) => { return t.id === idTrack; });
 
     if (index === -1) {
         return res.status(404).json({ message: `Track ${idTrack} not found` });
@@ -114,3 +116,44 @@ app.delete("/tracks/:id", (req: Request, res: Response) => {
 app.listen(APICONFIG.port, APICONFIG.host, () => {
     console.log(`Servidor escoltant a http://${APICONFIG.host}:${APICONFIG.port}`);
 });
+
+app.post("/countries", (req: Request, res: Response) => {
+    const country: Country = req.body;
+    if (!isValidCountry(country)) {
+        return res.status(400).json({ message: "Invalid data" });
+    }
+    const uuid: string = randomUUID();
+    const countryRecord: Country = {
+        id: uuid,
+        countryName: country.countryName.trim()
+    };
+
+    countries.push(countryRecord);
+    return res.status(201).json(countryRecord);
+});
+
+app.get("/countries", (_req: Request, res: Response) => {
+    return res.status(200).json(countries);
+});
+
+app.put("/countries/:id", (req: Request, res: Response) => {
+    const country: Country = req.body;
+    if (!isValidCountry(country)) {
+        return res.status(400).json({ message: "Invalid data" })
+    }
+
+    const idCountry: string = req.params.id as string;
+    const index: number = countries.findIndex((c: Country) => { return c.id === idCountry; });
+
+    if (index === -1) {
+        return res.status(404).json({ message: `Track ${idCountry} not found` });
+    }
+
+    countries[index] = {
+        id: idCountry,
+        countryName: country.countryName.trim().replace(/\s+/g, " "),
+    };
+
+    return res.status(200).json(countries[index]);
+});
+

@@ -1,0 +1,1 @@
+export const MAXCOUNTRY: number = 60;
