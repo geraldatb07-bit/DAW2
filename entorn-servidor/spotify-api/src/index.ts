@@ -13,10 +13,12 @@ import { isValidCountry } from "./validators/country.validator.js";
 import { User, UserInput } from "./interfaces/User/user.js";
 import { isValidUser } from "./validators/user.validator.js";
 import { users } from "./data/user/user.data.js";
-import { createTrack, getAllTracks, getTrackById, updateTrack } from "./Services/trackService.js";
+import { createTrack, deleteTrack, getAllTracks, getTrackById, updateTrack } from "./Services/trackService.js";
 import type { TrackBD } from "./interfaces/track/trackBD.js";
 import type { ErrorService } from "./interfaces/error/errorService.js";
 import type { SuccessService } from "./interfaces/error/sucessService.js";
+import type { updateSuccessService } from "./interfaces/error/updateSuccessService.js";
+import type { deleteSuccessService } from "./interfaces/error/deleteSuccessService.js";
 
 const app: Express = express();
 app.use(express.json());
@@ -53,7 +55,7 @@ app.post("/tracks", (req: Request, res: Response) => {
 });
 
 app.put("/tracks/:id", (req: Request, res: Response) => {
-    const result: SuccessService<TrackBD> | ErrorService = updateTrack(req.params.id as string, req.body);
+    const result: updateSuccessService<TrackBD> | ErrorService = updateTrack(req.params.id as string, req.body);
 
     if (!result.success) {
         const errorResult = result as ErrorService;
@@ -63,17 +65,13 @@ app.put("/tracks/:id", (req: Request, res: Response) => {
 });
 
 app.delete("/tracks/:id", (req: Request, res: Response) => {
+    const result: deleteSuccessService | ErrorService = deleteTrack(req.params.id as string);
 
-
-    const idTrack: string = req.params.id as string;
-    const index: number = tracks.findIndex((t: Track) => { return t.id === idTrack; });
-
-    if (index === -1) {
-        return res.status(404).json({ message: `Track ${idTrack} not found` });
+    if (!result.success) {
+        return res.status(result.code).json({ message: result.message });
     }
 
-    tracks.splice(index, 1);
-    return res.status(204).json({ message: "Track deleted" })
+    return res.status(result.code).send();
 });
 
 const artists: Artist[] = [];
