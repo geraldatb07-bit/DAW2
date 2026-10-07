@@ -10,7 +10,10 @@ import { ArtistBD } from "./interfaces/artist/artistBD.js";
 import { Country } from "./interfaces/Country/country.js";
 import { countries } from "./data/country/country.data.js";
 import { isValidCountry } from "./validators/country.validator.js";
-import { createTrack, getAllTracks, getTrackById } from "./interfaces/data/Services/trackService.js";
+import { User, UserInput } from "./interfaces/User/user.js";
+import { isValidUser } from "./validators/user.validator.js";
+import { users } from "./data/user/user.data.js";
+import { createTrack, getAllTracks, getTrackById, updateTrack } from "./Services/trackService.js";
 import type { TrackBD } from "./interfaces/track/trackBD.js";
 import type { ErrorService } from "./interfaces/error/errorService.js";
 import type { SuccessService } from "./interfaces/error/sucessService.js";
@@ -31,7 +34,7 @@ app.get("/tracks/:id", (req: Request, res: Response) => {
     const findTrack: TrackBD | undefined = getTrackById(req.params.id as string);
 
     if (!findTrack) {
-        return res.status(404).json({ message: `Track ${req.params.id} not found` });
+        return res.status(404).json({ message: `Track ${req.params.id} not found` })
     }
     return res.status(200).json(findTrack);
 });
@@ -42,9 +45,35 @@ app.post("/tracks", (req: Request, res: Response) => {
     const result: SuccessService<TrackBD> | ErrorService = createTrack(req.body);
 
     if (!result.success) {
-        return res.status(result.code).json({ message: result.message });
+        const errorResult = result as ErrorService;
+        return res.status(errorResult.code).json({ message: result.message });
     }
-    return res.status(result.code).json(result.data);
+    tracks.push((result as SuccessService<TrackBD>).data);
+    return res.status(result.code).json(result);
+});
+
+app.put("/tracks/:id", (req: Request, res: Response) => {
+    const result: SuccessService<TrackBD> | ErrorService = updateTrack(req.params.id as string, req.body);
+
+    if (!result.success) {
+        const errorResult = result as ErrorService;
+        return res.status(errorResult.code).json({ message: result.message });
+    }
+    return res.status(result.code).json(result);
+});
+
+app.delete("/tracks/:id", (req: Request, res: Response) => {
+
+
+    const idTrack: string = req.params.id as string;
+    const index: number = tracks.findIndex((t: Track) => { return t.id === idTrack; });
+
+    if (index === -1) {
+        return res.status(404).json({ message: `Track ${idTrack} not found` });
+    }
+
+    tracks.splice(index, 1);
+    return res.status(204).json({ message: "Track deleted" })
 });
 
 const artists: Artist[] = [];
@@ -67,44 +96,6 @@ app.post("/artists", (req: Request, res: Response) => {
 
 app.get("/artists", (_req: Request, res: Response) => {
     return res.status(200).json(artists);
-});
-
-
-app.put("/tracks/:id", (req: Request, res: Response) => {
-    const track: Track = req.body;
-    if (!isValidTrack(track)) {
-        return res.status(400).json({ message: "Invalid data" })
-    }
-
-    const idTrack: string = req.params.id as string;
-    const index: number = tracks.findIndex((t: Track) => { return t.id === idTrack; });
-
-    if (index === -1) {
-        return res.status(404).json({ message: `Track ${idTrack} not found` });
-    }
-
-    tracks[index] = {
-        id: idTrack,
-        title: track.title.trim().replace(/\s+/g, " "),
-        artist: track.artist.trim().replace(/\s+/g, " "),
-        duration: track.duration
-    };
-
-    return res.status(200).json(tracks[index]);
-});
-
-app.delete("/tracks/:id", (req: Request, res: Response) => {
-
-
-    const idTrack: string = req.params.id as string;
-    const index: number = tracks.findIndex((t: Track) => { return t.id === idTrack; });
-
-    if (index === -1) {
-        return res.status(404).json({ message: `Track ${idTrack} not found` });
-    }
-
-    tracks.splice(index, 1);
-    return res.status(204).json({ message: "Track deleted" })
 });
 
 app.listen(APICONFIG.port, APICONFIG.host, () => {
