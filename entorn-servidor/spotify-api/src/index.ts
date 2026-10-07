@@ -151,3 +151,136 @@ app.put("/countries/:id", (req: Request, res: Response) => {
     return res.status(200).json(countries[index]);
 });
 
+
+// app.post("/users", (req: Request, res: Response) => {
+//     const user: UserInput = req.body;
+//     if (!isValidUser(user)) {
+//         return res.status(400).json({ message: "Invalid data" });
+//     }
+
+//     const countryExists: boolean = countries.some((country: Country) => country.id === user.country);
+//     if (!countryExists) {
+//         return res.status(400).json({ message: "Country not found" });
+//     }
+
+//     const uuid: string = randomUUID();
+//     const userRecord: User = {
+//         id: uuid,
+//         email: user.email.trim(),
+//         country: user.country
+//     };
+
+//     users.push(userRecord);
+//     return res.status(201).json(userRecord);
+// });
+
+// app.get("/users", (_req: Request, res: Response) => {
+//     return res.status(200).json(users);
+// });
+
+// app.get("/users/:id", (req: Request, res: Response) => {
+//     const idUser: string = req.params.id as string;
+//     const user: User | undefined = users.find((item: User) => item.id === idUser);
+
+//     if (!user) {
+//         return res.status(404).json({ message: `User ${idUser} not found` });
+//     }
+
+//     return res.status(200).json(user);
+// });
+
+// app.put("/users/:id", (req: Request, res: Response) => {
+//     const user: UserInput = req.body;
+//     if (!isValidUser(user)) {
+//         return res.status(400).json({ message: "Invalid data" });
+//     }
+
+//     const idUser: string = req.params.id as string;
+//     const index: number = users.findIndex((item: User) => item.id === idUser);
+
+//     if (index === -1) {
+//         return res.status(404).json({ message: `User ${idUser} not found` });
+//     }
+
+//     const countryExists: boolean = countries.some((country: Country) => country.id === user.country);
+//     if (!countryExists) {
+//         return res.status(400).json({ message: "Country not found" });
+//     }
+
+//     users[index] = {
+//         id: idUser,
+//         email: user.email.trim(),
+//         country: user.country
+//     };
+
+//     return res.status(200).json(users[index]);
+// });
+
+// app.delete("/users/:id", (req: Request, res: Response) => {
+//     const idUser: string = req.params.id as string;
+//     const index: number = users.findIndex((user: User) => user.id === idUser);
+
+//     if (index === -1) {
+//         return res.status(404).json({ message: `User ${idUser} not found` });
+//     }
+
+//     users.splice(index, 1);
+//     return res.status(204).send();
+// });
+
+
+
+// app.post("/users", (req: Request, res: Response) => {
+//     const users: User = req.body;
+//     if (!isValidUser(users)) {
+//         return res.status(400).json({ message: "Invalid data" });
+//     }
+//     const uuid: string = randomUUID();
+//     const userRecord: Country = {
+//         id: uuid,
+//         email: string,
+//         country: Country.
+//     };
+
+//     users.push(userRecord);
+//     return res.status(201).json(userRecord);
+// });
+
+// app.get("/users", (_req: Request, res: Response) => {
+//     return res.status(200).json(users);
+// });
+
+// app.put("/users/:id", (req: Request, res: Response) => {
+//     const users: User = req.body;
+//     if (!isValidUser(users)) {
+//         return res.status(400).json({ message: "Invalid data" })
+//     }
+
+//     const idUser: string = req.params.id as string;
+//     const index: number = users.findIndex((u: Users) => { return u.id === idUser; });
+
+//     if (index === -1) {
+//         return res.status(404).json({ message: `Track ${idUser} not found` });
+//     }
+
+//     users[index] = {
+//         id: idUser,
+//         countryName: user.id.trim().replace(/\s+/g, " "),
+//     };
+
+//     return res.status(200).json(countries[index]);
+// });
+
+// app.delete("/users/:id", (req: Request, res: Response) => {
+
+
+//     const idUser: string = req.params.id as string;
+//     const index: number = users.findIndex((u: Track) => { return u.id === idUser; });
+
+//     if (index === -1) {
+//         return res.status(404).json({ message: `User ${idUser} not found` });
+//     }
+
+//     tracks.splice(index, 1);
+//     return res.status(204).json({ message: "User deleted" })
+// });
