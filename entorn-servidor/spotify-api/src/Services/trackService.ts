@@ -6,6 +6,7 @@ import { Track } from "../interfaces/data/track.js";
 import { ErrorService } from "../interfaces/error/errorService.js";
 import { SuccessService } from "../interfaces/error/sucessService.js";
 import { updateSuccessService } from "../interfaces/error/updateSuccessService.js";
+import { deleteSuccessService } from "../interfaces/error/deleteSuccessService.js";
 
 export function getAllTracks(): TrackBD[] {
     return tracks;
@@ -55,6 +56,15 @@ export function updateTrack(idTrack: string, track: Track): ErrorService | updat
 
 }
 
-export function getTrackIndex(idTrack: string): number {
-    return tracks.findIndex((t: Track) => t.id === idTrack);
+
+
+export function deleteTrack(idTrack: string): deleteSuccessService | ErrorService {
+    const index: number = tracks.findIndex((t: Track) => { return t.id === idTrack; });
+
+    if (index === -1) {
+        return { success: false, code: 404, message: `Track ${idTrack} not found` };
+    }
+
+    tracks.splice(index, 1);
+    return { success: true, code: 204 };
 }
