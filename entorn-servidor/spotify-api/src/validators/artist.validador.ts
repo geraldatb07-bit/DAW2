@@ -15,7 +15,7 @@ export function isValidArtist(artist: Artist): boolean {
     if (longNom === 0 || longNom > MAXNOMREAL) { return false; }
     if (longPseudonim === 0 || longPseudonim > MAXPSEUDONIM) { return false; }
 
-    const pais: string | undefined = PAISSOS.find((p: string) => { return p === artist.pais.toUpperCase() });
+    const pais: string | undefined = PAISSOS.find((p: string) => { return p === artist.pais.countryName.toUpperCase() });
     if (!pais) { return false; }
     else { return true; }
     
