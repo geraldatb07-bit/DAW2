@@ -17,8 +17,8 @@ import { createTrack, deleteTrack, getAllTracks, getTrackById, updateTrack } fro
 import type { TrackBD } from "./interfaces/track/trackBD.js";
 import type { ErrorService } from "./interfaces/error/errorService.js";
 import type { SuccessService } from "./interfaces/error/sucessService.js";
-import type { updateSuccessService } from "./interfaces/error/updateSuccessService.js";
-import type { deleteSuccessService } from "./interfaces/error/deleteSuccessService.js";
+import type { UpdateSuccessService } from "./interfaces/error/updateSuccessService.js";
+import type { DeleteSuccessService } from "./interfaces/error/deleteSuccessService.js";
 
 const app: Express = express();
 app.use(express.json());
@@ -55,7 +55,7 @@ app.post("/tracks", (req: Request, res: Response) => {
 });
 
 app.put("/tracks/:id", (req: Request, res: Response) => {
-    const result: updateSuccessService<TrackBD> | ErrorService = updateTrack(req.params.id as string, req.body);
+    const result: UpdateSuccessService<TrackBD> | ErrorService = updateTrack(req.params.id as string, req.body);
 
     if (!result.success) {
         const errorResult = result as ErrorService;
@@ -65,7 +65,7 @@ app.put("/tracks/:id", (req: Request, res: Response) => {
 });
 
 app.delete("/tracks/:id", (req: Request, res: Response) => {
-    const result: deleteSuccessService | ErrorService = deleteTrack(req.params.id as string);
+    const result: DeleteSuccessService | ErrorService = deleteTrack(req.params.id as string);
 
     if (!result.success) {
         return res.status(result.code).json({ message: result.message });
