@@ -1,12 +1,12 @@
 import { randomUUID } from "crypto";
-import { tracks } from "../data/track/track.js";
-import { isValidTrack } from "../validators/track.validator.js";
-import type { TrackBD, TrackInput } from "../interfaces/track/trackBD.js";
-import { Track } from "../interfaces/data/track.js";
-import { ErrorService } from "../interfaces/error/errorService.js";
-import { SuccessService } from "../interfaces/error/createSucessService.js";
-import { UpdateSuccessService } from "../interfaces/error/updateSuccessService.js";
-import { DeleteSuccessService } from "../interfaces/error/deleteSuccessService.js";
+import { tracks } from "../../../data/track/track.js";
+import { isValidTrack } from "../../../validators/track.validator.js";
+import type { TrackBD, TrackInput } from "../../track/trackBD.js";
+import { Track } from "../track.js";
+import { ErrorService } from "../../error/errorService.js";
+import type { updateSuccessService } from "./updateSuccessService.js";
+import type { deleteSuccessService } from "./deleteSuccessService.js";
+import { createSuccessService } from "./createSucessService.js";
 
 export function getAllTracks(): TrackBD[] {
     return tracks;
@@ -16,7 +16,7 @@ export function getTrackById(idTrack: string): TrackBD | undefined {
     return tracks.find((track: TrackBD) => track.id === idTrack);
 }
 
-export function createTrack(track: Track): ErrorService | SuccessService<TrackBD> {
+export function createTrack(track: Track): ErrorService | createSuccessService<TrackBD> {
     if (!isValidTrack(track)) {
         return { success: false, code: 400, message: "Invalid data." };
     }
@@ -31,7 +31,7 @@ export function createTrack(track: Track): ErrorService | SuccessService<TrackBD
     return { success: true, code: 201, data: trackRecord };
 }
 
-export function updateTrack(idTrack: string, track: Track): ErrorService | UpdateSuccessService<TrackBD> {
+export function updateTrack(idTrack: string, track: Track): ErrorService | updateSuccessService<TrackBD> {
     if (!isValidTrack(track)) {
         return { success: false, code: 400, message: "Invalid data." };
     }
@@ -53,7 +53,7 @@ export function updateTrack(idTrack: string, track: Track): ErrorService | Updat
     return { success: true, code: 200, data: trackBD, index };
 }
 
-export function deleteTrack(idTrack: string): DeleteSuccessService | ErrorService {
+export function deleteTrack(idTrack: string): deleteSuccessService | ErrorService {
     const index: number = tracks.findIndex((t: Track) => t.id === idTrack);
 
     if (index === -1) {
@@ -63,3 +63,4 @@ export function deleteTrack(idTrack: string): DeleteSuccessService | ErrorServic
     tracks.splice(index, 1);
     return { success: true, code: 204, index };
 }
+
