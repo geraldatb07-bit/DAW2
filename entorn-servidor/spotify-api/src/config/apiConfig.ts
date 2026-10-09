@@ -1,4 +1,4 @@
-import { ApiConfig } from "../interfaces/apiConfig.js";
+import { ApiConfig } from "../interfaces/apiConfig";
 
 export const APICONFIG: ApiConfig = {
     host: "localhost",

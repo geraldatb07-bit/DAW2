@@ -1,5 +1,5 @@
-import type { TrackInput } from "../interfaces/track/trackBD.js";
-import { MAXARTIST, MAXTITOL } from "../interfaces/track/track.constants.js";
+import type { TrackInput } from "../interfaces/track/trackBD";
+import { MAXARTIST, MAXTITOL } from "../interfaces/track/track.constants";
 
 export function isValidTrack(track: TrackInput): boolean {
   

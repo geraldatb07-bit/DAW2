@@ -1,5 +1,5 @@
-import { version } from "./version.js";
-import { resources } from "./resources.js";
+import { version } from "./version";
+import { resources } from "./resources";
 
 export interface ApiConfig {
     name: string;

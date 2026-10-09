@@ -1,4 +1,4 @@
-import { Country } from "../../interfaces/Country/country.js";
+import { Country } from "../../interfaces/Country/country";
 
 export const countries: Country[] = [
     {

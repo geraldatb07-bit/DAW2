@@ -1,4 +1,4 @@
-import { Track } from "../../interfaces/data/track.js";
+import { Track } from "../../interfaces/data/track";
 
 export const tracks: Track[] = [
     {

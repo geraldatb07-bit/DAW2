@@ -1,12 +1,12 @@
 import { randomUUID } from "crypto";
-import { tracks } from "../../../data/track/track.js";
-import { isValidTrack } from "../../../validators/track.validator.js";
-import type { TrackBD, TrackInput } from "../../track/trackBD.js";
-import { Track } from "../track.js";
-import { ErrorService } from "../../error/errorService.js";
-import type { updateSuccessService } from "./updateSuccessService.js";
-import type { deleteSuccessService } from "./deleteSuccessService.js";
-import { createSuccessService } from "./createSucessService.js";
+import { tracks } from "../../../data/track/track";
+import { isValidTrack } from "../../../validators/track.validator";
+import type { TrackBD, TrackInput } from "../../track/trackBD";
+import { Track } from "../track";
+import { ErrorService } from "../../error/errorService";
+import type { updateSuccessService } from "./updateSuccessService";
+import type { deleteSuccessService } from "./deleteSuccessService";
+import { createSuccessService } from "./createSucessService";
 
 export function getAllTracks(): TrackBD[] {
     return tracks;
@@ -63,4 +63,3 @@ export function deleteTrack(idTrack: string): deleteSuccessService | ErrorServic
     tracks.splice(index, 1);
     return { success: true, code: 204, index };
 }
-

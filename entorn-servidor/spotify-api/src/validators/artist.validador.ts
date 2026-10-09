@@ -1,6 +1,6 @@
-import { MAXPSEUDONIM, MAXNOMREAL } from "../interfaces/artist/artist.constants.js";
-import { Artist } from "../interfaces/artist/artist.js";
-import { PAISSOS } from "../interfaces/data/pais.data.js";
+import { MAXPSEUDONIM, MAXNOMREAL } from "../interfaces/artist/artist.constants";
+import { Artist } from "../interfaces/artist/artist";
+import { PAISSOS } from "../interfaces/data/pais.data";
 
 
 export function isValidArtist(artist: Artist): boolean {
