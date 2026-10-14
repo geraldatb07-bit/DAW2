@@ -5,7 +5,7 @@ import {
     getAllUsers,
     getUserById,
     putUser
-} from "../Services/userService";
+} from "../services/userService";
 import type { User } from "../interfaces/User/user";
 
 export function getAllUsersController(_req: Request, res: Response): Response {

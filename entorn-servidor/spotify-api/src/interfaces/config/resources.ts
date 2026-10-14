@@ -1,4 +1,4 @@
 export interface resources {
-    nom: string;
-    endPoint: number;
+    name: string;
+    endPoint: string;
 }

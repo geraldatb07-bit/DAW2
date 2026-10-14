@@ -1,4 +1,4 @@
-import { ApiConfig } from "../interfaces/apiConfig";
+import { ApiConfig } from "../interfaces/config/apiConfig";
 
 export const APICONFIG: ApiConfig = {
     name: "API Spotify",

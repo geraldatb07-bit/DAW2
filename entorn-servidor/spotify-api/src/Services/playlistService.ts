@@ -5,8 +5,8 @@ import { SuccessService } from "../interfaces/error/SuccessService";
 import { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
 import { ErrorService } from "../interfaces/error/errorService";
 import { updateSuccessService } from "../interfaces/error/updateSuccessService";
-import { Playlist } from "../interfaces/Playlist/playlistBD";
-import { PlaylistBD } from "../interfaces/Playlist/playlistBD";
+import { Playlist } from "../interfaces/playlist/playlistBD";
+import { PlaylistBD } from "../interfaces/playlist/playlistBD";
 import { UserBD } from "../interfaces/User/userBD";
 import { isValidPlaylist } from "../validators/playlist.validator";
 

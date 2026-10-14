@@ -1,5 +1,5 @@
-export interface ErrorService {
-    success:false;
+export interface errorService {
+    success: false;
     code: number;
     message: string;
 }

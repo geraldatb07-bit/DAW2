@@ -1,4 +1,4 @@
-import { Playlist } from "../interfaces/Playlist/playlistBD";
+import { Playlist } from "../interfaces/playlist/playlistBD";
 
 export function isValidPlaylist(playlist: Playlist): boolean {
     return Boolean(

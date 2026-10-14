@@ -1,5 +1,5 @@
 import { TrackBD } from "../track/trackBD";
-import { PlaylistBD } from "./playlistBD";
+import { PlaylistBD } from "../playlist/playlistBD";
 
 export interface PlaylistTracks {
     id: string; //PK
