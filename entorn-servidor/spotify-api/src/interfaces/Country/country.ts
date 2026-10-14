@@ -1,6 +1,5 @@
 export interface Country {
-    id: string;
+    id: string; //PK
     countryName: string;
 }
 
-export type CountryInput = Omit<Country, "id">;

@@ -5,6 +5,6 @@ export const trackRouter: Router = Router();
 
 trackRouter.get("/", getAllTracksController)
 trackRouter.get("/:id", getTrackByIdController)
-trackRouter.get("/", postTrackController)
-trackRouter.get("/:id", putTrackController)
-trackRouter.get("/:id", deleteTrackController)
+trackRouter.post("/", postTrackController)
+trackRouter.put("/:id", putTrackController)
+trackRouter.delete("/:id", deleteTrackController)

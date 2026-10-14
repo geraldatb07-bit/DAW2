@@ -1,11 +1,11 @@
 import { Response, Request } from "express";
 import { createTrack, deleteTrack, getAllTracks, getTrackById, updateTrack } from "../interfaces/data/Services/trackService";
 import { TrackBD } from "../interfaces/track/trackBD";
-import { createSuccessService } from "../interfaces/data/Services/createSucessService";
+import { SuccessService } from "../interfaces/error/SucessService";
 import { ErrorService } from "../interfaces/error/errorService";
 import { tracks } from "../data/track/track";
-import { updateSuccessService } from "../interfaces/data/Services/updateSuccessService";
-import { deleteSuccessService } from "../interfaces/data/Services/deleteSuccessService";
+import { updateSuccessService } from "../interfaces/error/updateSuccessService";
+import { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
 
 export function getAllTracksController(_req: Request, res: Response): Response {
     return res.status(200).json(getAllTracks());
@@ -21,13 +21,13 @@ export function getTrackByIdController(req: Request, res: Response): Response {
 }
 
 export function postTrackController(req: Request, res: Response): Response {
-    const result: createSuccessService<TrackBD> | ErrorService = createTrack(req.body);
+    const result: SuccessService<TrackBD> | ErrorService = createTrack(req.body);
 
     if (!result.success) {
         const errorResult = result as ErrorService;
         return res.status(errorResult.code).json({ message: errorResult.message });
     }
-    tracks.push((result as createSuccessService<TrackBD>).data);
+    tracks.push((result as SuccessService<TrackBD>).data);
     return res.status(result.code).json(result);
 }
 

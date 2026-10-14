@@ -4,9 +4,9 @@ import type { ArtistBD } from "../../artist/artistBD";
 import { artists } from "../artist.data";
 import { isValidArtist } from "../../../validators/artist.validador";
 import type { ErrorService } from "../../error/errorService";
-import type { createSuccessService } from "./createSucessService";
-import type { updateSuccessService } from "./updateSuccessService";
-import type { deleteSuccessService } from "./deleteSuccessService";
+import type { SuccessService } from "../../error/SucessService";
+import type { updateSuccessService } from "../../error/updateSuccessService";
+import type { deleteSuccessService } from "../../error/deleteSuccessService";
 
 export function getAllArtist(): ArtistBD[] {
     return artists;
@@ -16,7 +16,7 @@ export function getArtistById(idArtist: string): ArtistBD | undefined {
     return artists.find(artist => artist.id === idArtist);
 }
 
-export function createArtist(artist: Artist): ErrorService | createSuccessService<ArtistBD> {
+export function createArtist(artist: Artist): ErrorService | SuccessService<ArtistBD> {
     if (!isValidArtist(artist)) {
         return { success: false, code: 400, message: "Invalid data." };
     }
@@ -32,7 +32,7 @@ export function createArtist(artist: Artist): ErrorService | createSuccessServic
     return { success: true, code: 201, data: artistRecord };
 }
 
-export function updateArtist(idArtist: string,artist: Artist): ErrorService | updateSuccessService<ArtistBD> {
+export function updateArtist(idArtist: string, artist: Artist): ErrorService | updateSuccessService<ArtistBD> {
     if (!isValidArtist(artist)) {
         return { success: false, code: 400, message: "Invalid data." };
     }

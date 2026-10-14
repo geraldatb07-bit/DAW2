@@ -4,9 +4,9 @@ import { isValidTrack } from "../../../validators/track.validator";
 import type { TrackBD, TrackInput } from "../../track/trackBD";
 import { Track } from "../track";
 import { ErrorService } from "../../error/errorService";
-import type { updateSuccessService } from "./updateSuccessService";
-import type { deleteSuccessService } from "./deleteSuccessService";
-import { createSuccessService } from "./createSucessService";
+import type { updateSuccessService } from "../../error/updateSuccessService";
+import type { deleteSuccessService } from "../../error/deleteSuccessService";
+import { SuccessService } from "../../error/SucessService";
 
 export function getAllTracks(): TrackBD[] {
     return tracks;
@@ -16,7 +16,7 @@ export function getTrackById(idTrack: string): TrackBD | undefined {
     return tracks.find((track: TrackBD) => track.id === idTrack);
 }
 
-export function createTrack(track: Track): ErrorService | createSuccessService<TrackBD> {
+export function createTrack(track: Track): ErrorService | SuccessService<TrackBD> {
     if (!isValidTrack(track)) {
         return { success: false, code: 400, message: "Invalid data." };
     }
