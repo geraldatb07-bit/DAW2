@@ -2,9 +2,9 @@ import { randomUUID } from "crypto";
 import type { Artist } from "../../artist/artist";
 import type { ArtistBD } from "../../artist/artistBD";
 import { artists } from "../artist.data";
-import { isValidArtist } from "../../../validators/artist.validador";
+import { isValidArtist } from "../../../validators/artist.validator";
 import type { ErrorService } from "../../error/errorService";
-import type { SuccessService } from "../../error/SucessService";
+import type { SuccessService } from "../../error/SuccessService";
 import type { updateSuccessService } from "../../error/updateSuccessService";
 import type { deleteSuccessService } from "../../error/deleteSuccessService";
 

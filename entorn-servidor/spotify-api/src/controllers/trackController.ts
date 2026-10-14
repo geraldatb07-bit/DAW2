@@ -1,7 +1,7 @@
 import { Response, Request } from "express";
 import { createTrack, deleteTrack, getAllTracks, getTrackById, updateTrack } from "../interfaces/data/Services/trackService";
 import { TrackBD } from "../interfaces/track/trackBD";
-import { SuccessService } from "../interfaces/error/SucessService";
+import { SuccessService } from "../interfaces/error/SuccessService";
 import { ErrorService } from "../interfaces/error/errorService";
 import { tracks } from "../data/track/track";
 import { updateSuccessService } from "../interfaces/error/updateSuccessService";

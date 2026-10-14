@@ -6,7 +6,7 @@ import { Track } from "../track";
 import { ErrorService } from "../../error/errorService";
 import type { updateSuccessService } from "../../error/updateSuccessService";
 import type { deleteSuccessService } from "../../error/deleteSuccessService";
-import { SuccessService } from "../../error/SucessService";
+import { SuccessService } from "../../error/SuccessService";
 
 export function getAllTracks(): TrackBD[] {
     return tracks;

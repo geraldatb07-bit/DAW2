@@ -1,11 +1,11 @@
 import { randomUUID } from "crypto";
 import { users } from "../../../data/user/user.data";
 import { isValidUser } from "../../../validators/user.validator";
-import type { User, UserInput } from "../../User/user";
+import type { User } from "../../User/user";
 import type { UserBD } from "../../User/userBD";
 import type { deleteSuccessService } from "../../error/deleteSuccessService";
 import type { ErrorService } from "../../error/errorService";
-import type { SuccessService } from "../../error/SucessService";
+import type { SuccessService } from "../../error/SuccessService";
 import type { updateSuccessService } from "../../error/updateSuccessService";
 
 export function getAllUsers(): UserBD[] {
@@ -16,7 +16,7 @@ export function getUserById(id: string): UserBD | undefined {
     return users.find(user => user.id === id);
 }
 
-export function createUser(user: UserInput): SuccessService<UserBD> | ErrorService {
+export function createUser(user: User): SuccessService<UserBD> | ErrorService {
     if (!isValidUser(user)) {
         return { success: false, code: 400, message: "Invalid data." };
     }
@@ -32,7 +32,7 @@ export function createUser(user: UserInput): SuccessService<UserBD> | ErrorServi
 }
 
 export function putUser(
-    user: UserInput,
+    user: User,
     id: string
 ): updateSuccessService<UserBD> | ErrorService {
     if (!isValidUser(user)) {

@@ -1,11 +1,7 @@
 import { Response, Request } from "express";
-import { createTrack, deleteTrack, getAllTracks, getTrackById, updateTrack } from "../interfaces/data/Services/trackService";
-import { TrackBD } from "../interfaces/track/trackBD";
-import { SuccessService } from "../interfaces/error/SucessService";
+import { getCountryById, putCountry } from "../interfaces/data/Services/countryService";
 import { ErrorService } from "../interfaces/error/errorService";
-import { tracks } from "../data/track/track";
 import { updateSuccessService } from "../interfaces/error/updateSuccessService";
-import { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
 import { randomUUID } from "crypto";
 import { countries } from "../data/country/country.data";
 import { Country } from "../interfaces/Country/country";
@@ -41,29 +37,29 @@ export function postCountryController(req: Request, res: Response): Response {
 }
 
 export function putCountryController(req: Request, res: Response): Response {
-    const result: SuccessService<CountryBD> | ErrorService = putCountry(req.body, req.params.id);
+    const result: updateSuccessService<CountryBD> | ErrorService = putCountry(req.body, req.params.id);
 
     if (!result.success) {
         const errorResult = result as ErrorService;
         return res.status(result.code).json({ message: errorResult.message });
     }
 
-    const index: number = (result as PutSuccessService<CountryBD>).index;
-    countries[index] = (result as PutSuccessService<CountryBD>).data;
+    const index: number = (result as updateSuccessService<CountryBD>).index;
+    countries[index] = (result as updateSuccessService<CountryBD>).data;
 
 
     return res.status(200).json(countries[index]);
 }
 
 export function deleteCountryController(req: Request, res: Response): Response {
-    const result: SuccessService<CountryBD> | ErrorService = putCountry(req.body, req.params.id);
+    const result: updateSuccessService<CountryBD> | ErrorService = putCountry(req.body, req.params.id);
 
     if (!result.success) {
         const errorResult = result as ErrorService;
         return res.status(result.code).json({ message: errorResult.message });
     }
 
-    const index: number = (result as PutSuccessService<CountryBD>).index;
+    const index: number = (result as updateSuccessService<CountryBD>).index;
 
     countries.splice(index, 1);
 
