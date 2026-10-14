@@ -1,9 +1,9 @@
-import { UserInput } from "../interfaces/User/user";
+import { User } from "../interfaces/User/user";
 
-export function isValidUser(user: UserInput): boolean {
+export function isValidUser(user: User): boolean {
     if (!user || !user.email || !user.country) {
         return false;
     }
 
-    return user.email.trim().length > 0 && user.country.trim().length > 0;
+    return user.email.trim().length > 0 && user.country.countryName.trim().length > 0;
 }
