@@ -1,12 +1,6 @@
 import { Request, Response } from "express";
-import {
-    createPlaylist,
-    deletePlaylist,
-    getAllPlaylists,
-    getPlaylistById,
-    updatePlaylist
-} from "../interfaces/data/Services/playlistService";
-import type { Playlist } from "../interfaces/Playlist/playlist";
+import { createPlaylist, deletePlaylist, getAllPlaylists, getPlaylistById, updatePlaylist } from "../Services/playlistService";
+import type { Playlist } from "../interfaces/Playlist/playlistBD";
 
 export function getAllPlaylistsController(_req: Request, res: Response): Response {
     return res.status(200).json(getAllPlaylists());

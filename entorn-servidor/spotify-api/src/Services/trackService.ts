@@ -1,12 +1,12 @@
 import { randomUUID } from "crypto";
-import { tracks } from "../../../data/track/track";
-import { isValidTrack } from "../../../validators/track.validator";
-import type { TrackBD, TrackInput } from "../../track/trackBD";
-import { Track } from "../track";
-import { ErrorService } from "../../error/errorService";
-import type { updateSuccessService } from "../../error/updateSuccessService";
-import type { deleteSuccessService } from "../../error/deleteSuccessService";
-import { SuccessService } from "../../error/SuccessService";
+import { tracks } from "../data/track/track.data";
+import { isValidTrack } from "../validators/track.validator";
+import type { TrackBD, TrackInput } from "../interfaces/track/trackBD";
+import { Track } from "../interfaces/data/track";
+import { ErrorService } from "../interfaces/error/errorService";
+import type { updateSuccessService } from "../interfaces/error/updateSuccessService";
+import type { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
+import { SuccessService } from "../interfaces/error/SuccessService";
 
 export function getAllTracks(): TrackBD[] {
     return tracks;

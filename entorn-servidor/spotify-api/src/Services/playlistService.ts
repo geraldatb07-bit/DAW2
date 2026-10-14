@@ -1,14 +1,14 @@
 import { randomUUID } from "crypto";
-import { playlists } from "../../../data/playlist/playlist";
-import { users } from "../../../data/user/user.data";
-import { SuccessService } from "../../error/SuccessService";
-import { deleteSuccessService } from "../../error/deleteSuccessService";
-import { ErrorService } from "../../error/errorService";
-import { updateSuccessService } from "../../error/updateSuccessService";
-import { Playlist } from "../../Playlist/playlist";
-import { PlaylistBD } from "../../Playlist/playlistBD";
-import { UserBD } from "../../User/userBD";
-import { isValidPlaylist } from "../../../validators/playlist.validator";
+import { playlists } from "../data/playlist/playlist.data";
+import { users } from "../data/user/user.data";
+import { SuccessService } from "../interfaces/error/SuccessService";
+import { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
+import { ErrorService } from "../interfaces/error/errorService";
+import { updateSuccessService } from "../interfaces/error/updateSuccessService";
+import { Playlist } from "../interfaces/Playlist/playlistBD";
+import { PlaylistBD } from "../interfaces/Playlist/playlistBD";
+import { UserBD } from "../interfaces/User/userBD";
+import { isValidPlaylist } from "../validators/playlist.validator";
 
 export function getAllPlaylists(): PlaylistBD[] {
     return playlists;

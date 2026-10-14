@@ -1,14 +1,14 @@
 import { randomUUID } from "crypto";
-import { countries } from "../../../data/country/country.data";
-import { tracks } from "../../../data/track/track";
-import { isValidCountry } from "../../../validators/country.validator";
-import { Country } from "../../Country/country";
-import { CountryBD } from "../../Country/countryBD";
-import { ErrorService } from "../../error/errorService";
-import { TrackBD } from "../../track/trackBD";
-import { SuccessService } from "../../error/SuccessService";
-import { updateSuccessService } from "../../error/updateSuccessService";
-import { deleteSuccessService } from "../../error/deleteSuccessService";
+import { countries } from "../data/country/country.data";
+import { tracks } from "../data/track/track.data";
+import { isValidCountry } from "../validators/country.validator";
+import { Country } from "../interfaces/Country/country";
+import { CountryBD } from "../interfaces/Country/countryBD";
+import { ErrorService } from "../interfaces/error/errorService";
+import { TrackBD } from "../interfaces/track/trackBD";
+import { SuccessService } from "../interfaces/error/SuccessService";
+import { updateSuccessService } from "../interfaces/error/updateSuccessService";
+import { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
 
 
 export function getAllCountries(): CountryBD[] {

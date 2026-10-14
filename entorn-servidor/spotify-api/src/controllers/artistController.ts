@@ -1,11 +1,6 @@
 import { Request, Response } from "express";
-import {
-    createArtist,
-    deleteArtist,
-    getAllArtist,
-    getArtistById,
-    updateArtist
-} from "../interfaces/data/Services/artistService";
+import { createArtist, deleteArtist, getAllArtist, getArtistById, updateArtist }
+    from "../Services/artistService";
 import type { Artist } from "../interfaces/artist/artist";
 
 export function getAllArtistsController(_req: Request, res: Response): Response {

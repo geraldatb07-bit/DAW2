@@ -1,5 +1,5 @@
 import { Response, Request } from "express";
-import { getCountryById, putCountry } from "../interfaces/data/Services/countryService";
+import { getCountryById, putCountry } from "../Services/countryService";
 import { ErrorService } from "../interfaces/error/errorService";
 import { updateSuccessService } from "../interfaces/error/updateSuccessService";
 import { randomUUID } from "crypto";

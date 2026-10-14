@@ -1,12 +1,12 @@
 import { randomUUID } from "crypto";
-import type { Artist } from "../../artist/artist";
-import type { ArtistBD } from "../../artist/artistBD";
-import { artists } from "../artist.data";
-import { isValidArtist } from "../../../validators/artist.validator";
-import type { ErrorService } from "../../error/errorService";
-import type { SuccessService } from "../../error/SuccessService";
-import type { updateSuccessService } from "../../error/updateSuccessService";
-import type { deleteSuccessService } from "../../error/deleteSuccessService";
+import type { Artist } from "../interfaces/artist/artist";
+import type { ArtistBD } from "../interfaces/artist/artistBD";
+import { artists } from "../interfaces/data/artist.data";
+import { isValidArtist } from "../validators/artist.validator";
+import type { ErrorService } from "../interfaces/error/errorService";
+import type { SuccessService } from "../interfaces/error/SuccessService";
+import type { updateSuccessService } from "../interfaces/error/updateSuccessService";
+import type { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
 
 export function getAllArtist(): ArtistBD[] {
     return artists;
