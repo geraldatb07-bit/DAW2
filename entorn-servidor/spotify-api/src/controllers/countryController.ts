@@ -1,12 +1,13 @@
 import { Response, Request } from "express";
-import { getCountryById, putCountry } from "../services/countryService";
-import { ErrorService } from "../interfaces/error/errorService";
+import { createCountry, getCountryById, putCountry } from "../services/countryService";
 import { updateSuccessService } from "../interfaces/error/updateSuccessService";
 import { randomUUID } from "crypto";
 import { countries } from "../data/country/country.data";
 import { Country } from "../interfaces/Country/country";
 import { isValidCountry } from "../validators/country.validator";
 import { CountryBD } from "../interfaces/Country/countryBD";
+import { errorService } from "../interfaces/error/errorService";
+import { successService } from "../interfaces/error/SuccessService";
 
 export function getAllCountryController(_req: Request, res: Response): Response {
     return res.status(200).json(countries);
@@ -22,25 +23,21 @@ export function getCountryByIdController(req: Request, res: Response): Response 
 }
 
 export function postCountryController(req: Request, res: Response): Response {
-    const country: Country = req.body;
-    if (!isValidCountry(country)) {
-        return res.status(400).json({ message: "Invalid data" });
+    const result: successService<CountryBD> | errorService = createCountry(req.body);
+    if (!result.success) {
+        const errorResult = result as errorService;
+        return res.status(result.code).json({ message: errorResult.message });
     }
-    const uuid: string = randomUUID();
-    const countryRecord: Country = {
-        id: uuid,
-        countryName: country.countryName.trim()
-    };
 
-    countries.push(countryRecord);
-    return res.status(201).json(countryRecord);
+    countries.push((result as successService<CountryBD>).data);
+    return res.status(201).json(result);
 }
 
 export function putCountryController(req: Request, res: Response): Response {
-    const result: updateSuccessService<CountryBD> | ErrorService = putCountry(req.body, req.params.id);
+    const result: updateSuccessService<CountryBD> | errorService = putCountry(req.body, req.params.id);
 
     if (!result.success) {
-        const errorResult = result as ErrorService;
+        const errorResult = result as errorService;
         return res.status(result.code).json({ message: errorResult.message });
     }
 
@@ -52,10 +49,10 @@ export function putCountryController(req: Request, res: Response): Response {
 }
 
 export function deleteCountryController(req: Request, res: Response): Response {
-    const result: updateSuccessService<CountryBD> | ErrorService = putCountry(req.body, req.params.id);
+    const result: updateSuccessService<CountryBD> | errorService = putCountry(req.body, req.params.id);
 
     if (!result.success) {
-        const errorResult = result as ErrorService;
+        const errorResult = result as errorService;
         return res.status(result.code).json({ message: errorResult.message });
     }
 
