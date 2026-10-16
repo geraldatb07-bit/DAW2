@@ -1,2 +1,4 @@
 node_modules/
 /entorn-servidor/spotify-api/dist/
+DB
+.env
