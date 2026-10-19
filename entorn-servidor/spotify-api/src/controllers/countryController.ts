@@ -1,6 +1,6 @@
 import { Response, Request } from "express";
 import { createCountry, getCountryById, putCountry } from "../services/countryService";
-import { updateSuccessService } from "../interfaces/error/updateSuccessService";
+import { createSuccessService } from "../interfaces/error/createSuccessService";
 import { randomUUID } from "crypto";
 import { countries } from "../data/country/country.data";
 import { Country } from "../interfaces/Country/country";
@@ -34,29 +34,29 @@ export function postCountryController(req: Request, res: Response): Response {
 }
 
 export function putCountryController(req: Request, res: Response): Response {
-    const result: updateSuccessService<CountryBD> | errorService = putCountry(req.body, req.params.id);
+    const result: createSuccessService<CountryBD> | errorService = putCountry(req.body, req.params.id);
 
     if (!result.success) {
         const errorResult = result as errorService;
         return res.status(result.code).json({ message: errorResult.message });
     }
 
-    const index: number = (result as updateSuccessService<CountryBD>).index;
-    countries[index] = (result as updateSuccessService<CountryBD>).data;
+    const index: number = (result as createSuccessService<CountryBD>).index;
+    countries[index] = (result as createSuccessService<CountryBD>).data;
 
 
     return res.status(200).json(countries[index]);
 }
 
 export function deleteCountryController(req: Request, res: Response): Response {
-    const result: updateSuccessService<CountryBD> | errorService = putCountry(req.body, req.params.id);
+    const result: createSuccessService<CountryBD> | errorService = putCountry(req.body, req.params.id);
 
     if (!result.success) {
         const errorResult = result as errorService;
         return res.status(result.code).json({ message: errorResult.message });
     }
 
-    const index: number = (result as updateSuccessService<CountryBD>).index;
+    const index: number = (result as createSuccessService<CountryBD>).index;
 
     countries.splice(index, 1);
 

@@ -3,7 +3,7 @@ import type { Artist } from "../interfaces/artist/artist";
 import type { ArtistBD } from "../interfaces/artist/artistBD";
 import { isValidArtist } from "../validators/artist.validator";
 
-import type { updateSuccessService } from "../interfaces/error/updateSuccessService";
+import type { createSuccessService } from "../interfaces/error/createSuccessService";
 import type { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
 import { errorService } from "../interfaces/error/errorService";
 import { artists } from "../data/artist/artist.data";
@@ -33,7 +33,7 @@ export function createArtist(artist: Artist): errorService | successService<Arti
     return { success: true, code: 201, data: artistRecord };
 }
 
-export function updateArtist(idArtist: string, artist: Artist): errorService | updateSuccessService<ArtistBD> {
+export function updateArtist(idArtist: string, artist: Artist): errorService | createSuccessService<ArtistBD> {
     if (!isValidArtist(artist)) {
         return { success: false, code: 400, message: "Invalid data." };
     }

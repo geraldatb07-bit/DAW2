@@ -7,7 +7,7 @@ import { CountryBD } from "../interfaces/Country/countryBD";
 import { errorService as ErrorService } from "../interfaces/error/errorService";
 import { TrackBD } from "../interfaces/track/trackBD";
 import { successService as SuccessService } from "../interfaces/error/SuccessService";
-import { updateSuccessService } from "../interfaces/error/updateSuccessService";
+import { createSuccessService } from "../interfaces/error/createSuccessService";
 import { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
 
 
@@ -41,7 +41,7 @@ export function createCountry(country: Country): SuccessService<CountryBD> | Err
     return { success: true, data: countryRecord, code: 201 };
 }
 
-export function putCountry(country: CountryBD, id: string | string[]): updateSuccessService<CountryBD> | ErrorService {
+export function putCountry(country: CountryBD, id: string | string[]): createSuccessService<CountryBD> | ErrorService {
     if (!isValidCountry(country)) {
         return { success: false, code: 400, message: "adeu" };
     }

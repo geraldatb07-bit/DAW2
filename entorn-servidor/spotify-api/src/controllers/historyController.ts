@@ -7,7 +7,7 @@ import { errorService } from "../interfaces/error/errorService";
 import { successService } from "../interfaces/error/SuccessService";
 import { HistoryBD } from "../interfaces/history/historyBD";
 import { getAllHistories, getHistoryById, createHistory, putHistory, deleteHistory } from "../services/historyServices";
-import { updateSuccessService } from "../interfaces/error/updateSuccessService";
+import { createSuccessService } from "../interfaces/error/createSuccessService";
 
 export function getAllHistoriesController(_req: Request, res: Response): Response {
     return res.status(200).json(getAllHistories());
@@ -45,8 +45,8 @@ export function putHistoryController(req: Request, res: Response): Response {
         return res.status(result.code).json({ message: errorResult.message });
     }
 
-    const index: number = (result as updateSuccessService<HistoryBD>).index;
-    histories[index] = (result as updateSuccessService<HistoryBD>).data;
+    const index: number = (result as createSuccessService<HistoryBD>).index;
+    histories[index] = (result as createSuccessService<HistoryBD>).data;
 
 
     return res.status(200).json(result);

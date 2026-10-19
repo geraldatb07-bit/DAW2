@@ -4,7 +4,7 @@ import { users } from "../data/user/user.data";
 import type { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
 import type { errorService } from "../interfaces/error/errorService";
 import type { successService } from "../interfaces/error/SuccessService";
-import type { updateSuccessService } from "../interfaces/error/updateSuccessService";
+import type { createSuccessService } from "../interfaces/error/createSuccessService";
 import type { Playlist } from "../interfaces/playlist/playlist";
 import type { PlaylistBD } from "../interfaces/playlist/playlistBD";
 import { UserBD } from "../interfaces/User/userBD";
@@ -42,7 +42,7 @@ export function createPlaylist(playlist: Playlist): successService<PlaylistBD> |
     return { success: true, code: 201, data: playlistRecord };
 }
 
-export function updatePlaylist(idPlaylist: string, playlist: Playlist): updateSuccessService<PlaylistBD> | errorService {
+export function updatePlaylist(idPlaylist: string, playlist: Playlist): createSuccessService<PlaylistBD> | errorService {
     const playlistIndex: number = playlists.findIndex((item: PlaylistBD) => item.id === idPlaylist);
     if (playlistIndex === -1) {
         return { success: false, code: 404, message: "Playlist not found" };

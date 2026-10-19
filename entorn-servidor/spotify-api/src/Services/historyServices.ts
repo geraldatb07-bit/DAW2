@@ -5,7 +5,7 @@ import { errorService } from "../interfaces/error/errorService";
 import { successService } from "../interfaces/error/SuccessService";
 import { HistoryBD } from "../interfaces/history/historyBD";
 import { isValidHistory } from "../validators/historyValidator";
-import { updateSuccessService } from "../interfaces/error/updateSuccessService";
+import { createSuccessService } from "../interfaces/error/createSuccessService";
 import { History } from "../interfaces/history/history";
 
 export function getAllHistories(): HistoryBD[] {
@@ -45,7 +45,7 @@ export function createHistory(history: History): successService<HistoryBD> | err
 
 }
 
-export function putHistory(history: HistoryBD, id: string | string[]): updateSuccessService<HistoryBD> | errorService {
+export function putHistory(history: HistoryBD, id: string | string[]): createSuccessService<HistoryBD> | errorService {
     if (!isValidHistory(history)) {
         return { success: false, code: 400, message: "adeu" };
     }

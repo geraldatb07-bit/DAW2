@@ -2,7 +2,7 @@ import { Response, Request } from "express";
 import { createTrack, deleteTrack, getAllTracks, getTrackById, updateTrack } from "../services/trackService";
 import { TrackBD } from "../interfaces/track/trackBD";
 import { tracks } from "../data/track/track.data";
-import { updateSuccessService } from "../interfaces/error/updateSuccessService";
+import { createSuccessService } from "../interfaces/error/createSuccessService";
 import { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
 import { errorService } from "../interfaces/error/errorService";
 import { successService } from "../interfaces/error/SuccessService";
@@ -22,26 +22,25 @@ export async function getTrackByIdController(req: Request, res: Response): Promi
     return res.status(200).json(result);
 }
 
-export function postTrackController(req: Request, res: Response): Response {
-    const result: successService<TrackBD> | errorService = createTrack(req.body);
+export async function postTrackController(req: Request, res: Response): Promise<Response> {
+    const result: createSuccessService<TrackBD> | errorService = await createTrack(req.body);
 
     if (!result.success) {
         const errorResult = result as errorService;
         return res.status(errorResult.code).json({ message: errorResult.message });
     }
-    tracks.push((result as successService<TrackBD>).data);
     return res.status(result.code).json(result);
 }
 
 export function putTrackController(req: Request, res: Response): Response {
-    const result: updateSuccessService<TrackBD> | errorService = updateTrack(req.params.id as string, req.body);
+    const result: createSuccessService<TrackBD> | errorService = updateTrack(req.params.id as string, req.body);
 
     if (!result.success) {
         const errorResult = result as errorService;
         return res.status(errorResult.code).json({ message: errorResult.message });
     }
-    const index: number = (result as updateSuccessService<TrackBD>).index;
-    tracks[index] = (result as updateSuccessService<TrackBD>).data;
+    const index: number = (result as createSuccessService<TrackBD>).index;
+    tracks[index] = (result as createSuccessService<TrackBD>).data;
     return res.status(result.code).json(result);
 }
 

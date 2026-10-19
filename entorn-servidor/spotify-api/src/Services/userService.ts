@@ -6,7 +6,7 @@ import type { UserBD } from "../interfaces/User/userBD";
 import type { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
 import type { errorService as ErrorService } from "../interfaces/error/errorService";
 import type { successService as SuccessService } from "../interfaces/error/SuccessService";
-import type { updateSuccessService } from "../interfaces/error/updateSuccessService";
+import type { createSuccessService } from "../interfaces/error/createSuccessService";
 
 export function getAllUsers(): UserBD[] {
     return users;
@@ -34,7 +34,7 @@ export function createUser(user: User): SuccessService<UserBD> | ErrorService {
 export function putUser(
     user: User,
     id: string
-): updateSuccessService<UserBD> | ErrorService {
+): createSuccessService<UserBD> | ErrorService {
     if (!isValidUser(user)) {
         return { success: false, code: 400, message: "Invalid data." };
     }
