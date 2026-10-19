@@ -11,6 +11,7 @@ import { ConnectionPool, IResult, UniqueIdentifier } from "mssql";
 import { getConnection } from "../config/database";
 import sql from "mssql";
 import { selectSuccessService } from "../interfaces/error/selectSuccesService";
+import { updateSuccessService } from "../interfaces/error/updateSuccessService";
 
 export async function getAllTracks(): Promise<TrackBD[]> {
     const pool: ConnectionPool = await getConnection();
@@ -54,8 +55,8 @@ export async function createTrack(track: Track): Promise<createSuccessService<nu
 
     const pool: ConnectionPool = await getConnection();
     const request: sql.Request = pool.request();
-    const queryText: string = `INSET INTO TRACK(title,artist_id,duration)
-    VAULES(@title,@artist_id,@duration)`;
+    const queryText: string = `INSERT INTO TRACK(title,artist_id,duration)
+    VALUES(@title,@artist_id,@duration)`;
 
     request.input("title", sql.NVarChar, title);
     request.input("artist_id", sql.UniqueIdentifier, track.artist);
@@ -63,39 +64,73 @@ export async function createTrack(track: Track): Promise<createSuccessService<nu
 
     const result: IResult<number> = await request.query(queryText);
     console.log(result);
-    return { success: true, code: 201, data: result.recordset[0] };
-
-}
-
-export function updateTrack(idTrack: string, track: Track): errorService | createSuccessService<TrackBD> {
-    if (!isValidTrack(track)) {
-        return { success: false, code: 400, message: "Invalid data." };
-    }
-
-    const index: number = tracks.findIndex((t: TrackBD) => t.id === idTrack);
-
-    if (index === -1) {
-        return { success: false, code: 404, message: `Track ${idTrack} not found` };
-    }
-
-    const trackBD: TrackBD = {
-        id: idTrack,
-        title: track.title.trim().replace(/\s+/g, " "),
-        artist: track.artist.trim().replace(/\s+/g, " "),
-        duration: track.duration
+    return {
+        success: true,
+        code: 201,
+        data: result.rowsAffected[0]
     };
 
-    tracks[index] = trackBD;
-    return { success: true, code: 200, data: trackBD, index };
 }
 
-export function deleteTrack(idTrack: string): deleteSuccessService | errorService {
-    const index: number = tracks.findIndex((t: TrackBD) => t.id === idTrack);
+export async function updateTrack(track: Track, idTrack: string): Promise<updateSuccessService<number> | errorService> {
+    if (!isValidTrack(track)) {
+        return {
+            success: false,
+            code: 400,
+            message: "Invalid data."
+        };
+    }
+    const title: string = track.title.trim().replace(/\s+/g, " ");
 
-    if (index === -1) {
-        return { success: false, code: 404, message: `Track ${idTrack} not found` };
+
+    const pool: ConnectionPool = await getConnection();
+    const request: sql.Request = pool.request();
+
+    const queryText: string = `UPDATE TRACK SET title=@title,artist_id=@artist_id,duration=@duration
+    where track.id=@id`;
+
+    request.input("title", sql.NVarChar, title);
+    request.input("artist_id", sql.UniqueIdentifier, track.artist);
+    request.input("duration", sql.Numeric, track.duration);
+    request.input("id", UniqueIdentifier, idTrack);
+
+
+    const result: IResult<number> = await request.query(queryText);
+
+    if (result.rowsAffected[0] === 0) {
+        return {
+            success: false,
+            code: 404,
+            message: "Track not found"
+        }
     }
 
-    tracks.splice(index, 1);
-    return { success: true, code: 204, index };
+    return {
+        success: true,
+        code: 200,
+        data: result.rowsAffected[0]
+    };
+
+}
+
+export async function deleteTrack(idTrack: string): Promise<deleteSuccessService | errorService> {
+    const pool: ConnectionPool = await getConnection();
+    const request: sql.Request = pool.request();
+
+    const queryText: string = `Delete from Track Where Track.id=@id`;
+    request.input("id", UniqueIdentifier, idTrack);
+
+    const result: IResult<TrackBD> = await request.query(queryText);
+
+    if (result.rowsAffected[0] === 0) {
+        return {
+            success: false,
+            code: 404,
+            message: "Track not found"
+        }
+    }
+    return {
+        success: true,
+        code: 204,
+    }
 }

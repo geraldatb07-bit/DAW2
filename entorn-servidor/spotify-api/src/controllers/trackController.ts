@@ -1,12 +1,11 @@
 import { Response, Request } from "express";
 import { createTrack, deleteTrack, getAllTracks, getTrackById, updateTrack } from "../services/trackService";
 import { TrackBD } from "../interfaces/track/trackBD";
-import { tracks } from "../data/track/track.data";
 import { createSuccessService } from "../interfaces/error/createSuccessService";
 import { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
 import { errorService } from "../interfaces/error/errorService";
-import { successService } from "../interfaces/error/SuccessService";
 import { selectSuccessService } from "../interfaces/error/selectSuccesService";
+import { updateSuccessService } from "../interfaces/error/updateSuccessService";
 
 export async function getAllTracksController(_req: Request, res: Response): Promise<Response> {
     const tracksBD: TrackBD[] = await getAllTracks();
@@ -32,26 +31,22 @@ export async function postTrackController(req: Request, res: Response): Promise<
     return res.status(result.code).json(result);
 }
 
-export function putTrackController(req: Request, res: Response): Response {
-    const result: createSuccessService<TrackBD> | errorService = updateTrack(req.params.id as string, req.body);
+export async function putTrackController(req: Request, res: Response): Promise<Response> {
+    const result: updateSuccessService<number> | errorService = await updateTrack(req.body, req.params.id as string,);
 
     if (!result.success) {
         const errorResult = result as errorService;
         return res.status(errorResult.code).json({ message: errorResult.message });
     }
-    const index: number = (result as createSuccessService<TrackBD>).index;
-    tracks[index] = (result as createSuccessService<TrackBD>).data;
     return res.status(result.code).json(result);
 }
 
-export function deleteTrackController(req: Request, res: Response): Response {
-    const result: deleteSuccessService | errorService = deleteTrack(req.params.id as string)
+export async function deleteTrackController(req: Request, res: Response): Promise<Response> {
+    const result: deleteSuccessService | errorService = await deleteTrack(req.params.id as string)
 
     if (!result.success) {
         const errorResult = result as errorService;
-        return res.status(404).json({ message: errorResult.message });
+        return res.status(errorResult.code).json({ message: errorResult.message });
     }
-    const index: number = (result as deleteSuccessService).index;
-    tracks.splice(index, 1)
-    return res.status(result.code).json(result)
+    return res.status(result.code).send();
 }
