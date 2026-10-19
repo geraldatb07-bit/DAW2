@@ -6,19 +6,20 @@ import { updateSuccessService } from "../interfaces/error/updateSuccessService";
 import { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
 import { errorService } from "../interfaces/error/errorService";
 import { successService } from "../interfaces/error/SuccessService";
+import { selectSuccessService } from "../interfaces/error/selectSuccesService";
 
 export async function getAllTracksController(_req: Request, res: Response): Promise<Response> {
     const tracksBD: TrackBD[] = await getAllTracks();
     return res.status(200).json(tracksBD);
 }
 
-export function getTrackByIdController(req: Request, res: Response): Response {
-    const findTrack: TrackBD | undefined = getTrackById(req.params.id as string);
+export async function getTrackByIdController(req: Request, res: Response): Promise<Response> {
+    const result: selectSuccessService<TrackBD> | errorService = await getTrackById(req.params.id as string);
 
-    if (!findTrack) {
-        return res.status(404).json({ message: `Track ${req.params.id} not found` })
+    if (!result.success) {
+        return res.status(result.code).json({ message: (result as errorService) })
     }
-    return res.status(200).json(findTrack);
+    return res.status(200).json(result);
 }
 
 export function postTrackController(req: Request, res: Response): Response {

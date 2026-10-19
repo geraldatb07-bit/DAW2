@@ -6,8 +6,8 @@ import { isValidArtist } from "../validators/artist.validator";
 import type { updateSuccessService } from "../interfaces/error/updateSuccessService";
 import type { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
 import { errorService } from "../interfaces/error/errorService";
-import { successService } from "../interfaces/error/SuccessService";
 import { artists } from "../data/artist/artist.data";
+import { successService } from "../interfaces/error/SuccessService";
 
 export function getAllArtist(): ArtistBD[] {
     return artists;
