@@ -1,4 +1,8 @@
-export const playlistTracksRouter: Router = Router();
+import { Router } from "express";
+import { getAllPlaylistTracksController, postPlaylistTrackController, deletePlaylistTrackController } from "../controllers/playlistTracksController";
 
-playlistTracksRouter.get("/", getAllPlaylistTracksController);
-playlistTracksRouter.get("/:id", getPlaylistTrackByIdController);
+export const playlistTrackRouter: Router = Router();
+
+playlistTrackRouter.get("/", getAllPlaylistTracksController);
+playlistTrackRouter.post("/", postPlaylistTrackController);
+playlistTrackRouter.delete("/:id", deletePlaylistTrackController);

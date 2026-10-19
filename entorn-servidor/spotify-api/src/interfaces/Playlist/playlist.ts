@@ -1,5 +1,6 @@
-import { PlaylistBD } from "./playlistBD";
+import { User } from "../User/user";
 
-export interface Playlist extends PlaylistBD {
-    id: string;
+export interface Playlist {
+    title: string;
+    user: User; //FK
 }

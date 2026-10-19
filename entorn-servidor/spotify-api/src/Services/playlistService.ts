@@ -1,14 +1,15 @@
 import { randomUUID } from "crypto";
 import { playlists } from "../data/playlist/playlist.data";
 import { users } from "../data/user/user.data";
-import { SuccessService } from "../interfaces/error/SuccessService";
-import { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
-import { ErrorService } from "../interfaces/error/errorService";
-import { updateSuccessService } from "../interfaces/error/updateSuccessService";
-import { Playlist } from "../interfaces/playlist/playlistBD";
-import { PlaylistBD } from "../interfaces/playlist/playlistBD";
+import type { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
+import type { errorService } from "../interfaces/error/errorService";
+import type { successService } from "../interfaces/error/SuccessService";
+import type { updateSuccessService } from "../interfaces/error/updateSuccessService";
+import type { Playlist } from "../interfaces/playlist/playlist";
+import type { PlaylistBD } from "../interfaces/playlist/playlistBD";
 import { UserBD } from "../interfaces/User/userBD";
 import { isValidPlaylist } from "../validators/playlist.validator";
+
 
 export function getAllPlaylists(): PlaylistBD[] {
     return playlists;
@@ -18,14 +19,14 @@ export function getPlaylistById(idPlaylist: string): PlaylistBD | undefined {
     return playlists.find((playlist: PlaylistBD) => playlist.id === idPlaylist);
 }
 
-export function createPlaylist(playlist: Playlist): SuccessService<PlaylistBD> | ErrorService {
+export function createPlaylist(playlist: Playlist): successService<PlaylistBD> | errorService {
     if (!isValidPlaylist(playlist)) {
         return { success: false, code: 400, message: "Invalid data." };
     }
 
     const user = users.find((existingUser: UserBD) =>
         existingUser.email === playlist.user.email.trim()
-        && existingUser.country.id === playlist.user.country.id
+        && existingUser.country.countryName === playlist.user.country.countryName
     );
     if (!user) {
         return { success: false, code: 404, message: `User ${playlist.user.email} not found` };
@@ -41,7 +42,7 @@ export function createPlaylist(playlist: Playlist): SuccessService<PlaylistBD> |
     return { success: true, code: 201, data: playlistRecord };
 }
 
-export function updatePlaylist(idPlaylist: string, playlist: Playlist): updateSuccessService<PlaylistBD> | ErrorService {
+export function updatePlaylist(idPlaylist: string, playlist: Playlist): updateSuccessService<PlaylistBD> | errorService {
     const playlistIndex: number = playlists.findIndex((item: PlaylistBD) => item.id === idPlaylist);
     if (playlistIndex === -1) {
         return { success: false, code: 404, message: "Playlist not found" };
@@ -53,7 +54,7 @@ export function updatePlaylist(idPlaylist: string, playlist: Playlist): updateSu
 
     const user = users.find((existingUser: UserBD) =>
         existingUser.email === playlist.user.email.trim()
-        && existingUser.country.id === playlist.user.country.id
+        && existingUser.country.countryName === playlist.user.country.countryName
     );
     if (!user) {
         return { success: false, code: 404, message: `User ${playlist.user.email} not found` };
@@ -69,7 +70,7 @@ export function updatePlaylist(idPlaylist: string, playlist: Playlist): updateSu
     return { success: true, code: 200, data: updatedPlaylist, index: playlistIndex };
 }
 
-export function deletePlaylist(idPlaylist: string): deleteSuccessService | ErrorService {
+export function deletePlaylist(idPlaylist: string): deleteSuccessService | errorService {
     const playlistIndex: number = playlists.findIndex((playlist: PlaylistBD) => playlist.id === idPlaylist);
     if (playlistIndex === -1) {
         return { success: false, code: 404, message: "Playlist not found" };
