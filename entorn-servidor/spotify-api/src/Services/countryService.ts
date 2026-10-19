@@ -4,9 +4,9 @@ import { tracks } from "../data/track/track.data";
 import { isValidCountry } from "../validators/country.validator";
 import { Country } from "../interfaces/Country/country";
 import { CountryBD } from "../interfaces/Country/countryBD";
-import { ErrorService } from "../interfaces/error/errorService";
+import { errorService as ErrorService } from "../interfaces/error/errorService";
 import { TrackBD } from "../interfaces/track/trackBD";
-import { SuccessService } from "../interfaces/error/SuccessService";
+import { successService as SuccessService } from "../interfaces/error/SuccessService";
 import { updateSuccessService } from "../interfaces/error/updateSuccessService";
 import { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
 

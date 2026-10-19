@@ -1,6 +1,6 @@
-import { Track } from "../../interfaces/data/track";
+import { TrackBD } from "../../interfaces/track/trackBD";
 
-export const tracks: Track[] = [
+export const tracks: TrackBD[] = [
     {
         id: "4395-abd1-cd31-rf90",
         title: "Nights like this",

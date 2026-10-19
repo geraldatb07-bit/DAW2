@@ -4,8 +4,8 @@ import { isValidUser } from "../validators/user.validator";
 import type { User } from "../interfaces/User/user";
 import type { UserBD } from "../interfaces/User/userBD";
 import type { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
-import type { ErrorService } from "../interfaces/error/errorService";
-import type { SuccessService } from "../interfaces/error/SuccessService";
+import type { errorService as ErrorService } from "../interfaces/error/errorService";
+import type { successService as SuccessService } from "../interfaces/error/SuccessService";
 import type { updateSuccessService } from "../interfaces/error/updateSuccessService";
 
 export function getAllUsers(): UserBD[] {

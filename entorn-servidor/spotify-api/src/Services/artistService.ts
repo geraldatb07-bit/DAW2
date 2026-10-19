@@ -1,12 +1,13 @@
 import { randomUUID } from "crypto";
 import type { Artist } from "../interfaces/artist/artist";
 import type { ArtistBD } from "../interfaces/artist/artistBD";
-import { artists } from "../interfaces/data/artist.data";
 import { isValidArtist } from "../validators/artist.validator";
-import type { ErrorService } from "../interfaces/error/errorService";
-import type { SuccessService } from "../interfaces/error/SuccessService";
+
 import type { updateSuccessService } from "../interfaces/error/updateSuccessService";
 import type { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
+import { errorService } from "../interfaces/error/errorService";
+import { successService } from "../interfaces/error/SuccessService";
+import { artists } from "../data/artist/artist.data";
 
 export function getAllArtist(): ArtistBD[] {
     return artists;
@@ -16,7 +17,7 @@ export function getArtistById(idArtist: string): ArtistBD | undefined {
     return artists.find(artist => artist.id === idArtist);
 }
 
-export function createArtist(artist: Artist): ErrorService | SuccessService<ArtistBD> {
+export function createArtist(artist: Artist): errorService | successService<ArtistBD> {
     if (!isValidArtist(artist)) {
         return { success: false, code: 400, message: "Invalid data." };
     }
@@ -32,7 +33,7 @@ export function createArtist(artist: Artist): ErrorService | SuccessService<Arti
     return { success: true, code: 201, data: artistRecord };
 }
 
-export function updateArtist(idArtist: string, artist: Artist): ErrorService | updateSuccessService<ArtistBD> {
+export function updateArtist(idArtist: string, artist: Artist): errorService | updateSuccessService<ArtistBD> {
     if (!isValidArtist(artist)) {
         return { success: false, code: 400, message: "Invalid data." };
     }
@@ -54,7 +55,7 @@ export function updateArtist(idArtist: string, artist: Artist): ErrorService | u
     return { success: true, code: 200, data: artistRecord, index };
 }
 
-export function deleteArtist(idArtist: string): deleteSuccessService | ErrorService {
+export function deleteArtist(idArtist: string): deleteSuccessService | errorService {
     const index = artists.findIndex(artist => artist.id === idArtist);
 
     if (index === -1) {
