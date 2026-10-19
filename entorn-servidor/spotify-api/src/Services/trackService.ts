@@ -1,7 +1,7 @@
 import { randomUUID } from "crypto";
 import { tracks } from "../data/track/track.data";
 import { isValidTrack } from "../validators/track.validator";
-import type { updateSuccessService } from "../interfaces/error/updateSuccessService";
+import type { createSuccessService } from "../interfaces/error/createSuccessService";
 import type { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
 import { errorService } from "../interfaces/error/errorService";
 import { successService } from "../interfaces/error/SuccessService";
@@ -21,8 +21,8 @@ export async function getAllTracks(): Promise<TrackBD[]> {
     return result.recordset;
 }
 
-export async function getTrackById(idTrack: string): Promise<selectSuccessService <TrackBD> | errorService> {
-const pool: ConnectionPool = await getConnection();
+export async function getTrackById(idTrack: string): Promise<selectSuccessService<TrackBD> | errorService> {
+    const pool: ConnectionPool = await getConnection();
     const request: sql.Request = pool.request();
 
     const queryText: string = `Select * from Track Where Track.id=@id`;
@@ -45,22 +45,29 @@ const pool: ConnectionPool = await getConnection();
 }
 
 
-export function createTrack(track: Track): errorService | successService<TrackBD> {
+export async function createTrack(track: Track): Promise<createSuccessService<number> | errorService> {
     if (!isValidTrack(track)) {
         return { success: false, code: 400, message: "Invalid data." };
     }
+    const title: string = track.title.trim().replace(/\s+/g, " ");
 
-    const trackRecord: TrackBD = {
-        id: randomUUID(),
-        title: track.title.trim().replace(/\s+/g, " "),
-        artist: track.artist.trim().replace(/\s+/g, " "),
-        duration: track.duration
-    };
 
-    return { success: true, code: 201, data: trackRecord };
+    const pool: ConnectionPool = await getConnection();
+    const request: sql.Request = pool.request();
+    const queryText: string = `INSET INTO TRACK(title,artist_id,duration)
+    VAULES(@title,@artist_id,@duration)`;
+
+    request.input("title", sql.NVarChar, title);
+    request.input("artist_id", sql.UniqueIdentifier, track.artist);
+    request.input("duration", sql.Numeric, track.duration);
+
+    const result: IResult<number> = await request.query(queryText);
+    console.log(result);
+    return { success: true, code: 201, data: result.recordset[0] };
+
 }
 
-export function updateTrack(idTrack: string, track: Track): errorService | updateSuccessService<TrackBD> {
+export function updateTrack(idTrack: string, track: Track): errorService | createSuccessService<TrackBD> {
     if (!isValidTrack(track)) {
         return { success: false, code: 400, message: "Invalid data." };
     }
