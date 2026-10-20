@@ -11,18 +11,18 @@ import { createSuccessService } from "../interfaces/error/createSuccessService";
 import { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
 
 
-export function getAllCountries(): CountryBD[] {
+export async function getAllCountries(): Promise<CountryBD[]> {
     return countries;
 }
 
-export function getCountryById(id: string): CountryBD | undefined {
+export async function getCountryById(id: string): Promise<CountryBD | undefined> {
 
     return countries.find(
         (c: CountryBD) => { return c.id === id }
     );
 }
 
-export function createCountry(country: Country): SuccessService<CountryBD> | ErrorService {
+export async function createCountry(country: Country): Promise<SuccessService<CountryBD> | ErrorService> {
 
     if (!isValidCountry(country)) {
         return { success: false, code: 400, message: "fuck you" };
@@ -41,7 +41,7 @@ export function createCountry(country: Country): SuccessService<CountryBD> | Err
     return { success: true, data: countryRecord, code: 201 };
 }
 
-export function putCountry(country: CountryBD, id: string | string[]): createSuccessService<CountryBD> | ErrorService {
+export async  function putCountry(country: CountryBD, id: string | string[]): Promise<createSuccessService<CountryBD> | ErrorService> {
     if (!isValidCountry(country)) {
         return { success: false, code: 400, message: "adeu" };
     }
@@ -63,7 +63,7 @@ export function putCountry(country: CountryBD, id: string | string[]): createSuc
     return { success: true, data: countryBD, code: 201, index: index };
 }
 
-export function deleteCountry(id: string | string[]): deleteSuccessService | ErrorService {
+export async function deleteCountry(id: string | string[]): Promise<deleteSuccessService | ErrorService> {
 
     const index: number = tracks.findIndex(
         (t: TrackBD) => { return t.id === id }

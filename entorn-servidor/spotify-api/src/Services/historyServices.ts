@@ -8,11 +8,11 @@ import { isValidHistory } from "../validators/historyValidator";
 import { createSuccessService } from "../interfaces/error/createSuccessService";
 import { History } from "../interfaces/history/history";
 
-export function getAllHistories(): HistoryBD[] {
+export async function getAllHistories(): Promise<HistoryBD[]> {
     return histories;
 }
 
-export function getHistoryById(id: string): HistoryBD | undefined {
+export async function getHistoryById(id: string): Promise<HistoryBD | undefined> {
 
     return histories.find(
         (c: HistoryBD) => { return c.id === id }
@@ -20,7 +20,7 @@ export function getHistoryById(id: string): HistoryBD | undefined {
 
 }
 
-export function createHistory(history: History): successService<HistoryBD> | errorService {
+export async function createHistory(history: History): Promise<successService<HistoryBD> | errorService> {
 
 
 
@@ -45,7 +45,7 @@ export function createHistory(history: History): successService<HistoryBD> | err
 
 }
 
-export function putHistory(history: HistoryBD, id: string | string[]): createSuccessService<HistoryBD> | errorService {
+export async function putHistory(history: HistoryBD, id: string | string[]): Promise<createSuccessService<HistoryBD> | errorService> {
     if (!isValidHistory(history)) {
         return { success: false, code: 400, message: "adeu" };
     }
@@ -70,7 +70,7 @@ export function putHistory(history: HistoryBD, id: string | string[]): createSuc
     return { success: true, data: historyBD, code: 201, index: index };
 }
 
-export function deleteHistory(id: string | string[]): deleteSuccessService | errorService {
+export async function deleteHistory(id: string | string[]): Promise<deleteSuccessService | errorService> {
 
     const index: number = histories.findIndex(
         (t: HistoryBD) => { return t.id === id }

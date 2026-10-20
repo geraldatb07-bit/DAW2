@@ -11,15 +11,15 @@ import { UserBD } from "../interfaces/User/userBD";
 import { isValidPlaylist } from "../validators/playlist.validator";
 
 
-export function getAllPlaylists(): PlaylistBD[] {
+export async function getAllPlaylists(): PlaylistBD[] {
     return playlists;
 }
 
-export function getPlaylistById(idPlaylist: string): PlaylistBD | undefined {
+export async function getPlaylistById(idPlaylist: string): PlaylistBD | undefined {
     return playlists.find((playlist: PlaylistBD) => playlist.id === idPlaylist);
 }
 
-export function createPlaylist(playlist: Playlist): successService<PlaylistBD> | errorService {
+export async function createPlaylist(playlist: Playlist): successService<PlaylistBD> | errorService {
     if (!isValidPlaylist(playlist)) {
         return { success: false, code: 400, message: "Invalid data." };
     }
@@ -42,7 +42,7 @@ export function createPlaylist(playlist: Playlist): successService<PlaylistBD> |
     return { success: true, code: 201, data: playlistRecord };
 }
 
-export function updatePlaylist(idPlaylist: string, playlist: Playlist): createSuccessService<PlaylistBD> | errorService {
+export async function updatePlaylist(idPlaylist: string, playlist: Playlist): createSuccessService<PlaylistBD> | errorService {
     const playlistIndex: number = playlists.findIndex((item: PlaylistBD) => item.id === idPlaylist);
     if (playlistIndex === -1) {
         return { success: false, code: 404, message: "Playlist not found" };
@@ -70,7 +70,7 @@ export function updatePlaylist(idPlaylist: string, playlist: Playlist): createSu
     return { success: true, code: 200, data: updatedPlaylist, index: playlistIndex };
 }
 
-export function deletePlaylist(idPlaylist: string): deleteSuccessService | errorService {
+export async function deletePlaylist(idPlaylist: string): deleteSuccessService | errorService {
     const playlistIndex: number = playlists.findIndex((playlist: PlaylistBD) => playlist.id === idPlaylist);
     if (playlistIndex === -1) {
         return { success: false, code: 404, message: "Playlist not found" };

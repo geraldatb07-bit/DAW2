@@ -9,11 +9,11 @@ import { CountryBD } from "../interfaces/Country/countryBD";
 import { errorService } from "../interfaces/error/errorService";
 import { successService } from "../interfaces/error/SuccessService";
 
-export function getAllCountryController(_req: Request, res: Response): Response {
+export function getAllCountryController(_req: Request, res: Response): Promise<Response> {
     return res.status(200).json(countries);
 }
 
-export function getCountryByIdController(req: Request, res: Response): Response {
+export function getCountryByIdController(req: Request, res: Response): Promise<Response> {
     const findCountry: CountryBD | undefined = getCountryById(req.params.id as string);
 
     if (findCountry) {
@@ -22,7 +22,7 @@ export function getCountryByIdController(req: Request, res: Response): Response 
     return res.status(200).json(findCountry);
 }
 
-export function postCountryController(req: Request, res: Response): Response {
+export function postCountryController(req: Request, res: Response): Promise<Response> {
     const result: successService<CountryBD> | errorService = createCountry(req.body);
     if (!result.success) {
         const errorResult = result as errorService;
@@ -33,7 +33,7 @@ export function postCountryController(req: Request, res: Response): Response {
     return res.status(201).json(result);
 }
 
-export function putCountryController(req: Request, res: Response): Response {
+export function putCountryController(req: Request, res: Response): Promise<Response> {
     const result: createSuccessService<CountryBD> | errorService = putCountry(req.body, req.params.id);
 
     if (!result.success) {
@@ -48,7 +48,7 @@ export function putCountryController(req: Request, res: Response): Response {
     return res.status(200).json(countries[index]);
 }
 
-export function deleteCountryController(req: Request, res: Response): Response {
+export function deleteCountryController(req: Request, res: Response): Promise<Response> {
     const result: createSuccessService<CountryBD> | errorService = putCountry(req.body, req.params.id);
 
     if (!result.success) {
