@@ -1,62 +1,43 @@
 import { Request, Response } from "express";
-import {createArtist,deleteArtist,getAllArtist,getArtistById,updateArtist} from "../services/artistService";
+import { createArtist, deleteArtist, getAllArtist, getArtistById, updateArtist }
+    from "../services/artistService";
 import type { Artist } from "../interfaces/artist/artist";
-import type { ArtistBD } from "../interfaces/artist/artistBD";
-import type { createSuccessService } from "../interfaces/error/createSuccessService";
-import type { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
-import type { errorService } from "../interfaces/error/errorService";
-import type { selectSuccessService } from "../interfaces/error/selectSuccesService";
-import type { updateSuccessService } from "../interfaces/error/updateSuccessService";
 
-export async function getAllArtistsController(_req: Request,res: Response): Promise<Response> {
-    const artistsBD = await getAllArtist();
-    return res.status(200).json(artistsBD);
+export function getAllArtistsController(_req: Request, res: Response): Response {
+    return res.status(200).json(getAllArtist());
 }
 
-export async function getArtistByIdController(req: Request,res: Response): Promise<Response> {
-    const result: selectSuccessService<ArtistBD> | errorService =
-        await getArtistById(req.params.id as string);
-
-    if (!result.success) {
-        const errorResult = result as errorService;
-        return res.status(errorResult.code).json({ message: errorResult.message });
+export function getArtistByIdController(req: Request, res: Response): Response {
+    const id = req.params.id;
+    if (typeof id !== "string") {
+        return res.status(400).json({ message: "Invalid artist id." });
     }
+    const artist = getArtistById(id);
+    if (!artist) {
+        return res.status(404).json({ message: `Artist ${id} not found` });
+    }
+    return res.status(200).json(artist);
+}
 
+export function getPostArtistController(req: Request, res: Response): Response {
+    const result = createArtist(req.body as Artist);
     return res.status(result.code).json(result);
 }
 
-export async function getPostArtistController(req: Request,res: Response): Promise<Response> {
-    const result: createSuccessService<number> | errorService =
-        await createArtist(req.body as Artist);
-
-    if (!result.success) {
-        const errorResult = result as errorService;
-        return res.status(errorResult.code).json({ message: errorResult.message });
+export function getPutArtistController(req: Request, res: Response): Response {
+    const id = req.params.id;
+    if (typeof id !== "string") {
+        return res.status(400).json({ message: "Invalid artist id." });
     }
-
+    const result = updateArtist(id, req.body as Artist);
     return res.status(result.code).json(result);
 }
 
-export async function getPutArtistController(req: Request,res: Response): Promise<Response> {
-    const result: updateSuccessService<number> | errorService =
-        await updateArtist(req.body as Artist, req.params.id as string);
-
-    if (!result.success) {
-        const errorResult = result as errorService;
-        return res.status(errorResult.code).json({ message: errorResult.message });
+export function getDeleteArtistController(req: Request, res: Response): Response {
+    const id = req.params.id;
+    if (typeof id !== "string") {
+        return res.status(400).json({ message: "Invalid artist id." });
     }
-
+    const result = deleteArtist(id);
     return res.status(result.code).json(result);
-}
-
-export async function getDeleteArtistController(req: Request,res: Response): Promise<Response> {
-    const result: deleteSuccessService | errorService =
-        await deleteArtist(req.params.id as string);
-
-    if (!result.success) {
-        const errorResult = result as errorService;
-        return res.status(errorResult.code).json({ message: errorResult.message });
-    }
-
-    return res.status(result.code).send();
 }

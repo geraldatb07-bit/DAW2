@@ -32,7 +32,7 @@ export async function postTrackController(req: Request, res: Response): Promise<
 }
 
 export async function putTrackController(req: Request, res: Response): Promise<Response> {
-    const result: updateSuccessService<number> | errorService = await updateTrack(req.body, req.params.id as string);
+    const result: updateSuccessService<number> | errorService = await updateTrack(req.body, req.params.id as string,);
 
     if (!result.success) {
         const errorResult = result as errorService;

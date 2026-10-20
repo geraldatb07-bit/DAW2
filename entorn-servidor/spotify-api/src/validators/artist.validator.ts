@@ -28,7 +28,7 @@ export function isValidArtist(artist: Artist): boolean | string | undefined {
     }
 
     const countryExists: CountryBD | undefined = countries.find(
-        (c: CountryBD) => { return c.countryName.trim().toLowerCase() === artist.pais.countryName.trim().toLowerCase() }
+        (c: CountryBD) => { c.countryName.trim().toLowerCase() === artist.pais.countryName.trim().toLowerCase() }
     )
     if (!countryExists) {
         return false;
