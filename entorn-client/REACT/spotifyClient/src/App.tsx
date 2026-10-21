@@ -11,7 +11,7 @@ function App() {
 
   return (
     <>
-      <SongCard title={track.title} artist={track.artist} duration={track.duration} />
+      <SongCard trackInfo={track} />
     </>
   )
 }

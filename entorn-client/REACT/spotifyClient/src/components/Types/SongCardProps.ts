@@ -1,5 +1,5 @@
+import type { TrackView } from "./TrackView";
+
 export interface SongCardProps {
-    title: string;
-    artist: string;
-    duration: number;
+    trackInfo: TrackView
 }
