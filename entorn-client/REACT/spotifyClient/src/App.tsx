@@ -9,17 +9,25 @@ function App() {
   const totalTracks: number = tracks.length;
   const random: number = Math.floor(Math.random() * totalTracks);
   const track: Track = tracks[random]
-  
+
   const totalReproduccions: TrackView = {
     ...track,
     "reproduccions": Math.floor(Math.random() * 1000)
   };
-  
+
   return (
     <>
+      <header>
+        <RandomUser />
+        <CurrentDate />
+      </header>
+
+      <h1>Spotify Songs</h1>
       <SongCard trackInfo={totalReproduccions} />
     </>
   )
 }
+
+
 
 export default App

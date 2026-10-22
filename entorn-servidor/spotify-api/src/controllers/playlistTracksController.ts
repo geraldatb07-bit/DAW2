@@ -6,11 +6,11 @@ import { errorService } from "../interfaces/error/errorService";
 import { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
 import { successService } from "../interfaces/error/SuccessService";
 
-export async function getAllPlaylistTracksController(_req: Request, res: Response): Promise<Response> {
+export function getAllPlaylistTracksController(_req: Request, res: Response): Response {
     return res.status(200).json(getAllPlaylistTracks());
 }
 
-export async function getPlaylistTrackByIdController(req: Request, res: Response): Promise<Response> {
+export function getPlaylistTrackByIdController(req: Request, res: Response): Response {
     const playlistTrack: PlaylistTrackBD | undefined = getPlaylistTrackById(req.params.id as string);
     if (!playlistTrack) {
         return res.status(404).json({ message: "PlaylistTrack not found" });
@@ -18,7 +18,7 @@ export async function getPlaylistTrackByIdController(req: Request, res: Response
     return res.status(200).json(playlistTrack);
 }
 
-export async function postPlaylistTrackController(req: Request, res: Response): Promise<Response> {
+export function postPlaylistTrackController(req: Request, res: Response): Response {
     const result: successService<PlaylistTrackBD> | errorService = createPlaylistTrack(req.body);
     if (!result.success) {
         const errorResult = result as errorService;
@@ -30,7 +30,7 @@ export async function postPlaylistTrackController(req: Request, res: Response): 
     return res.status(createResult.code).json(createResult.data);
 }
 
-export async function deletePlaylistTrackController(req: Request, res: Response): Promise<Response> {
+export function deletePlaylistTrackController(req: Request, res: Response): Response {
     const result: deleteSuccessService | errorService = deletePlaylistTrack(req.params.id as string);
     if (!result.success) {
         const errorResult = result as errorService;

@@ -1,0 +1,264 @@
+{
+  "planHash": "e1b220344956f50841eacbcac394802f83c9bba01c60dcbe4e3ce9a2de83793b",
+  "phase": "standalone",
+  "recordedAtUtc": "2026-10-22T16:37:13.8506695Z",
+  "retryCount": 1,
+  "resetBaseline": false,
+  "complete": true,
+  "result": {
+    "setupSucceeded": true,
+    "setupDurationMs": 50869,
+    "setupFailureOutput": null,
+    "assertions": [
+      {
+        "name": "typescript-build",
+        "kind": "process",
+        "verificationMethod": "exit-code",
+        "passed": false,
+        "timedOut": false,
+        "skipped": false,
+        "skippedReason": null,
+        "exitCode": 2,
+        "outputSample": "npm warn Unknown env config \u0022scripts-prepend-node-path\u0022. This will stop working in the next major version of npm.\r\n\r\n\u003E spotify-api@1.0.0 build\r\n\u003E tsc\r\n\r\nsrc/controllers/albumTrackController.ts(37,60): error TS2339: Property \u0027index\u0027 does not exist on type \u0027deleteSuccessService\u0027.\r\nsrc/controllers/countryController.ts(44,71): error TS2339: Property \u0027index\u0027 does not exist on type \u0027createSuccessService\u003CCountryBD\u003E\u0027.\r\nsrc/controllers/countryController.ts(45,5): error TS2322: Type \u0027number\u0027 is not assignable to type \u0027CountryBD\u0027.\r\nsrc/controllers/countryController.ts(59,71): error TS2339: Property \u0027index\u0027 does not exist on type \u0027createSuccessService\u003CCountryBD\u003E\u0027.\r\nsrc/controllers/historyController.ts(41,11): error TS2322: Type \u0027createSuccessService\u003CHistoryBD\u003E | errorService\u0027 is not assignable to type \u0027errorService | successService\u003CHistoryBD\u003E\u0027.\r\n  Type \u0027createSuccessService\u003CHistoryBD\u003E\u0027 is not assignable to type \u0027errorService | successService\u003CHistoryBD\u003E\u0027.\r\n    Type \u0027createSuccessService\u003CHistoryBD\u003E\u0027 is not assignable to type \u0027successService\u003CHistoryBD\u003E\u0027.\r\n      Types of property \u0027data\u0027 are incompatible.\r\n        Type \u0027number\u0027 is not assignable to type \u0027HistoryBD\u0027.\r\nsrc/controllers/historyController.ts(48,28): error TS2352: Conversion of type \u0027successService\u003CHistoryBD\u003E\u0027 to type \u0027createSuccessService\u003CHistoryBD\u003E\u0027 may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to \u0027unknown\u0027 first.\r\n  Types of property \u0027data\u0027 are incompatible.\r\n    Type \u0027HistoryBD\u0027 is not comparable to type \u0027number\u0027.\r\nsrc/controllers/historyController.ts(48,71): error TS2339: Property \u0027index\u0027 does not exist on type \u0027createSuccessService\u003CHistoryBD\u003E\u0027.\r\nsrc/controllers/historyController.ts(49,5): error TS2322: Type \u0027number\u0027 is not assignable to type \u0027HistoryBD\u0027.\r\nsrc/controllers/historyController.ts(49,25): error TS2352: Conversion of type \u0027successService\u003CHistoryBD\u003E\u0027 to type \u0027createSuccessService\u003CHistoryBD\u003E\u0027 may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to \u0027unknown\u0027 first.\r\n  Types of property \u0027data\u0027 are incompatible.\r\n    Type \u0027HistoryBD\u0027 is not comparable to type \u0027number\u0027.\r\nsrc/controllers/historyController.ts(64,60): error TS2339: Property \u0027index\u0027 does not exist on type \u0027deleteSuccessService\u0027.\r\nsrc/controllers/playlistTracksController.ts(41,40): error TS2339: Property \u0027index\u0027 does not exist on type \u0027deleteSuccessService\u0027.\r\nsrc/services/albumTrackServices.ts(47,40): error TS2353: Object literal may only specify known properties, and \u0027index\u0027 does not exist in type \u0027deleteSuccessService\u0027.\r\nsrc/services/artistService.ts(55,40): error TS2322: Type \u0027ArtistBD\u0027 is not assignable to type \u0027number\u0027.\r\nsrc/services/artistService.ts(66,40): error TS2353: Object literal may only specify known properties, and \u0027index\u0027 does not exist in type \u0027deleteSuccessService\u0027.\r\nsrc/services/countryService.ts(63,29): error TS2322: Type \u0027CountryBD\u0027 is not assignable to type \u0027number\u0027.\r\nsrc/services/countryService.ts(75,40): error TS2353: Object literal may only specify known properties, and \u0027index\u0027 does not exist in type \u0027deleteSuccessService\u0027.\r\nsrc/services/historyServices.ts(70,29): error TS2322: Type \u0027HistoryBD\u0027 is not assignable to type \u0027number\u0027.\r\nsrc/services/historyServices.ts(82,40): error TS2353: Object literal may only specify known properties, and \u0027index\u0027 does not exist in type \u0027deleteSuccessService\u0027.\r\nsrc/services/playlistService.ts(70,40): error TS2322: Type \u0027PlaylistBD\u0027 is not assignable to type \u0027number\u0027.\r\nsrc/services/playlistService.ts(80,40): error TS2353: Object literal may only specify known properties, and \u0027index\u0027 does not exist in type \u0027deleteSuccessService\u0027.\r\nsrc/services/playlistTrackService.ts(52,40): error TS2353: Object literal may only specify known properties, and \u0027index\u0027 does not exist in type \u0027deleteSuccessService\u0027.\r\n",
+        "durationMs": 2026
+      },
+      {
+        "name": "tests-pass",
+        "kind": "process",
+        "verificationMethod": "test-results",
+        "passed": true,
+        "timedOut": false,
+        "skipped": false,
+        "skippedReason": null,
+        "exitCode": 0,
+        "outputSample": "npm warn Unknown env config \u0022scripts-prepend-node-path\u0022. This will stop working in the next major version of npm.\r\n\r\n\u003E spotify-api@1.0.0 test\r\n\u003E vitest run\r\n\r\n\r\n RUN  v5.0.5 C:/Users/geral/OneDrive/Escritorio/DAW2/entorn-servidor/spotify-api\r\n\r\n\r\n Test Files  1 passed (1)\r\n      Tests  36 passed (36)\r\n   Start at  18:37:04\r\n   Duration  1.16s (import 50%, transform 29%, tests 20%, worker 1%)\r\n\r\n",
+        "durationMs": 2479,
+        "testResults": {
+          "testFramework": "vitest",
+          "runnerDetectedFrom": "package_json",
+          "testsTotal": 36,
+          "testsPassed": 36,
+          "testsFailed": 0,
+          "testsSkipped": 0,
+          "parseFailed": false
+        }
+      },
+      {
+        "name": "tracks-list-responds",
+        "kind": "http-probe",
+        "verificationMethod": "http-status",
+        "passed": false,
+        "timedOut": false,
+        "skipped": false,
+        "skippedReason": null,
+        "exitCode": null,
+        "outputSample": "HTTP 500\n\u003C!DOCTYPE html\u003E\n\u003Chtml lang=\u0022en\u0022\u003E\n\u003Chead\u003E\n\u003Cmeta charset=\u0022utf-8\u0022\u003E\n\u003Ctitle\u003EError\u003C/title\u003E\n\u003C/head\u003E\n\u003Cbody\u003E\n\u003Cpre\u003EConnectionError: Failed to connect to localhost:1433 - Could not connect (sequence)\u003Cbr\u003E \u0026nbsp; \u0026nbsp;at C:\\Users\\geral\\OneDrive\\Escritorio\\DAW2\\entorn-servidor\\spotify-api\\node_modules\\mssql\\lib\\tedious\\connection-pool.js:86:17\u003Cbr\u003E \u0026nbsp; \u0026nbsp;at Connection.err (C:\\Users\\geral\\OneDrive\\Escritorio\\DAW2\\entorn-servidor\\spotify-api\\node_modules\\tedious\\src\\connection.ts:1847:9)\u003Cbr\u003E \u0026nbsp; \u0026nbsp;at Object.onceWrapper (node:events:623:26)\u003Cbr\u003E \u0026nbsp; \u0026nbsp;at Connection.emit (node:events:508:28)\u003Cbr\u003E \u0026nbsp; \u0026nbsp;at Connection.emit (C:\\Users\\geral\\OneDrive\\Escritorio\\DAW2\\entorn-servidor\\spotify-api\\node_modules\\tedious\\src\\connection.ts:2009:18)\u003Cbr\u003E \u0026nbsp; \u0026nbsp;at \u0026lt;anonymous\u0026gt; (C:\\Users\\geral\\OneDrive\\Escritorio\\DAW2\\entorn-servidor\\spotify-api\\node_modules\\tedious\\src\\connection.ts:1870:14)\u003Cbr\u003E \u0026nbsp; \u0026nbsp;at process.processTicksAndRejections (node:internal/process/task_queues:84:11)\u003C/pre\u003E\n\u003C/body\u003E\n\u003C/html\u003E\n\n--- server output ---\nnpm warn Unknown env config \u0022scripts-prepend-node-path\u0022. This will stop working in the next major version of npm.\r\n\r\n\u003E spotify-api@1.0.0 dev\r\n\u003E tsx src/index.ts\r\n\r\nServidor escoltant a http://localhost:3000\r\n",
+        "durationMs": 2090
+      },
+      {
+        "name": "users-list-responds",
+        "kind": "http-probe",
+        "verificationMethod": "http-status",
+        "passed": false,
+        "timedOut": false,
+        "skipped": false,
+        "skippedReason": null,
+        "exitCode": null,
+        "outputSample": "HTTP 500\n\u003C!DOCTYPE html\u003E\n\u003Chtml lang=\u0022en\u0022\u003E\n\u003Chead\u003E\n\u003Cmeta charset=\u0022utf-8\u0022\u003E\n\u003Ctitle\u003EError\u003C/title\u003E\n\u003C/head\u003E\n\u003Cbody\u003E\n\u003Cpre\u003EConnectionError: Failed to connect to localhost:1433 - Could not connect (sequence)\u003Cbr\u003E \u0026nbsp; \u0026nbsp;at C:\\Users\\geral\\OneDrive\\Escritorio\\DAW2\\entorn-servidor\\spotify-api\\node_modules\\mssql\\lib\\tedious\\connection-pool.js:86:17\u003Cbr\u003E \u0026nbsp; \u0026nbsp;at Connection.err (C:\\Users\\geral\\OneDrive\\Escritorio\\DAW2\\entorn-servidor\\spotify-api\\node_modules\\tedious\\src\\connection.ts:1847:9)\u003Cbr\u003E \u0026nbsp; \u0026nbsp;at Object.onceWrapper (node:events:623:26)\u003Cbr\u003E \u0026nbsp; \u0026nbsp;at Connection.emit (node:events:508:28)\u003Cbr\u003E \u0026nbsp; \u0026nbsp;at Connection.emit (C:\\Users\\geral\\OneDrive\\Escritorio\\DAW2\\entorn-servidor\\spotify-api\\node_modules\\tedious\\src\\connection.ts:2009:18)\u003Cbr\u003E \u0026nbsp; \u0026nbsp;at \u0026lt;anonymous\u0026gt; (C:\\Users\\geral\\OneDrive\\Escritorio\\DAW2\\entorn-servidor\\spotify-api\\node_modules\\tedious\\src\\connection.ts:1870:14)\u003Cbr\u003E \u0026nbsp; \u0026nbsp;at process.processTicksAndRejections (node:internal/process/task_queues:84:11)\u003C/pre\u003E\n\u003C/body\u003E\n\u003C/html\u003E\n\n--- server output ---\nnpm warn Unknown env config \u0022scripts-prepend-node-path\u0022. This will stop working in the next major version of npm.\r\n\r\n\u003E spotify-api@1.0.0 dev\r\n\u003E tsx src/index.ts\r\n\r\nServidor escoltant a http://localhost:3000\r\nConnectionError: Failed to connect to localhost:1433 - Could not connect (sequence)\r\n    at C:\\Users\\geral\\OneDrive\\Escritorio\\DAW2\\entorn-servidor\\spotify-api\\node_modules\\mssql\\lib\\tedious\\connection-pool.js:86:17\r\n    at Connection.err (C:\\Users\\geral\\OneDrive\\Escritorio\\DAW2\\entorn-servidor\\spotify-api\\node_modules\\tedious\\src\\connection.ts:1847:9)\r\n    at Object.onceWrapper (node:events:623:26)\r\n    at Connection.emit (node:events:508:28)\r\n    at Connection.emit (C:\\Users\\geral\\OneDrive\\Escritorio\\DAW2\\entorn-servidor\\spotify-api\\node_modules\\tedious\\src\\connection.ts:2009:18)\r\n    at \u003Canonymous\u003E (C:\\Users\\geral\\OneDrive\\Escritorio\\DAW2\\entorn-servidor\\spotify-api\\node_modules\\tedious\\src\\connection.ts:1870:14)\r\n    at process.processTicksAndRejections (node:internal/process/task_queues:84:11)\r\n",
+        "durationMs": 2080
+      },
+      {
+        "name": "countries-list-responds",
+        "kind": "http-probe",
+        "verificationMethod": "http-status",
+        "passed": true,
+        "timedOut": false,
+        "skipped": false,
+        "skippedReason": null,
+        "exitCode": null,
+        "outputSample": "HTTP 200\n[{\u0022id\u0022:\u0022a3f7dffb-3e14-413e-ad7e-cf458a483f5d\u0022,\u0022countryName\u0022:\u0022Fran\u00E7a\u0022}]\n--- server output ---\nnpm warn Unknown env config \u0022scripts-prepend-node-path\u0022. This will stop working in the next major version of npm.\r\n\r\n\u003E spotify-api@1.0.0 dev\r\n\u003E tsx src/index.ts\r\n\r\nServidor escoltant a http://localhost:3000\r\n",
+        "durationMs": 2052
+      },
+      {
+        "name": "playlists-list-responds",
+        "kind": "http-probe",
+        "verificationMethod": "http-status",
+        "passed": true,
+        "timedOut": false,
+        "skipped": false,
+        "skippedReason": null,
+        "exitCode": null,
+        "outputSample": "HTTP 200\n[]\n--- server output ---\nnpm warn Unknown env config \u0022scripts-prepend-node-path\u0022. This will stop working in the next major version of npm.\r\n\r\n\u003E spotify-api@1.0.0 dev\r\n\u003E tsx src/index.ts\r\n\r\nServidor escoltant a http://localhost:3000\r\n",
+        "durationMs": 2060
+      }
+    ],
+    "executions": [
+      {
+        "source": "setup[0]",
+        "resolvedExecutable": "C:\\Program Files\\npm.cmd",
+        "args": [
+          "ci"
+        ],
+        "cwd": "C:\\Users\\geral\\OneDrive\\Escritorio\\DAW2\\entorn-servidor\\spotify-api",
+        "env": {},
+        "prependPath": [],
+        "platform": "win32",
+        "nodeExecutable": "C:\\Program Files\\node.EXE",
+        "nodeVersion": "v24.12.0",
+        "packageManager": "npm",
+        "packageManagerExecutable": "C:\\Program Files\\npm.cmd",
+        "packageManagerVersion": "11.7.0",
+        "cleanup": {
+          "RootProcessId": 9496,
+          "Completed": true,
+          "ProcessesObserved": 9,
+          "ProcessesTerminated": 1,
+          "Failure": null
+        }
+      },
+      {
+        "source": "typescript-build",
+        "resolvedExecutable": "C:\\Program Files\\npm.cmd",
+        "args": [
+          "run",
+          "build"
+        ],
+        "cwd": "C:\\Users\\geral\\OneDrive\\Escritorio\\DAW2\\entorn-servidor\\spotify-api",
+        "env": {},
+        "prependPath": [],
+        "platform": "win32",
+        "nodeExecutable": "C:\\Program Files\\node.EXE",
+        "nodeVersion": "v24.12.0",
+        "packageManager": "npm",
+        "packageManagerExecutable": "C:\\Program Files\\npm.cmd",
+        "packageManagerVersion": "11.7.0",
+        "cleanup": {
+          "RootProcessId": 19140,
+          "Completed": true,
+          "ProcessesObserved": 8,
+          "ProcessesTerminated": 1,
+          "Failure": null
+        }
+      },
+      {
+        "source": "tests-pass",
+        "resolvedExecutable": "C:\\Program Files\\npm.cmd",
+        "args": [
+          "test"
+        ],
+        "cwd": "C:\\Users\\geral\\OneDrive\\Escritorio\\DAW2\\entorn-servidor\\spotify-api",
+        "env": {},
+        "prependPath": [],
+        "platform": "win32",
+        "nodeExecutable": "C:\\Program Files\\node.EXE",
+        "nodeVersion": "v24.12.0",
+        "packageManager": "npm",
+        "packageManagerExecutable": "C:\\Program Files\\npm.cmd",
+        "packageManagerVersion": "11.7.0",
+        "cleanup": {
+          "RootProcessId": 25364,
+          "Completed": true,
+          "ProcessesObserved": 11,
+          "ProcessesTerminated": 1,
+          "Failure": null
+        }
+      },
+      {
+        "source": "tracks-list-responds",
+        "resolvedExecutable": "C:\\Program Files\\npm.cmd",
+        "args": [
+          "run",
+          "dev"
+        ],
+        "cwd": "C:\\Users\\geral\\OneDrive\\Escritorio\\DAW2\\entorn-servidor\\spotify-api",
+        "env": {},
+        "prependPath": [],
+        "platform": "win32",
+        "nodeExecutable": "C:\\Program Files\\node.EXE",
+        "nodeVersion": "v24.12.0",
+        "packageManager": "npm",
+        "packageManagerExecutable": "C:\\Program Files\\npm.cmd",
+        "packageManagerVersion": "11.7.0",
+        "cleanup": {
+          "RootProcessId": 11916,
+          "Completed": true,
+          "ProcessesObserved": 8,
+          "ProcessesTerminated": 6,
+          "Failure": null
+        }
+      },
+      {
+        "source": "users-list-responds",
+        "resolvedExecutable": "C:\\Program Files\\npm.cmd",
+        "args": [
+          "run",
+          "dev"
+        ],
+        "cwd": "C:\\Users\\geral\\OneDrive\\Escritorio\\DAW2\\entorn-servidor\\spotify-api",
+        "env": {},
+        "prependPath": [],
+        "platform": "win32",
+        "nodeExecutable": "C:\\Program Files\\node.EXE",
+        "nodeVersion": "v24.12.0",
+        "packageManager": "npm",
+        "packageManagerExecutable": "C:\\Program Files\\npm.cmd",
+        "packageManagerVersion": "11.7.0",
+        "cleanup": {
+          "RootProcessId": 18176,
+          "Completed": true,
+          "ProcessesObserved": 8,
+          "ProcessesTerminated": 6,
+          "Failure": null
+        }
+      },
+      {
+        "source": "countries-list-responds",
+        "resolvedExecutable": "C:\\Program Files\\npm.cmd",
+        "args": [
+          "run",
+          "dev"
+        ],
+        "cwd": "C:\\Users\\geral\\OneDrive\\Escritorio\\DAW2\\entorn-servidor\\spotify-api",
+        "env": {},
+        "prependPath": [],
+        "platform": "win32",
+        "nodeExecutable": "C:\\Program Files\\node.EXE",
+        "nodeVersion": "v24.12.0",
+        "packageManager": "npm",
+        "packageManagerExecutable": "C:\\Program Files\\npm.cmd",
+        "packageManagerVersion": "11.7.0",
+        "cleanup": {
+          "RootProcessId": 26700,
+          "Completed": true,
+          "ProcessesObserved": 8,
+          "ProcessesTerminated": 6,
+          "Failure": null
+        }
+      },
+      {
+        "source": "playlists-list-responds",
+        "resolvedExecutable": "C:\\Program Files\\npm.cmd",
+        "args": [
+          "run",
+          "dev"
+        ],
+        "cwd": "C:\\Users\\geral\\OneDrive\\Escritorio\\DAW2\\entorn-servidor\\spotify-api",
+        "env": {},
+        "prependPath": [],
+        "platform": "win32",
+        "nodeExecutable": "C:\\Program Files\\node.EXE",
+        "nodeVersion": "v24.12.0",
+        "packageManager": "npm",
+        "packageManagerExecutable": "C:\\Program Files\\npm.cmd",
+        "packageManagerVersion": "11.7.0",
+        "cleanup": {
+          "RootProcessId": 18908,
+          "Completed": true,
+          "ProcessesObserved": 8,
+          "ProcessesTerminated": 6,
+          "Failure": null
+        }
+      }
+    ]
+  }
+}

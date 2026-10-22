@@ -7,13 +7,13 @@ import { successService } from "../interfaces/error/SuccessService";
 import { isValidAlbumTrack } from "../validators/albumTrack.validator";
 import { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
 
-export async function getAllAlbumTracks(): Promise<AlbumTrackBD[]> {
+export function getAllAlbumTracks(): AlbumTrackBD[] {
     return albumTracks;
 }
 
 
 
-export async function createAlbumTrack(ATrack: AlbumTrack): Promise<successService<AlbumTrackBD> | errorService> {
+export function createAlbumTrack(ATrack: AlbumTrack): successService<AlbumTrackBD> | errorService {
 
     if (!isValidAlbumTrack(ATrack)) {
         return { success: false, code: 400, message: "fuck you" };
@@ -35,7 +35,7 @@ export async function createAlbumTrack(ATrack: AlbumTrack): Promise<successServi
 
 }
 
-export async function deleteAlbumTrack(id: string | string[]): Promise<deleteSuccessService | errorService> {
+export function deleteAlbumTrack(id: string | string[]): deleteSuccessService | errorService {
 
     const index: number = albumTracks.findIndex(
         (t: AlbumTrackBD) => { return t.id === id }

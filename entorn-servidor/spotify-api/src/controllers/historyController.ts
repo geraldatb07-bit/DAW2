@@ -9,11 +9,11 @@ import { HistoryBD } from "../interfaces/history/historyBD";
 import { getAllHistories, getHistoryById, createHistory, putHistory, deleteHistory } from "../services/historyServices";
 import { createSuccessService } from "../interfaces/error/createSuccessService";
 
-export async function getAllHistoriesController(_req: Request, res: Response): Promise<Response> {
+export function getAllHistoriesController(_req: Request, res: Response): Response {
     return res.status(200).json(getAllHistories());
 }
 
-export async function getHistoryByIdController(req: Request, res: Response): Promise<Response> {
+export function getHistoryByIdController(req: Request, res: Response): Response {
 
 
     const findHistory: HistoryBD | undefined = getHistoryById(req.params.id as string);
@@ -24,7 +24,7 @@ export async function getHistoryByIdController(req: Request, res: Response): Pro
     return res.status(200).json(findHistory);
 }
 
-export async function postHistoryController(req: Request, res: Response): Promise<Response> {
+export function postHistoryController(req: Request, res: Response): Response {
     const result: successService<HistoryBD> | errorService = createHistory(req.body);
 
     if (!result.success) {
@@ -37,7 +37,7 @@ export async function postHistoryController(req: Request, res: Response): Promis
     return res.status(201).json(result);
 }
 
-export async function putHistoryController(req: Request, res: Response): Promise<Response> {
+export function putHistoryController(req: Request, res: Response): Response {
     const result: successService<HistoryBD> | errorService = putHistory(req.body, req.params.id);
 
     if (!result.success) {
@@ -52,7 +52,7 @@ export async function putHistoryController(req: Request, res: Response): Promise
     return res.status(200).json(result);
 }
 
-export async function deleteHistoryController(req: Request, res: Response): Promise<Response> {
+export function deleteHistoryController(req: Request, res: Response): Response {
 
     const result: deleteSuccessService | errorService = deleteHistory(req.params.id as string);
 

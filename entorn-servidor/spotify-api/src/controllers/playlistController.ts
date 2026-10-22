@@ -3,11 +3,11 @@ import { createPlaylist, deletePlaylist, getAllPlaylists, getPlaylistById, updat
 import type { Playlist } from "../interfaces/playlist/playlist";
 import type { PlaylistBD } from "../interfaces/playlist/playlistBD";
 
-export async function getAllPlaylistsController(_req: Request, res: Response): Promise<Response> {
+export function getAllPlaylistsController(_req: Request, res: Response): Response {
     return res.status(200).json(getAllPlaylists());
 }
 
-export async function getPlaylistByIdController(req: Request, res: Response): Promise<Response> {
+export function getPlaylistByIdController(req: Request, res: Response): Response {
     const id = req.params.id;
     if (typeof id !== "string") {
         return res.status(400).json({ message: "Invalid playlist id." });
@@ -20,12 +20,12 @@ export async function getPlaylistByIdController(req: Request, res: Response): Pr
     return res.status(200).json(playlist);
 }
 
-export async function postPlaylistController(req: Request, res: Response): Promise<Response> {
+export function postPlaylistController(req: Request, res: Response): Response {
     const result = createPlaylist(req.body as Playlist);
     return res.status(result.code).json(result);
 }
 
-export async function putPlaylistController(req: Request, res: Response): Promise<Response> {
+export function putPlaylistController(req: Request, res: Response): Response {
     const id = req.params.id;
     if (typeof id !== "string") {
         return res.status(400).json({ message: "Invalid playlist id." });
@@ -35,7 +35,7 @@ export async function putPlaylistController(req: Request, res: Response): Promis
     return res.status(result.code).json(result);
 }
 
-export async function deletePlaylistController(req: Request, res: Response): Promise<Response> {
+export function deletePlaylistController(req: Request, res: Response): Response {
     const id = req.params.id;
     if (typeof id !== "string") {
         return res.status(400).json({ message: "Invalid playlist id." });

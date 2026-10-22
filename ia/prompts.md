@@ -1,0 +1,1 @@
+Generem les proves els testos, de tot el projecte del entorn servidor per comprovar que funciona la aplicacio tenint en compte que el projecte encara no esta acabat

@@ -11,7 +11,7 @@ import { createSuccessService } from "../interfaces/error/createSuccessService";
 
 export async function getAllUsersController(_req: Request, res: Response): Promise<Response> {
     const usersBD: UserBD[] = await getAllUsers();
-    return res.status(200).json(getAllUsers());
+    return res.status(200).json(usersBD);
 }
 
 export async function getUserByIdController(req: Request, res: Response): Promise<Response> {
