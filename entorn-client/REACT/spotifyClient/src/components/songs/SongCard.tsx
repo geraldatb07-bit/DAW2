@@ -1,9 +1,9 @@
 import type { SongCardProps } from "./Types/SongCardProps";
 
-const SongCard = ({trackInfo}:SongCardProps) => {
+const SongCard = ({ trackInfo }: SongCardProps) => {
     return (
         <>
-            <h1>Títol: {trackInfo.title}</h1>
+            <h3>Títol: {trackInfo.title}</h3>
             <p>Artist: {trackInfo.artist}</p>
             <p>Duration: {trackInfo.duration}</p>
             <p>Total Reproduccions: {trackInfo.reproduccions}</p>

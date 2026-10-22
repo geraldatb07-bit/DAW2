@@ -2,7 +2,7 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import App from "../App";
-import SongCard from "../components/SongCard";
+import SongCard from "../components/songs/SongCard";
 
 afterEach(() => {
     vi.restoreAllMocks();
