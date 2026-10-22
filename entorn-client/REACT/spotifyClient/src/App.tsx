@@ -1,5 +1,6 @@
 import './App.css'
 import SongCard from './components/SongCard'
+import { CurrentDate, RandomUser } from './components/Header'
 import type { TrackView } from './components/Types/TrackView';
 import { tracks } from './Data/track/track.data';
 import type { Track } from './Model/Track';

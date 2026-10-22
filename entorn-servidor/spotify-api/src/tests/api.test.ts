@@ -2,8 +2,8 @@
 import express from "express";
 import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import type { Server } from "node:http";
-import { albumTrackRouter } from "../src/routes/albumTrackRoutes";
-import { historyRouter } from "../src/routes/historyRoutes";
+import { albumTrackRouter } from "../routes/albumTrackRoutes";
+import { historyRouter } from "../routes/historyRoutes";
 
 const serviceMocks = vi.hoisted(() => ({
     getAllTracks: vi.fn(),
@@ -93,7 +93,7 @@ vi.mock("../src/services/albumTrackServices", () => ({
     deleteAlbumTrack: serviceMocks.deleteAlbumTrack,
 }));
 
-import { app } from "../src/app";
+import { app } from "../app";
 
 const track = { id: "track-1", title: "Example track", artist: "artist-1", duration: 180 };
 const artist = { id: "artist-1", nom: "Example artist", pseudonim: "Example", pais: "França" };
