@@ -5,6 +5,6 @@ export const users: User[] = [
         nom: "Gerald Tumbaco",
     },
     {
-        nom: "Eloi Gomez",
+        nom: "Gerald Alexander",
     }
 ];
