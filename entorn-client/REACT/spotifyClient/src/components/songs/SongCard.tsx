@@ -10,32 +10,27 @@ const SongCard = ({ trackInfo }: SongCardProps) => {
 
     let [totalReproduccions, setTotalReproduccions] = useState<number>(trackInfo.reproduccions);
 
-    let [likesInfo, setTotalLikes] = useState<LikesView>({totalLikes:5, like: false});
+    let [likesInfo, setTotalLikes] = useState<LikesView>({ totalLikes: 5, like: false });
 
-    function handleClickPlay() {
-        const tr = (prev:number) => {return prev + 1}
+    function handleClickPlay(number: number) {
+        const tr = (prev: number) => { return prev + number }
         setTotalReproduccions(tr);
     }
 
     function handleClickIcon() {
-
         let incLikes = 1;
-        const lk = (prev: LikesView) => { 
+        const lk = (prev: LikesView) => {
 
-            if (prev.like) { 
+            if (prev.like) {
                 incLikes = -1;
             }
-                return {
-                    totalLikes: prev.totalLikes + incLikes,
-                    like: !prev.like
-                }                   
-         }
+            return {
+                totalLikes: prev.totalLikes + incLikes,
+                like: !prev.like
+            }
+        }
         setTotalLikes(lk);
     }
-
-    const viewIcon: boolean = true;
-
-
 
     return (
         <>
@@ -43,17 +38,15 @@ const SongCard = ({ trackInfo }: SongCardProps) => {
             <p>Artist: {trackInfo.artist}</p>
             <p>Duration: {trackInfo.duration}</p>
             <p>Total Reproduccions: {totalReproduccions}</p>
-            <p><button onClick={handleClickPlay}>Play</button></p>
-
+            <p><button onClick={() => handleClickPlay(1)}>Play 1</button></p>
+            <p><button onClick={() => handleClickPlay(5)}>Play 5</button></p>
+            <p><button onClick={() => handleClickPlay(10)}>Play 10</button></p>
             <div>
                 <button onClick={handleClickIcon}>
-                    <img src={likesInfo.like ? likeIcon : dislikeIcon  } width={50} />
+                    <img src={likesInfo.like ? likeIcon : dislikeIcon} width={50} />
                 </button>
                 <p>{likesInfo.totalLikes}</p>
             </div>
-
-
-
         </>
     )
 }
