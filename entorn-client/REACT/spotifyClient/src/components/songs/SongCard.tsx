@@ -3,6 +3,8 @@ import type { SongCardProps } from "./Types/SongCardProps";
 import likeIcon from "../../assets/like.png";
 import dislikeIcon from "../../assets/dislike.png";
 import type { LikesView } from "./Types/likes";
+import { tracks } from "../../Data/track/track.data";
+import type { Track } from "../../Model/Track";
 
 
 const SongCard = ({ trackInfo }: SongCardProps) => {
@@ -22,9 +24,15 @@ const SongCard = ({ trackInfo }: SongCardProps) => {
         setTotalLikes({ totalLikes: 0, like: false });
     }
 
-    function handleClickRandomTrack(){
-        setTotalReproduccions(trackInfo.reproduccions);
+    let [track, setRandomTrack] = useState<Track>({
+        title: trackInfo.title,
+        artist: trackInfo.artist,
+        duration: trackInfo.duration
+    });
 
+    function handleClickRandomTrack(){
+        const randomIndex = Math.floor(Math.random() * tracks.length);
+        setRandomTrack(tracks[randomIndex]);
     }
 
     function handleClickIcon() {
@@ -44,9 +52,9 @@ const SongCard = ({ trackInfo }: SongCardProps) => {
 
     return (
         <>
-            <h3>Títol: {trackInfo.title}</h3>
-            <p>Artist: {trackInfo.artist}</p>
-            <p>Duration: {trackInfo.duration}</p>
+            <h3>Títol: {track.title}</h3>
+            <p>Artist: {track.artist}</p>
+            <p>Duration: {track.duration}</p>
             <p>Total Reproduccions: {totalReproduccions}</p>
             <p><button onClick={handleClickRandomTrack}>Random track</button></p>
             <p><button onClick={() => handleClickPlay(1)}>Play 1</button></p>
