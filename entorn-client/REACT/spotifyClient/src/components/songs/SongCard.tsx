@@ -17,6 +17,11 @@ const SongCard = ({ trackInfo }: SongCardProps) => {
         setTotalReproduccions(tr);
     }
 
+    function handleClickReset() {
+        setTotalReproduccions(0);
+        setTotalLikes({ totalLikes: 0, like: false });
+    }
+
     function handleClickIcon() {
         let incLikes = 1;
         const lk = (prev: LikesView) => {
@@ -41,6 +46,8 @@ const SongCard = ({ trackInfo }: SongCardProps) => {
             <p><button onClick={() => handleClickPlay(1)}>Play 1</button></p>
             <p><button onClick={() => handleClickPlay(5)}>Play 5</button></p>
             <p><button onClick={() => handleClickPlay(10)}>Play 10</button></p>
+            <p><button onClick={handleClickReset}>Reiniciar</button></p>
+
             <div>
                 <button onClick={handleClickIcon}>
                     <img src={likesInfo.like ? likeIcon : dislikeIcon} width={50} />
