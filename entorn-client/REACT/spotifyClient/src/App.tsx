@@ -1,5 +1,5 @@
 import './App.css'
-import HeaderCard from './components/header/Header';
+import HeaderCard from './components/header/HeaderCard';
 import type { HeaderView } from './components/header/Types/HeaderView';
 import SongCard from './components/songs/SongCard'
 import type { TrackView } from './components/songs/Types/TrackView';
@@ -26,7 +26,7 @@ function App() {
 
   const data: HeaderView = {
     ...user,
-    "data": new Date().toLocaleDateString('ca-ES')
+    "data": new Date().toLocaleString("ca-ES")
   };
 
 

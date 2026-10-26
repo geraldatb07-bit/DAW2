@@ -22,6 +22,11 @@ const SongCard = ({ trackInfo }: SongCardProps) => {
         setTotalLikes({ totalLikes: 0, like: false });
     }
 
+    function handleClickRandomTrack(){
+        setTotalReproduccions(trackInfo.reproduccions);
+
+    }
+
     function handleClickIcon() {
         let incLikes = 1;
         const lk = (prev: LikesView) => {
@@ -43,6 +48,7 @@ const SongCard = ({ trackInfo }: SongCardProps) => {
             <p>Artist: {trackInfo.artist}</p>
             <p>Duration: {trackInfo.duration}</p>
             <p>Total Reproduccions: {totalReproduccions}</p>
+            <p><button onClick={handleClickRandomTrack}>Random track</button></p>
             <p><button onClick={() => handleClickPlay(1)}>Play 1</button></p>
             <p><button onClick={() => handleClickPlay(5)}>Play 5</button></p>
             <p><button onClick={() => handleClickPlay(10)}>Play 10</button></p>
