@@ -106,7 +106,7 @@ function App() {
       like={() => gestionarLikes()}
       reset={handleClickReset} />
       <button onClick={handleClickRandomSong}>Random track</button>
-      <PlayingCard isPlaying={isPlaying}></PlayingCard>
+      <PlayingCard isPlaying={isPlaying} trackInfo={track}></PlayingCard>
     </>
 
 
