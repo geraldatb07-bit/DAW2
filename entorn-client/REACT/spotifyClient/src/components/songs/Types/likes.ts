@@ -1,5 +1,5 @@
-export interface LikesView {
-    totalLikes: number;
+export interface Like {
     like: boolean;
+    totalLikes: number;
 
 }
