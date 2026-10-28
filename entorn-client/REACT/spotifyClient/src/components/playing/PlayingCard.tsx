@@ -2,7 +2,7 @@ import { useState } from "react";
 import type { PlayingView } from "./Types/PlayingView";
 import type { TrackView } from "../songs/Types/TrackView";
 
-const PlayingCard = (props:{ isPlaying: boolean, trackInfo: TrackView }) => {
+const PlayingCard = (props: { isPlaying: boolean, trackInfo: TrackView, onStop: () => void }) => {
 
     const [playing, setPlaying] = useState<PlayingView>({
         "volum": 0
@@ -10,7 +10,7 @@ const PlayingCard = (props:{ isPlaying: boolean, trackInfo: TrackView }) => {
 
     function upSpeaker() {
         setPlaying(prev => {
-            if (prev.volum < 10) {
+            if (prev.volum < 100) {
                 return {
                     ...prev,
                     volum: prev.volum + 1
@@ -32,14 +32,19 @@ const PlayingCard = (props:{ isPlaying: boolean, trackInfo: TrackView }) => {
         });
     }
 
-
     return (
-        <section className = "playing-component">
+        <section className="playing-component">
             <h2>Reproduint</h2>
             <button onClick={downSpeaker}>-</button>
             <p>Nivell: {playing.volum}</p>
             <button onClick={upSpeaker}>+</button>
-            {props.isPlaying && <p>{props.trackInfo.title}</p>}
+            {props.isPlaying ? (
+                    <>
+                        <p>{props.trackInfo.title}</p>
+                        <button onClick={props.onStop}>Stop</button>
+                    </>
+                ) : (<p>No song is playing</p>)
+            }
         </section>
     )
 }
