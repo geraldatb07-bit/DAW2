@@ -5,6 +5,7 @@ import { tracks } from './Data/track/track.data';
 import SongCard from './components/songs/SongCard';
 import type { Like } from './components/songs/Types/likes';
 import HeaderCard from './components/header/HeaderCard';
+import PlayingCard from './components/playing/PlayingCard';
 
 const totalTracks: number = tracks.length;
 
@@ -95,7 +96,9 @@ function App() {
       like={() => gestionarLikes()}
       reset={handleClickReset} />
       <button onClick={handleClickRandomSong}>Random track</button>
+      <PlayingCard></PlayingCard>
     </>
+
 
   )
 
