@@ -4,14 +4,10 @@ import type { TrackView } from './components/songs/Types/TrackView';
 import { tracks } from './Data/track/track.data';
 import SongCard from './components/songs/SongCard';
 import type { Like } from './components/songs/Types/likes';
-
-
-
+import HeaderCard from './components/header/HeaderCard';
 
 const totalTracks: number = tracks.length;
 
-// const randomUser = Math.floor(Math.random() * users.length);
-// const user: User = users[randomUser];
 
 
 function App() {
@@ -72,14 +68,35 @@ function App() {
     setTrack(tr);
   }
 
+  function handleClickReset() {
+    setTrack(prev => ({
+      ...prev,
+      reproduccions: 0,
+      likes: {
+        like: false,
+        totalLikes: 0
+      }
+    }));
+  }
+
   
 
   return (
     <>
+      <HeaderCard
+        headerInfo={{
+          nom: 'Gerard',
+          data: new Date().toLocaleString('ca-ES')
+        }}
+      />
       <h1>Spotify Songs</h1>
-      <SongCard trackInfo={track} play={() => incrementarReproduccions()} like={() => gestionarLikes()} />
+      <SongCard trackInfo={track} 
+      play={() => incrementarReproduccions()} 
+      like={() => gestionarLikes()}
+      reset={handleClickReset} />
       <button onClick={handleClickRandomSong}>Random track</button>
     </>
+
   )
 
 }

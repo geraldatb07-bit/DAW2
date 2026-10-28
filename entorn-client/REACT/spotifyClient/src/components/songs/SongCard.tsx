@@ -6,12 +6,12 @@ const SongCard = (props: SongCardProps) => {
 
     function handleClickPlay() {
         props.play();
-
     }
 
-    function handleClickReset() {
+    function handleClickReset(){
+        props.reset();
     }
-
+    
     function handleClickIcon() {
         props.like();
     }
@@ -28,8 +28,7 @@ const SongCard = (props: SongCardProps) => {
                 src={props.trackInfo.likes.like ? likeIcon : dislikeIcon} width={50} />
                 <p>{props.trackInfo.likes.totalLikes}</p>
             </div>
-            <p><button onClick={handleClickReset}>Reiniciar</button></p>
-
+            <button onClick={handleClickReset}>Reiniciar</button>
         </>
     )
 }
