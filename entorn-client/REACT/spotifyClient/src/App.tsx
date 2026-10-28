@@ -3,7 +3,6 @@ import './App.css'
 import type { TrackView } from './components/songs/Types/TrackView';
 import { tracks } from './Data/track/track.data';
 import SongCard from './components/songs/SongCard';
-import HeaderCard from './components/header/HeaderCard';
 import type { Like } from './components/songs/Types/likes';
 
 
@@ -22,8 +21,8 @@ function App() {
       ...tracks[Math.floor(Math.random() * tracks.length)],
       "reproduccions": Math.floor(Math.random() * 5000),
       "likes": {
-        "like": true,
-        "totalLikes": 180
+        "like": false,
+        "totalLikes": 0
       }
     }
   )
@@ -34,8 +33,8 @@ function App() {
       const trackRandom: TrackView = {
         ...tracks[random],
         "likes": {
-          "like": true,
-          "totalLikes": 180
+          "like": false,
+          "totalLikes": 0
         },
         "reproduccions": Math.floor(Math.random() * 5000),
       }
@@ -57,7 +56,6 @@ function App() {
     const tr = (prev: TrackView): TrackView => {
 
       let increment:number = 1;
-
       if (prev.likes.like){
         increment = -1;
       }

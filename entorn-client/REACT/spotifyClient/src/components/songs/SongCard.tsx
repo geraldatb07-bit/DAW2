@@ -26,7 +26,7 @@ const SongCard = (props: SongCardProps) => {
             <div>
                 <img onClick={() => handleClickIcon()} 
                 src={props.trackInfo.likes.like ? likeIcon : dislikeIcon} width={50} />
-                <p>{props.trackInfo.likes.like}</p>
+                <p>{props.trackInfo.likes.totalLikes}</p>
             </div>
             <p><button onClick={handleClickReset}>Reiniciar</button></p>
 
