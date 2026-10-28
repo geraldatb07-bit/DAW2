@@ -1,73 +1,35 @@
-import { useState } from "react";
 import type { SongCardProps } from "./Types/SongCardProps";
 import likeIcon from "../../assets/like.png";
 import dislikeIcon from "../../assets/dislike.png";
-import type { LikesView } from "./Types/likes";
-import { tracks } from "../../Data/track/track.data";
-import type { Track } from "../../Model/Track";
 
+const SongCard = (props: SongCardProps) => {
 
-const SongCard = ({ trackInfo }: SongCardProps) => {
+    function handleClickPlay() {
+        props.play();
 
-
-    let [totalReproduccions, setTotalReproduccions] = useState<number>(trackInfo.reproduccions);
-
-    let [likesInfo, setTotalLikes] = useState<LikesView>({ totalLikes: 5, like: false });
-
-    function handleClickPlay(number: number) {
-        const tr = (prev: number) => { return prev + number }
-        setTotalReproduccions(tr);
     }
 
     function handleClickReset() {
-        setTotalReproduccions(0);
-        setTotalLikes({ totalLikes: 0, like: false });
-    }
-
-    let [track, setRandomTrack] = useState<Track>({
-        title: trackInfo.title,
-        artist: trackInfo.artist,
-        duration: trackInfo.duration
-    });
-
-    function handleClickRandomTrack(){
-        const randomIndex = Math.floor(Math.random() * tracks.length);
-        setRandomTrack(tracks[randomIndex]);
     }
 
     function handleClickIcon() {
-        let incLikes = 1;
-        const lk = (prev: LikesView) => {
-
-            if (prev.like) {
-                incLikes = -1;
-            }
-            return {
-                totalLikes: prev.totalLikes + incLikes,
-                like: !prev.like
-            }
-        }
-        setTotalLikes(lk);
+        props.like();
     }
 
     return (
         <>
-            <h3>Títol: {track.title}</h3>
-            <p>Artist: {track.artist}</p>
-            <p>Duration: {track.duration}</p>
-            <p>Total Reproduccions: {totalReproduccions}</p>
-            <p><button onClick={handleClickRandomTrack}>Random track</button></p>
-            <p><button onClick={() => handleClickPlay(1)}>Play 1</button></p>
-            <p><button onClick={() => handleClickPlay(5)}>Play 5</button></p>
-            <p><button onClick={() => handleClickPlay(10)}>Play 10</button></p>
+            <h3>Títol: {props.trackInfo.title}</h3>
+            <p>Artist: {props.trackInfo.artist}</p>
+            <p>Duration: {props.trackInfo.duration}</p>
+            <p>Total Reproduccions: {props.trackInfo.reproduccions}</p>
+            <p><button onClick={() => handleClickPlay()}>Play</button></p>
+            <div>
+                <img onClick={() => handleClickIcon()} 
+                src={props.trackInfo.likes.like ? likeIcon : dislikeIcon} width={50} />
+                <p>{props.trackInfo.likes.like}</p>
+            </div>
             <p><button onClick={handleClickReset}>Reiniciar</button></p>
 
-            <div>
-                <button onClick={handleClickIcon}>
-                    <img src={likesInfo.like ? likeIcon : dislikeIcon} width={50} />
-                </button>
-                <p>{likesInfo.totalLikes}</p>
-            </div>
         </>
     )
 }
