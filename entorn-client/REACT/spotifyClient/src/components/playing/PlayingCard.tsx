@@ -1,17 +1,22 @@
 import { useState } from "react";
 import type { PlayingView } from "./Types/PlayingView";
 
-const PlayingCard = () => {
+const PlayingCard = (props: { isPlaying: boolean }) => {
 
     const [playing, setPlaying] = useState<PlayingView>({
         "volum": 0
     })
 
     function upSpeaker() {
-        setPlaying(prev => ({
-            ...prev,
-            volum: prev.volum + 1
-        }));
+        setPlaying(prev => {
+            if (prev.volum < 10) {
+                return {
+                    ...prev,
+                    volum: prev.volum + 1
+                };
+            }
+            return prev;
+        });
     }
 
     function downSpeaker() {
@@ -28,13 +33,13 @@ const PlayingCard = () => {
 
 
     return (
-        <>
-            <h3>Reproduint</h3>
-
+        <section className = "playing-component">
+            <h2>Reproduint</h2>
             <button onClick={downSpeaker}>-</button>
             <p>Nivell: {playing.volum}</p>
             <button onClick={upSpeaker}>+</button>
-        </>
+            {props.isPlaying && <p>Playing Song</p>}
+        </section>
     )
 }
 

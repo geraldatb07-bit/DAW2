@@ -80,6 +80,16 @@ function App() {
     }));
   }
 
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  function gestionarReproduccio() {
+    if (!isPlaying) {
+      incrementarReproduccions();
+    }
+
+    setIsPlaying(!isPlaying);
+  }
+
   
 
   return (
@@ -92,11 +102,11 @@ function App() {
       />
       <h1>Spotify Songs</h1>
       <SongCard trackInfo={track} 
-      play={() => incrementarReproduccions()} 
+      play={() => gestionarReproduccio()} 
       like={() => gestionarLikes()}
       reset={handleClickReset} />
       <button onClick={handleClickRandomSong}>Random track</button>
-      <PlayingCard></PlayingCard>
+      <PlayingCard isPlaying={isPlaying}></PlayingCard>
     </>
 
 

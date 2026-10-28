@@ -4,3 +4,9 @@
     right: 1rem;
     text-align: right;
 }
+
+.playing-component {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
