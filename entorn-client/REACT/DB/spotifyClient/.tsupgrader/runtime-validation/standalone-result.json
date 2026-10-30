@@ -1,0 +1,234 @@
+{
+  "planHash": "735ea53865a8b1cf803785dbd7300ee60188a172dd60cb4966be3aa960b504d7",
+  "phase": "standalone",
+  "recordedAtUtc": "2026-10-22T17:02:47.3825681Z",
+  "retryCount": 0,
+  "resetBaseline": false,
+  "complete": true,
+  "result": {
+    "setupSucceeded": true,
+    "setupDurationMs": 6172,
+    "setupFailureOutput": null,
+    "assertions": [
+      {
+        "name": "production-build",
+        "kind": "process",
+        "verificationMethod": "exit-code",
+        "passed": true,
+        "timedOut": false,
+        "skipped": false,
+        "skippedReason": null,
+        "exitCode": 0,
+        "outputSample": "npm warn Unknown env config \u0022scripts-prepend-node-path\u0022. This will stop working in the next major version of npm.\r\n\r\n\u003E spotifyclient@0.0.0 build\r\n\u003E tsc -b \u0026\u0026 vite build\r\n\r\n\u001B[36mvite v8.3.5 \u001B[32mbuilding client environment for production...\u001B[36m\u001B[39m\r\ntransforming...\r\n\u2713 20 modules transformed.\r\nrendering chunks...\r\ncomputing gzip size...\r\ndist/index.html                   0.46 kB \u2502 gzip:  0.29 kB\r\ndist/assets/index-x1XGuNl0.css    0.00 kB \u2502 gzip:  0.02 kB\r\ndist/assets/index-DOSUSMp3.js   220.47 kB \u2502 gzip: 68.94 kB\r\n\r\n\u001B[32m\u2713 built in 186ms\u001B[39m\r\n",
+        "durationMs": 2886
+      },
+      {
+        "name": "tests-pass",
+        "kind": "process",
+        "verificationMethod": "test-results",
+        "passed": true,
+        "timedOut": false,
+        "skipped": false,
+        "skippedReason": null,
+        "exitCode": 0,
+        "outputSample": "npm warn Unknown env config \u0022scripts-prepend-node-path\u0022. This will stop working in the next major version of npm.\r\n\r\n\u003E spotifyclient@0.0.0 test\r\n\u003E vitest run\r\n\r\n\r\n RUN  v5.0.5 C:/Users/geral/OneDrive/Escritorio/DAW2/entorn-client/REACT/spotifyClient\r\n\r\n\r\n Test Files  1 passed (1)\r\n      Tests  2 passed (2)\r\n   Start at  19:02:44\r\n   Duration  404ms (transform 48%, import 31%, tests 17%, worker 4%)\r\n\r\n",
+        "durationMs": 1641,
+        "testResults": {
+          "testFramework": "vitest",
+          "runnerDetectedFrom": "package_json",
+          "testsTotal": 2,
+          "testsPassed": 2,
+          "testsFailed": 0,
+          "testsSkipped": 0,
+          "parseFailed": false
+        }
+      },
+      {
+        "name": "lint-pass",
+        "kind": "process",
+        "verificationMethod": "exit-code",
+        "passed": true,
+        "timedOut": false,
+        "skipped": false,
+        "skippedReason": null,
+        "exitCode": 0,
+        "outputSample": "npm warn Unknown env config \u0022scripts-prepend-node-path\u0022. This will stop working in the next major version of npm.\r\n\r\n\u003E spotifyclient@0.0.0 lint\r\n\u003E oxlint\r\n\r\nsrc/App.tsx:11:37: warning react(purity): Cannot call impure function during render help: \u0060Math.random\u0060 is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component re-renders\r\nsrc/App.tsx:16:33: warning react(purity): Cannot call impure function during render help: \u0060Math.random\u0060 is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component re-renders\r\nsrc/components/Header.tsx:4:36: warning react(purity): Cannot call impure function during render help: \u0060Math.random\u0060 is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component re-renders\r\nsrc/components/Header.tsx:11:18: warning react(purity): Cannot call impure function during render help: \u0060Date\u0060 is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component re-renders\r\n",
+        "durationMs": 630
+      },
+      {
+        "name": "vite-serves-home",
+        "kind": "http-probe",
+        "verificationMethod": "http-status",
+        "passed": true,
+        "timedOut": false,
+        "skipped": false,
+        "skippedReason": null,
+        "exitCode": null,
+        "outputSample": "HTTP 200\n\u003C!doctype html\u003E\n\u003Chtml lang=\u0022en\u0022\u003E\n  \u003Chead\u003E\n    \u003Cscript type=\u0022module\u0022\u003Eimport { injectIntoGlobalHook } from \u0022/@react-refresh\u0022;\ninjectIntoGlobalHook(window);\nwindow.$RefreshReg$ = () =\u003E {};\nwindow.$RefreshSig$ = () =\u003E (type) =\u003E type;\u003C/script\u003E\n\n    \u003Cscript type=\u0022module\u0022 src=\u0022/@vite/client\u0022\u003E\u003C/script\u003E\n\n    \u003Cmeta charset=\u0022UTF-8\u0022 /\u003E\n    \u003Clink rel=\u0022icon\u0022 type=\u0022image/svg\u002Bxml\u0022 href=\u0022/favicon.svg\u0022 /\u003E\n    \u003Cmeta name=\u0022viewport\u0022 content=\u0022width=device-width, initial-scale=1.0\u0022 /\u003E\n    \u003Ctitle\u003Espotifyclient\u003C/title\u003E\n  \u003C/head\u003E\n  \u003Cbody\u003E\n    \u003Cdiv id=\u0022root\u0022\u003E\u003C/div\u003E\n    \u003Cscript type=\u0022module\u0022 src=\u0022/src/main.tsx\u0022\u003E\u003C/script\u003E\n  \u003C/body\u003E\n\u003C/html\u003E\n\n--- server output ---\nnpm warn Unknown env config \u0022scripts-prepend-node-path\u0022. This will stop working in the next major version of npm.\r\n\r\n\u003E spotifyclient@0.0.0 dev\r\n\u003E vite --host 127.0.0.1\r\n\r\n\r\n  \u001B[32m\u001B[1mVITE\u001B[22m v8.3.5\u001B[39m  \u001B[2mready in \u001B[0m\u001B[1m338\u001B[22m\u001B[2m\u001B[0m ms\u001B[22m\r\n\r\n  \u001B[32m\u279C\u001B[39m  \u001B[1mLocal\u001B[22m:   \u001B[36mhttp://127.0.0.1:\u001B[1m5173\u001B[22m/\u001B[39m\r\n",
+        "durationMs": 1085
+      },
+      {
+        "name": "vite-transforms-app-entry",
+        "kind": "http-probe",
+        "verificationMethod": "http-status",
+        "passed": true,
+        "timedOut": false,
+        "skipped": false,
+        "skippedReason": null,
+        "exitCode": null,
+        "outputSample": "HTTP 200\nconst StrictMode = __vite__cjsImport0_react[\u0022StrictMode\u0022];const createRoot = __vite__cjsImport1_reactDom_client[\u0022createRoot\u0022];const _jsxDEV = __vite__cjsImport4_react_jsxDevRuntime[\u0022jsxDEV\u0022];import __vite__cjsImport0_react from \u0022/node_modules/.vite/deps/react.js?v=61c43076\u0022;\nimport __vite__cjsImport1_reactDom_client from \u0022/node_modules/.vite/deps/react-dom_client.js?v=2674b56a\u0022;\nimport \u0022/src/index.css\u0022;\nimport App from \u0022/src/App.tsx\u0022;\nvar _jsxFileName = \u0022C:/Users/geral/OneDrive/Escritorio/DAW2/entorn-client/REACT/spotifyClient/src/main.tsx\u0022;\nimport __vite__cjsImport4_react_jsxDevRuntime from \u0022/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=61c43076\u0022;\ncreateRoot(document.getElementById(\u0022root\u0022)).render(/* @__PURE__ */ _jsxDEV(StrictMode, { children: /* @__PURE__ */ _jsxDEV(App, {}, void 0, false, {\n\tfileName: _jsxFileName,\n\tlineNumber: 8,\n\tcolumnNumber: 5\n}, this) }, void 0, false, {\n\tfileName: _jsxFileName,\n\tlineNumber: 7,\n\tcolumnNumber: 3\n}, this));\n\n//# sourceMappingURL=data:application/json;base64,eyJtYXBwaW5ncyI6IkFBQUEsU0FBUyxrQkFBa0I7QUFDM0IsU0FBUyxrQkFBa0I7QUFDM0IsT0FBTztBQUNQLE9BQU8sU0FBUzs7O0FBRWhCLFdBQVcsU0FBUyxlQUFlLE1BQU0sQ0FBRSxDQUFDLENBQUMsT0FDM0Msd0JBQUMsWUFBRCxZQUNFLHdCQUFDLEtBQUQsQ0FBTTs7OztTQUNJOzs7O1FBQ2QiLCJuYW1lcyI6W10sInNvdXJjZXMiOlsibWFpbi50c3giXSwidmVyc2lvbiI6Mywic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgU3RyaWN0TW9kZSB9IGZyb20gJ3JlYWN0J1xuaW1wb3J0IHsgY3JlYXRlUm9vdCB9IGZyb20gJ3JlYWN0LWRvbS9jbGllbnQnXG5pbXBvcnQgJy4vaW5kZXguY3NzJ1xuaW1wb3J0IEFwcCBmcm9tICcuL0FwcC50c3gnXG5cbmNyZWF0ZVJvb3QoZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3Jvb3QnKSEpLnJlbmRlcihcbiAgPFN0cmljdE1vZGU\u002BXG4gICAgPEFwcCAvPlxuICA8L1N0cmljdE1vZGU\u002BLFxuKVxuIl19\n--- server output ---\nnpm warn Unknown env config \u0022scripts-prepend-node-path\u0022. This will stop working in the next major version of npm.\r\n\r\n\u003E spotifyclient@0.0.0 dev\r\n\u003E vite --host 127.0.0.1\r\n\r\n\r\n  \u001B[32m\u001B[1mVITE\u001B[22m v8.3.5\u001B[39m  \u001B[2mready in \u001B[0m\u001B[1m348\u001B[22m\u001B[2m\u001B[0m ms\u001B[22m\r\n\r\n  \u001B[32m\u279C\u001B[39m  \u001B[1mLocal\u001B[22m:   \u001B[36mhttp://127.0.0.1:\u001B[1m5173\u001B[22m/\u001B[39m\r\n",
+        "durationMs": 1070
+      }
+    ],
+    "executions": [
+      {
+        "source": "setup[0]",
+        "resolvedExecutable": "C:\\Program Files\\npm.cmd",
+        "args": [
+          "ci"
+        ],
+        "cwd": "C:\\Users\\geral\\OneDrive\\Escritorio\\DAW2\\entorn-client\\REACT\\spotifyClient",
+        "env": {},
+        "prependPath": [],
+        "platform": "win32",
+        "nodeExecutable": "C:\\Program Files\\node.EXE",
+        "nodeVersion": "v24.12.0",
+        "packageManager": "npm",
+        "packageManagerExecutable": "C:\\Program Files\\npm.cmd",
+        "packageManagerVersion": "11.7.0",
+        "cleanup": {
+          "RootProcessId": 6448,
+          "Completed": true,
+          "ProcessesObserved": 5,
+          "ProcessesTerminated": 0,
+          "Failure": null
+        }
+      },
+      {
+        "source": "production-build",
+        "resolvedExecutable": "C:\\Program Files\\npm.cmd",
+        "args": [
+          "run",
+          "build"
+        ],
+        "cwd": "C:\\Users\\geral\\OneDrive\\Escritorio\\DAW2\\entorn-client\\REACT\\spotifyClient",
+        "env": {},
+        "prependPath": [],
+        "platform": "win32",
+        "nodeExecutable": "C:\\Program Files\\node.EXE",
+        "nodeVersion": "v24.12.0",
+        "packageManager": "npm",
+        "packageManagerExecutable": "C:\\Program Files\\npm.cmd",
+        "packageManagerVersion": "11.7.0",
+        "cleanup": {
+          "RootProcessId": 11644,
+          "Completed": true,
+          "ProcessesObserved": 11,
+          "ProcessesTerminated": 1,
+          "Failure": null
+        }
+      },
+      {
+        "source": "tests-pass",
+        "resolvedExecutable": "C:\\Program Files\\npm.cmd",
+        "args": [
+          "test"
+        ],
+        "cwd": "C:\\Users\\geral\\OneDrive\\Escritorio\\DAW2\\entorn-client\\REACT\\spotifyClient",
+        "env": {},
+        "prependPath": [],
+        "platform": "win32",
+        "nodeExecutable": "C:\\Program Files\\node.EXE",
+        "nodeVersion": "v24.12.0",
+        "packageManager": "npm",
+        "packageManagerExecutable": "C:\\Program Files\\npm.cmd",
+        "packageManagerVersion": "11.7.0",
+        "cleanup": {
+          "RootProcessId": 20744,
+          "Completed": true,
+          "ProcessesObserved": 11,
+          "ProcessesTerminated": 1,
+          "Failure": null
+        }
+      },
+      {
+        "source": "lint-pass",
+        "resolvedExecutable": "C:\\Program Files\\npm.cmd",
+        "args": [
+          "run",
+          "lint"
+        ],
+        "cwd": "C:\\Users\\geral\\OneDrive\\Escritorio\\DAW2\\entorn-client\\REACT\\spotifyClient",
+        "env": {},
+        "prependPath": [],
+        "platform": "win32",
+        "nodeExecutable": "C:\\Program Files\\node.EXE",
+        "nodeVersion": "v24.12.0",
+        "packageManager": "npm",
+        "packageManagerExecutable": "C:\\Program Files\\npm.cmd",
+        "packageManagerVersion": "11.7.0",
+        "cleanup": {
+          "RootProcessId": 19368,
+          "Completed": true,
+          "ProcessesObserved": 7,
+          "ProcessesTerminated": 1,
+          "Failure": null
+        }
+      },
+      {
+        "source": "vite-serves-home",
+        "resolvedExecutable": "C:\\Program Files\\npm.cmd",
+        "args": [
+          "run",
+          "dev",
+          "--",
+          "--host",
+          "127.0.0.1"
+        ],
+        "cwd": "C:\\Users\\geral\\OneDrive\\Escritorio\\DAW2\\entorn-client\\REACT\\spotifyClient",
+        "env": {},
+        "prependPath": [],
+        "platform": "win32",
+        "nodeExecutable": "C:\\Program Files\\node.EXE",
+        "nodeVersion": "v24.12.0",
+        "packageManager": "npm",
+        "packageManagerExecutable": "C:\\Program Files\\npm.cmd",
+        "packageManagerVersion": "11.7.0",
+        "cleanup": {
+          "RootProcessId": 12100,
+          "Completed": true,
+          "ProcessesObserved": 10,
+          "ProcessesTerminated": 5,
+          "Failure": null
+        }
+      },
+      {
+        "source": "vite-transforms-app-entry",
+        "resolvedExecutable": "C:\\Program Files\\npm.cmd",
+        "args": [
+          "run",
+          "dev",
+          "--",
+          "--host",
+          "127.0.0.1"
+        ],
+        "cwd": "C:\\Users\\geral\\OneDrive\\Escritorio\\DAW2\\entorn-client\\REACT\\spotifyClient",
+        "env": {},
+        "prependPath": [],
+        "platform": "win32",
+        "nodeExecutable": "C:\\Program Files\\node.EXE",
+        "nodeVersion": "v24.12.0",
+        "packageManager": "npm",
+        "packageManagerExecutable": "C:\\Program Files\\npm.cmd",
+        "packageManagerVersion": "11.7.0",
+        "cleanup": {
+          "RootProcessId": 9100,
+          "Completed": true,
+          "ProcessesObserved": 10,
+          "ProcessesTerminated": 5,
+          "Failure": null
+        }
+      }
+    ]
+  }
+}

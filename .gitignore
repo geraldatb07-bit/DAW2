@@ -1,4 +1,6 @@
 node_modules/
 /entorn-servidor/spotify-api/dist/
-DB
+/entorn-servidor/spotify-api/docker/DB/*.bin
+/entorn-servidor/spotify-api/docker/DB/*.mdf
+/entorn-servidor/spotify-api/docker/DB/*.ldf
 .env
