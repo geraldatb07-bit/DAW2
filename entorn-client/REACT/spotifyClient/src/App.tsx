@@ -97,7 +97,6 @@ function App() {
 
   return (
     <>
-
         <main>
             <table>
                 <thead>
@@ -128,10 +127,7 @@ function App() {
           ></PlayingCard>
             </aside>
         </main>
-    
     </>
-
-
   )
 
 }

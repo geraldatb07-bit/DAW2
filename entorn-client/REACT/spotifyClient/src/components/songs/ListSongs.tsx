@@ -4,9 +4,8 @@ import type { SongListProps } from "./Types/SongListProps";
 
 
 const ListSongs = (props: SongListProps) => {
-return (
+    return (
     <>
-        props.map(
         {
             props.tracks.map(
                 (t: Track) => {
@@ -17,12 +16,10 @@ return (
                         duration={t.duration}
                     />
                 }
-            )
+            ) 
         }
-        )
-    
     </>
-)
+    )
 
 }
 
