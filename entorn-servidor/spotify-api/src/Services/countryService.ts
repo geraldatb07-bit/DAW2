@@ -9,10 +9,18 @@ import { TrackBD } from "../interfaces/track/trackBD";
 import { successService as SuccessService } from "../interfaces/error/SuccessService";
 import { createSuccessService } from "../interfaces/error/createSuccessService";
 import { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
+import sql, { ConnectionPool, IResult } from "mssql";
+import { getConnection } from "../config/database";
 
 
-export function getAllCountries(): CountryBD[] {
-    return countries;
+export async function getAllCountries(): Promise<CountryBD[]> {
+    const pool: ConnectionPool = await getConnection();
+        const request: sql.Request = pool.request();
+    
+        const queryText: string = `Select * from Track`;
+        const result: IResult<CountryBD> = await request.query(queryText);
+        return result.recordset;
+    
 }
 
 export function getCountryById(id: string): CountryBD | undefined {

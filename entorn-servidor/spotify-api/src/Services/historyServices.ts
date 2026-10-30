@@ -7,9 +7,19 @@ import { HistoryBD } from "../interfaces/history/historyBD";
 import { isValidHistory } from "../validators/historyValidator";
 import { createSuccessService } from "../interfaces/error/createSuccessService";
 import { History } from "../interfaces/history/history";
+import sql, { ConnectionPool, IResult } from "mssql";
+import { getConnection } from "../config/database";
+import { TrackBD } from "../interfaces/track/trackBD";
 
-export function getAllHistories(): HistoryBD[] {
-    return histories;
+
+export async function getAllHistories(): Promise<HistoryBD[]> {
+    const pool: ConnectionPool = await getConnection();
+        const request: sql.Request = pool.request();
+    
+        const queryText: string = `Select * from Track`;
+        const result: IResult<HistoryBD> = await request.query(queryText);
+        return result.recordset;
+    
 }
 
 export function getHistoryById(id: string): HistoryBD | undefined {

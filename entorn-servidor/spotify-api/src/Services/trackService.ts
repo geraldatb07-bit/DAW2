@@ -45,7 +45,6 @@ export async function getTrackById(idTrack: string): Promise<selectSuccessServic
     }
 }
 
-
 export async function createTrack(track: Track): Promise<createSuccessService<number> | errorService> {
     if (!isValidTrack(track)) {
         return { success: false, code: 400, message: "Invalid data." };
@@ -63,7 +62,6 @@ export async function createTrack(track: Track): Promise<createSuccessService<nu
     request.input("duration", sql.Numeric, track.duration);
 
     const result: IResult<number> = await request.query(queryText);
-    console.log(result);
     return {
         success: true,
         code: 201,

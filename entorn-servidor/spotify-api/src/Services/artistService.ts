@@ -8,9 +8,19 @@ import type { deleteSuccessService } from "../interfaces/error/deleteSuccessServ
 import { errorService } from "../interfaces/error/errorService";
 import { artists } from "../data/artist/artist.data";
 import { successService } from "../interfaces/error/SuccessService";
+import sql, { ConnectionPool, IResult } from "mssql";
+import { getConnection } from "../config/database";
+import { TrackBD } from "../interfaces/track/trackBD";
 
-export function getAllArtist(): ArtistBD[] {
-    return artists;
+
+export async function getAllArtist(): Promise<ArtistBD[]> {
+    const pool: ConnectionPool = await getConnection();
+        const request: sql.Request = pool.request();
+    
+        const queryText: string = `Select * from Track`;
+        const result: IResult<ArtistBD> = await request.query(queryText);
+        return result.recordset;
+    
 }
 
 export function getArtistById(idArtist: string): ArtistBD | undefined {

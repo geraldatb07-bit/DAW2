@@ -1,4 +1,4 @@
-import { app } from "./app";
+import { app } from "./appSpoty";
 import { APICONFIG } from "./config/apiConfig";
 
 app.listen(APICONFIG.port, APICONFIG.host, () => {

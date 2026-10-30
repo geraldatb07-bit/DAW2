@@ -6,10 +6,20 @@ import { errorService } from "../interfaces/error/errorService";
 import { successService } from "../interfaces/error/SuccessService";
 import { isValidAlbumTrack } from "../validators/albumTrack.validator";
 import { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
+import { getConnection } from "../config/database";
+import { ConnectionPool, IResult } from "mssql";
+import sql from "mssql";
 
-export function getAllAlbumTracks(): AlbumTrackBD[] {
-    return albumTracks;
+
+export async function getAllAlbumTracks(): Promise<AlbumTrackBD[]> {
+    const pool: ConnectionPool = await getConnection();
+        const request: sql.Request = pool.request();
+    
+        const queryText: string = `Select * from Track`;
+        const result: IResult<AlbumTrackBD> = await request.query(queryText);
+        return result.recordset;
 }
+
 
 
 

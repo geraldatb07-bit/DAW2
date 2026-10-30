@@ -6,9 +6,18 @@ import type { PlaylistTrackBD } from "../interfaces/playlistTrack/playlistTracks
 import type { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
 import type { errorService } from "../interfaces/error/errorService";
 import type { successService } from "../interfaces/error/SuccessService";
+import sql, { ConnectionPool, IResult } from "mssql";
+import { getConnection } from "../config/database";
+import { TrackBD } from "../interfaces/track/trackBD";
 
-export function getAllPlaylistTracks(): PlaylistTrackBD[] {
-    return playlistTracks;
+
+export async function getAllPlaylistTracks(): Promise<PlaylistTrackBD[]> {
+    const pool: ConnectionPool = await getConnection();
+        const request: sql.Request = pool.request();
+    
+        const queryText: string = `Select * from Track`;
+        const result: IResult<PlaylistTrackBD> = await request.query(queryText);
+        return result.recordset;
 }
 
 export function getPlaylistTrackById(idPlaylistTrack: string): PlaylistTrackBD | undefined {
