@@ -141,6 +141,9 @@ function App() {
           ></PlayingCard>
         </aside>
         </main>
+
+
+        
     </>
   )
 

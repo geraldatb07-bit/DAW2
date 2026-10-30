@@ -3,8 +3,8 @@ import { createArtist, deleteArtist, getAllArtist, getArtistById, updateArtist }
     from "../services/artistService";
 import type { Artist } from "../interfaces/artist/artist";
 
-export function getAllArtistsController(_req: Request, res: Response): Response {
-    return res.status(200).json(getAllArtist());
+export async function getAllArtistsController(_req: Request, res: Response): Promise<Response> {
+    return res.status(200).json(await getAllArtist());
 }
 
 export function getArtistByIdController(req: Request, res: Response): Response {

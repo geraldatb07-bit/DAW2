@@ -4,6 +4,7 @@ import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vites
 import type { Server } from "node:http";
 import { albumTrackRouter } from "../routes/albumTrackRoutes";
 import { historyRouter } from "../routes/historyRoutes";
+import { isValidArtist } from "../validators/artist.validator";
 
 const serviceMocks = vi.hoisted(() => ({
     getAllTracks: vi.fn(),
@@ -49,7 +50,7 @@ vi.mock("../src/services/trackService", () => ({
     updateTrack: serviceMocks.updateTrack,
     deleteTrack: serviceMocks.deleteTrack,
 }));
-vi.mock("../src/services/artistService", () => ({
+vi.mock("../services/artistService", () => ({
     getAllArtist: serviceMocks.getAllArtist,
     getArtistById: serviceMocks.getArtistById,
     createArtist: serviceMocks.createArtist,
@@ -96,7 +97,7 @@ vi.mock("../src/services/albumTrackServices", () => ({
 import { app } from "../appSpoty";
 
 const track = { id: "track-1", title: "Example track", artist: "artist-1", duration: 180 };
-const artist = { id: "artist-1", nom: "Example artist", pseudonim: "Example", pais: "França" };
+const artist = { id: "artist-1", nom: "Example artist", pseudonim: "Example", pais: { countryName: "França" } };
 const user = { id: "user-1", email: "user@example.com", country: { countryName: "França" } };
 const playlist = { id: "playlist-1", title: "Example playlist", user };
 
@@ -135,7 +136,7 @@ beforeEach(() => {
     serviceMocks.updateTrack.mockResolvedValue({ success: false, code: 404, message: "Track not found" });
     serviceMocks.deleteTrack.mockResolvedValue({ success: false, code: 404, message: "Track not found" });
 
-    serviceMocks.getAllArtist.mockReturnValue([artist]);
+    serviceMocks.getAllArtist.mockResolvedValue([artist]);
     serviceMocks.getArtistById.mockReturnValue(artist);
     serviceMocks.createArtist.mockReturnValue({ success: false, code: 400, message: "Invalid data." });
     serviceMocks.updateArtist.mockReturnValue({ success: false, code: 404, message: "Artist not found" });
@@ -188,6 +189,14 @@ async function request(path: string, method = "GET", body?: unknown) {
 }
 
 describe("API entry point and read routes", () => {
+    it("accepts artist data with a known country", () => {
+        expect(isValidArtist({
+            nom: "Example artist",
+            pseudonim: "Example",
+            pais: { countryName: "França" }
+        })).toBe(true);
+    });
+
     it("returns the API configuration as JSON", async () => {
         const { response, payload } = await request("/");
 
