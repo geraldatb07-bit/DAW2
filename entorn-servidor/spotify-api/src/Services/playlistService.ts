@@ -9,10 +9,20 @@ import type { Playlist } from "../interfaces/playlist/playlist";
 import type { PlaylistBD } from "../interfaces/playlist/playlistBD";
 import { UserBD } from "../interfaces/User/userBD";
 import { isValidPlaylist } from "../validators/playlist.validator";
+import sql, { ConnectionPool, IResult } from "mssql";
+import { getConnection } from "../config/database";
+import { TrackBD } from "../interfaces/track/trackBD";
 
 
-export function getAllPlaylists(): PlaylistBD[] {
-    return playlists;
+
+export async function getAllPlaylists(): Promise<PlaylistBD[]> {
+    const pool: ConnectionPool = await getConnection();
+        const request: sql.Request = pool.request();
+    
+        const queryText: string = `Select * from Track`;
+        const result: IResult<PlaylistBD> = await request.query(queryText);
+        return result.recordset;
+    
 }
 
 export function getPlaylistById(idPlaylist: string): PlaylistBD | undefined {

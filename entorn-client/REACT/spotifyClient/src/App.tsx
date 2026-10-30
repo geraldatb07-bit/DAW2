@@ -6,8 +6,6 @@ import SongCard from './components/songs/SongCard';
 import type { Like } from './components/songs/Types/likes';
 import HeaderCard from './components/header/HeaderCard';
 import PlayingCard from './components/playing/PlayingCard';
-import type { Track } from './Model/Track';
-import SongRow from './components/songs/SongRow';
 import ListSongs from './components/songs/ListSongs';
 
 const totalTracks: number = tracks.length;

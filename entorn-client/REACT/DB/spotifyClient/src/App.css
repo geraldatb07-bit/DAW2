@@ -10,3 +10,10 @@
     align-items: center;
     gap: 2rem;
 }
+
+table {
+    border: 1ps solid black;
+    padding: 5px;
+    position: absolute;
+    right: 50px;
+}
