@@ -8,6 +8,7 @@ import HeaderCard from './components/header/HeaderCard';
 import PlayingCard from './components/playing/PlayingCard';
 import type { Track } from './Model/Track';
 import SongRow from './components/songs/SongRow';
+import ListSongs from './components/songs/ListSongs';
 
 const totalTracks: number = tracks.length;
 
@@ -103,17 +104,7 @@ function App() {
                     <title>ListSong</title>
                 </thead>
                 <tbody>
-                    {
-                      tracks.map(
-                          (t:Track) => {
-                            return <SongRow
-                                      title={t.title}
-                                      artist={t.artist}
-                                      duration={t.duration} 
-                                      />
-                          }
-                      )
-                    }
+                  <ListSongs tracks={tracks} />
                 </tbody>
             </table>
             <aside>
