@@ -1,6 +1,6 @@
 import { albums } from "../data/album/album.data";
 import { tracks } from "../data/track/track.data";
-import { AlbumBD } from "../interfaces/album/albumBD";
+import { AlbumBD } from "../interfaces/Album/albumBD";
 import { AlbumTrack } from "../interfaces/albumTracks/albumTracks";
 import { MAXARTIST, MAXTITOL } from "../interfaces/track/track.constants";
 import { TrackBD } from "../interfaces/track/trackBD";

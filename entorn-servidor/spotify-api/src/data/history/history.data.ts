@@ -1,3 +1,3 @@
-import { HistoryBD } from "../../interfaces/history/historyBD";
+import { HistoryBD } from "../../interfaces/History/historyBD";
 
 export const histories: HistoryBD[] = [];

@@ -1,3 +1,3 @@
-import { AlbumBD } from "../../interfaces/album/albumBD";
+import { AlbumBD } from "../../interfaces/Album/albumBD";
 
 export const albums: AlbumBD[] = []

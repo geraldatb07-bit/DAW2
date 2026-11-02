@@ -3,7 +3,7 @@ import { users } from "../data/user/user.data";
 import { MAXARTIST, MAXTITOL } from "../interfaces/track/track.constants";
 import { TrackBD } from "../interfaces/track/trackBD";
 import { UserBD } from "../interfaces/User/userBD";
-import { History } from "../interfaces/history/history";
+import { History } from "../interfaces/History/history";
 
 
 export function isValidHistory(history: History): boolean {

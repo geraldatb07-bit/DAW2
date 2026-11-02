@@ -1,4 +1,4 @@
-import { PlaylistBD } from "../../interfaces/playlist/playlistBD";
+import { PlaylistBD } from "../../interfaces/Playlist/playlistBD";
 
 
 export const playlists: PlaylistBD[] = [];
