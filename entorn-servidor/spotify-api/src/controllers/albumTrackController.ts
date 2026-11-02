@@ -1,41 +1,42 @@
-import { albumTracks } from "../data/albumTracks/albumTracks.data";
+import { Request, Response } from "express";
+import { createAlbumTrack, deleteAlbumTrack, getAllAlbumTracks, getAlbumTrackById } from "../Services/albumTrackServices";
+import { AlbumTrack } from "../interfaces/albumTracks/albumTracks";
 import { AlbumTrackBD } from "../interfaces/albumTracks/albumTracksBD";
+import { createSuccessService } from "../interfaces/error/createSuccessService";
 import { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
 import { errorService } from "../interfaces/error/errorService";
-import { successService } from "../interfaces/error/selectSuccessService";
-import { getAllAlbumTracks, createAlbumTrack, deleteAlbumTrack } from "../Services/albumTrackServices";
-import { Response, Request } from "express";
+import { selectSuccessService } from "../interfaces/error/selectSuccesService";
 
-export function getAllAlbumTracksController(_req: Request, res: Response): Response {
-    return res.status(200).json(getAllAlbumTracks())
+export async function getAllAlbumTracksController(_req: Request, res: Response): Promise<Response> {
+    const albumTracksBD: AlbumTrackBD[] = await getAllAlbumTracks();
+    return res.status(200).json(albumTracksBD);
 }
 
-export function postAlbumTrackController(req: Request, res: Response): Response {
-    const result: successService<AlbumTrackBD> | errorService = createAlbumTrack(req.body);
+export async function getAlbumTrackByIdController(req: Request, res: Response): Promise<Response> {
+    const result: selectSuccessService<AlbumTrackBD> | errorService = await getAlbumTrackById(req.params.id as string);
+
+    if (!result.success) {
+        return res.status(result.code).json({ message: (result as errorService).message });
+    }
+    return res.status(200).json(result);
+}
+
+export async function postAlbumTrackController(req: Request, res: Response): Promise<Response> {
+    const result: createSuccessService<number> | errorService = await createAlbumTrack(req.body as AlbumTrack);
 
     if (!result.success) {
         const errorResult = result as errorService;
-        return res.status(result.code).json({ message: errorResult.message });
+        return res.status(errorResult.code).json({ message: errorResult.message });
     }
-
-
-    albumTracks.push((result as successService<AlbumTrackBD>).data);
-
-    return res.status(201).json(result);
+    return res.status(result.code).json(result);
 }
 
-export function deleteAlbumTrackController(req: Request, res: Response): Response {
-
-
-    const result: deleteSuccessService | errorService = deleteAlbumTrack(req.body);
+export async function deleteAlbumTrackController(req: Request, res: Response): Promise<Response> {
+    const result: deleteSuccessService | errorService = await deleteAlbumTrack(req.params.id as string);
 
     if (!result.success) {
         const errorResult = result as errorService;
-        return res.status(result.code).json({ message: errorResult.message });
+        return res.status(errorResult.code).json({ message: errorResult.message });
     }
-
-    const index: number = (result as deleteSuccessService).index;
-    albumTracks.splice(index, 1);
-
-    return res.status(204).json({ message: `ElbumTruck delated` });
+    return res.status(result.code).send();
 }

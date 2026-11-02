@@ -1,68 +1,53 @@
-
-
-import { Response, Request } from "express";
-import { histories } from "../data/history/history.data";
+import { Request, Response } from "express";
+import { createHistory, deleteHistory, getAllHistories, getHistoryById, putHistory } from "../Services/historyServices";
+import { History } from "../interfaces/History/history";
+import { HistoryBD } from "../interfaces/History/historyBD";
+import { createSuccessService } from "../interfaces/error/createSuccessService";
 import { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
 import { errorService } from "../interfaces/error/errorService";
-import { successService } from "../interfaces/error/selectSuccessService";
-import { HistoryBD } from "../interfaces/history/historyBD";
-import { getAllHistories, getHistoryById, createHistory, putHistory, deleteHistory } from "../Services/historyServices";
-import { createSuccessService } from "../interfaces/error/createSuccessService";
+import { selectSuccessService } from "../interfaces/error/selectSuccesService";
+import { updateSuccessService } from "../interfaces/error/updateSuccessService";
 
-export function getAllHistoriesController(_req: Request, res: Response): Response {
-    return res.status(200).json(getAllHistories());
+export async function getAllHistoriesController(_req: Request, res: Response): Promise<Response> {
+    const historiesBD: HistoryBD[] = await getAllHistories();
+    return res.status(200).json(historiesBD);
 }
 
-export function getHistoryByIdController(req: Request, res: Response): Response {
-
-
-    const findHistory: HistoryBD | undefined = getHistoryById(req.params.id as string);
-
-    if (!findHistory) {
-        return res.status(404).json({ message: `History ${findHistory} not found lol` });
-    }
-    return res.status(200).json(findHistory);
-}
-
-export function postHistoryController(req: Request, res: Response): Response {
-    const result: successService<HistoryBD> | errorService = createHistory(req.body);
+export async function getHistoryByIdController(req: Request, res: Response): Promise<Response> {
+    const result: selectSuccessService<HistoryBD> | errorService = await getHistoryById(req.params.id as string);
 
     if (!result.success) {
-        const errorResult = result as errorService;
-        return res.status(result.code).json({ message: errorResult.message });
+        return res.status(result.code).json({ message: (result as errorService).message });
     }
-
-
-    histories.push((result as successService<HistoryBD>).data);
-    return res.status(201).json(result);
-}
-
-export function putHistoryController(req: Request, res: Response): Response {
-    const result: successService<HistoryBD> | errorService = putHistory(req.body, req.params.id);
-
-    if (!result.success) {
-        const errorResult = result as errorService;
-        return res.status(result.code).json({ message: errorResult.message });
-    }
-
-    const index: number = (result as createSuccessService<HistoryBD>).index;
-    histories[index] = (result as createSuccessService<HistoryBD>).data;
-
-
     return res.status(200).json(result);
 }
 
-export function deleteHistoryController(req: Request, res: Response): Response {
-
-    const result: deleteSuccessService | errorService = deleteHistory(req.params.id as string);
+export async function postHistoryController(req: Request, res: Response): Promise<Response> {
+    const result: createSuccessService<number> | errorService = await createHistory(req.body as History);
 
     if (!result.success) {
         const errorResult = result as errorService;
-        return res.status(result.code).json({ message: errorResult.message });
+        return res.status(errorResult.code).json({ message: errorResult.message });
     }
+    return res.status(result.code).json(result);
+}
 
-    const index: number = (result as deleteSuccessService).index;
-    histories.splice(index, 1);
+export async function putHistoryController(req: Request, res: Response): Promise<Response> {
+    const result: updateSuccessService<number> | errorService = await putHistory(req.body as History, req.params.id as string);
 
-    return res.status(204).json({ message: `His story delated` });
+    if (!result.success) {
+        const errorResult = result as errorService;
+        return res.status(errorResult.code).json({ message: errorResult.message });
+    }
+    return res.status(result.code).json(result);
+}
+
+export async function deleteHistoryController(req: Request, res: Response): Promise<Response> {
+    const result: deleteSuccessService | errorService = await deleteHistory(req.params.id as string);
+
+    if (!result.success) {
+        const errorResult = result as errorService;
+        return res.status(errorResult.code).json({ message: errorResult.message });
+    }
+    return res.status(result.code).send();
 }

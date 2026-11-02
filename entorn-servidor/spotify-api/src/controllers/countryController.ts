@@ -1,64 +1,53 @@
-import { Response, Request } from "express";
-import { createCountry, getCountryById, putCountry } from "../Services/countryService";
-import { createSuccessService } from "../interfaces/error/createSuccessService";
-import { randomUUID } from "crypto";
-import { countries } from "../data/country/country.data";
+import { Request, Response } from "express";
+import { createCountry, deleteCountry, getAllCountries, getCountryById, putCountry } from "../Services/countryService";
 import { Country } from "../interfaces/Country/country";
-import { isValidCountry } from "../validators/country.validator";
 import { CountryBD } from "../interfaces/Country/countryBD";
+import { createSuccessService } from "../interfaces/error/createSuccessService";
+import { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
 import { errorService } from "../interfaces/error/errorService";
-import { successService } from "../interfaces/error/selectSuccessService";
+import { selectSuccessService } from "../interfaces/error/selectSuccesService";
+import { updateSuccessService } from "../interfaces/error/updateSuccessService";
 
-export function getAllCountryController(_req: Request, res: Response): Response {
-    return res.status(200).json(countries);
+export async function getAllCountriesController(_req: Request, res: Response): Promise<Response> {
+    const countriesBD: CountryBD[] = await getAllCountries();
+    return res.status(200).json(countriesBD);
 }
 
-export function getCountryByIdController(req: Request, res: Response): Response {
-    const findCountry: CountryBD | undefined = getCountryById(req.params.id as string);
+export async function getCountryByIdController(req: Request, res: Response): Promise<Response> {
+    const result: selectSuccessService<CountryBD> | errorService = await getCountryById(req.params.id as string);
 
-    if (findCountry) {
-        return res.status(404).json({ message: `Track ${findCountry} not found lol` });
-    }
-    return res.status(200).json(findCountry);
-}
-
-export function postCountryController(req: Request, res: Response): Response {
-    const result: successService<CountryBD> | errorService = createCountry(req.body);
     if (!result.success) {
-        const errorResult = result as errorService;
-        return res.status(result.code).json({ message: errorResult.message });
+        return res.status(result.code).json({ message: (result as errorService).message });
     }
-
-    countries.push((result as successService<CountryBD>).data);
-    return res.status(201).json(result);
+    return res.status(200).json(result);
 }
 
-export function putCountryController(req: Request, res: Response): Response {
-    const result: createSuccessService<CountryBD> | errorService = putCountry(req.body, req.params.id);
+export async function postCountryController(req: Request, res: Response): Promise<Response> {
+    const result: createSuccessService<number> | errorService = await createCountry(req.body as Country);
 
     if (!result.success) {
         const errorResult = result as errorService;
-        return res.status(result.code).json({ message: errorResult.message });
+        return res.status(errorResult.code).json({ message: errorResult.message });
     }
-
-    const index: number = (result as createSuccessService<CountryBD>).index;
-    countries[index] = (result as createSuccessService<CountryBD>).data;
-
-
-    return res.status(200).json(countries[index]);
+    return res.status(result.code).json(result);
 }
 
-export function deleteCountryController(req: Request, res: Response): Response {
-    const result: createSuccessService<CountryBD> | errorService = putCountry(req.body, req.params.id);
+export async function putCountryController(req: Request, res: Response): Promise<Response> {
+    const result: updateSuccessService<number> | errorService = await putCountry(req.body as Country, req.params.id as string);
 
     if (!result.success) {
         const errorResult = result as errorService;
-        return res.status(result.code).json({ message: errorResult.message });
+        return res.status(errorResult.code).json({ message: errorResult.message });
     }
+    return res.status(result.code).json(result);
+}
 
-    const index: number = (result as createSuccessService<CountryBD>).index;
+export async function deleteCountryController(req: Request, res: Response): Promise<Response> {
+    const result: deleteSuccessService | errorService = await deleteCountry(req.params.id as string);
 
-    countries.splice(index, 1);
-
-    return res.status(204).json({ message: `Truck delated` });
+    if (!result.success) {
+        const errorResult = result as errorService;
+        return res.status(errorResult.code).json({ message: errorResult.message });
+    }
+    return res.status(result.code).send();
 }
