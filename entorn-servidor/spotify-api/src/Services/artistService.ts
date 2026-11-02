@@ -1,88 +1,128 @@
-import { randomUUID } from "crypto";
+import sql, { ConnectionPool, IResult, UniqueIdentifier } from "mssql";
+import { getConnection } from "../config/database";
+import { countries } from "../data/country/country.data";
+import { createSuccessService } from "../interfaces/error/createSuccessService";
+import { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
+import { errorService } from "../interfaces/error/errorService";
+import { selectSuccessService } from "../interfaces/error/selectSuccesService";
+import { updateSuccessService } from "../interfaces/error/updateSuccessService";
 import type { Artist } from "../interfaces/artist/artist";
 import type { ArtistBD } from "../interfaces/artist/artistBD";
 import { isValidArtist } from "../validators/artist.validator";
 
-import type { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
-import { errorService } from "../interfaces/error/errorService";
-import { artists } from "../data/artist/artist.data";
-import { successService } from "../interfaces/error/SuccessService";
-import sql, { ConnectionPool, IResult } from "mssql";
-import { getConnection } from "../config/database";
-
-interface ArtistDataRecord {
-    id: string;
-    nom: string;
-    pseudonim: string;
-    countryName: string;
-}
-
 export async function getAllArtist(): Promise<ArtistBD[]> {
     const pool: ConnectionPool = await getConnection();
     const request: sql.Request = pool.request();
-
-    const queryText: string = `
-        SELECT a.id, a.name AS nom, COALESCE(a.pseudonym, '') AS pseudonim, c.name AS countryName
-        FROM Artist AS a
-        INNER JOIN Country AS c ON c.id = a.country_id`;
-    const result: IResult<ArtistDataRecord> = await request.query(queryText);
-    return result.recordset.map(({ id, nom, pseudonim, countryName }) => ({
-        id,
-        nom,
-        pseudonim,
-        pais: { countryName }
-    }));
+    const result: IResult<ArtistBD> = await request.query(`SELECT * FROM Artist`);
+    return result.recordset;
 }
 
-export function getArtistById(idArtist: string): ArtistBD | undefined {
-    return artists.find(artist => artist.id === idArtist);
-}
+export async function getArtistById(idArtist: string): Promise<selectSuccessService<ArtistBD> | errorService> {
+    const pool: ConnectionPool = await getConnection();
+    const request: sql.Request = pool.request();
+    request.input("id", UniqueIdentifier, idArtist);
 
-export function createArtist(artist: Artist): errorService | successService<ArtistBD> {
-    if (!isValidArtist(artist)) {
-        return { success: false, code: 400, message: "Invalid data." };
+    const result: IResult<ArtistBD> = await request.query(`SELECT * FROM Artist WHERE Artist.id = @id`);
+
+    if (result.recordset.length === 0) {
+        return {
+            success: false,
+            code: 404,
+            message: "Artist not found"
+        };
     }
 
-    const artistRecord: ArtistBD = {
-        id: randomUUID(),
-        nom: artist.nom.trim().replace(/\s+/g, " "),
-        pseudonim: artist.pseudonim.trim().replace(/\s+/g, " "),
-        pais: artist.pais
+    return {
+        success: true,
+        code: 200,
+        data: result.recordset[0]
     };
-
-    artists.push(artistRecord);
-    return { success: true, code: 201, data: artistRecord };
 }
 
-export function updateArtist(idArtist: string, artist: Artist): errorService | successService<ArtistBD> {
+export async function createArtist(artist: Artist): Promise<createSuccessService<number> | errorService> {
     if (!isValidArtist(artist)) {
-        return { success: false, code: 400, message: "Invalid data." };
+        return { success: false, code: 400, message: "Invalid artist data." };
     }
 
-    const index = artists.findIndex(item => item.id === idArtist);
-
-    if (index === -1) {
-        return { success: false, code: 404, message: `Artist ${idArtist} not found` };
+    const country = countries.find((c) => c.countryName.trim().toLowerCase() === artist.pais.countryName.trim().toLowerCase());
+    if (!country) {
+        return { success: false, code: 404, message: "Country not found" };
     }
 
-    const artistRecord: ArtistBD = {
-        id: idArtist,
-        nom: artist.nom.trim().replace(/\s+/g, " "),
-        pseudonim: artist.pseudonim.trim().replace(/\s+/g, " "),
-        pais: artist.pais
+    const pool: ConnectionPool = await getConnection();
+    const request: sql.Request = pool.request();
+    const queryText = `INSERT INTO Artist(name, pseudonym, country_id) VALUES (@name, @pseudonym, @country_id)`;
+
+    request.input("name", sql.NVarChar, artist.nom.trim().replace(/\s+/g, " "));
+    request.input("pseudonym", sql.NVarChar, artist.pseudonim.trim().replace(/\s+/g, " "));
+    request.input("country_id", UniqueIdentifier, country.id);
+
+    const result: IResult<number> = await request.query(queryText);
+
+    return {
+        success: true,
+        code: 201,
+        data: result.rowsAffected[0]
     };
-
-    artists[index] = artistRecord;
-    return { success: true, code: 200, data: artistRecord };
 }
 
-export function deleteArtist(idArtist: string): deleteSuccessService | errorService {
-    const index = artists.findIndex(artist => artist.id === idArtist);
-
-    if (index === -1) {
-        return { success: false, code: 404, message: `Artist ${idArtist} not found` };
+export async function updateArtist(idArtist: string, artist: Artist): Promise<updateSuccessService<number> | errorService> {
+    if (!isValidArtist(artist)) {
+        return {
+            success: false,
+            code: 400,
+            message: "Invalid artist data."
+        };
     }
 
-    artists.splice(index, 1);
-    return { success: true, code: 204 };
+    const country = countries.find((c) => c.countryName.trim().toLowerCase() === artist.pais.countryName.trim().toLowerCase());
+    if (!country) {
+        return { success: false, code: 404, message: "Country not found" };
+    }
+
+    const pool: ConnectionPool = await getConnection();
+    const request: sql.Request = pool.request();
+    const queryText = `UPDATE Artist SET name=@name, pseudonym=@pseudonym, country_id=@country_id WHERE id=@id`;
+
+    request.input("name", sql.NVarChar, artist.nom.trim().replace(/\s+/g, " "));
+    request.input("pseudonym", sql.NVarChar, artist.pseudonim.trim().replace(/\s+/g, " "));
+    request.input("country_id", UniqueIdentifier, country.id);
+    request.input("id", UniqueIdentifier, idArtist);
+
+    const result: IResult<number> = await request.query(queryText);
+
+    if (result.rowsAffected[0] === 0) {
+        return {
+            success: false,
+            code: 404,
+            message: "Artist not found"
+        };
+    }
+
+    return {
+        success: true,
+        code: 200,
+        data: result.rowsAffected[0]
+    };
+}
+
+export async function deleteArtist(idArtist: string): Promise<deleteSuccessService | errorService> {
+    const pool: ConnectionPool = await getConnection();
+    const request: sql.Request = pool.request();
+    request.input("id", UniqueIdentifier, idArtist);
+
+    const result: IResult<ArtistBD> = await request.query(`DELETE FROM Artist WHERE Artist.id = @id`);
+
+    if (result.rowsAffected[0] === 0) {
+        return {
+            success: false,
+            code: 404,
+            message: "Artist not found"
+        };
+    }
+
+    return {
+        success: true,
+        code: 204
+    };
 }

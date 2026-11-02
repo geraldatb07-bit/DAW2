@@ -43,52 +43,52 @@ const serviceMocks = vi.hoisted(() => ({
     deleteAlbumTrack: vi.fn(),
 }));
 
-vi.mock("../src/services/trackService", () => ({
+vi.mock("../Services/trackService", () => ({
     getAllTracks: serviceMocks.getAllTracks,
     getTrackById: serviceMocks.getTrackById,
     createTrack: serviceMocks.createTrack,
     updateTrack: serviceMocks.updateTrack,
     deleteTrack: serviceMocks.deleteTrack,
 }));
-vi.mock("../services/artistService", () => ({
+vi.mock("../Services/artistService", () => ({
     getAllArtist: serviceMocks.getAllArtist,
     getArtistById: serviceMocks.getArtistById,
     createArtist: serviceMocks.createArtist,
     updateArtist: serviceMocks.updateArtist,
     deleteArtist: serviceMocks.deleteArtist,
 }));
-vi.mock("../src/services/userService", () => ({
+vi.mock("../Services/userService", () => ({
     getAllUsers: serviceMocks.getAllUsers,
     getUserById: serviceMocks.getUserById,
     createUser: serviceMocks.createUser,
     updateUser: serviceMocks.updateUser,
     deleteUser: serviceMocks.deleteUser,
 }));
-vi.mock("../src/services/countryService", () => ({
+vi.mock("../Services/countryService", () => ({
     createCountry: serviceMocks.createCountry,
     getCountryById: serviceMocks.getCountryById,
     putCountry: serviceMocks.putCountry,
 }));
-vi.mock("../src/services/playlistService", () => ({
+vi.mock("../Services/playlistService", () => ({
     getAllPlaylists: serviceMocks.getAllPlaylists,
     getPlaylistById: serviceMocks.getPlaylistById,
     createPlaylist: serviceMocks.createPlaylist,
     updatePlaylist: serviceMocks.updatePlaylist,
     deletePlaylist: serviceMocks.deletePlaylist,
 }));
-vi.mock("../src/services/playlistTrackService", () => ({
+vi.mock("../Services/playlistTrackService", () => ({
     getAllPlaylistTracks: serviceMocks.getAllPlaylistTracks,
     createPlaylistTrack: serviceMocks.createPlaylistTrack,
     deletePlaylistTrack: serviceMocks.deletePlaylistTrack,
 }));
-vi.mock("../src/services/historyServices", () => ({
+vi.mock("../Services/historyServices", () => ({
     getAllHistories: serviceMocks.getAllHistories,
     getHistoryById: serviceMocks.getHistoryById,
     createHistory: serviceMocks.createHistory,
     putHistory: serviceMocks.putHistory,
     deleteHistory: serviceMocks.deleteHistory,
 }));
-vi.mock("../src/services/albumTrackServices", () => ({
+vi.mock("../Services/albumTrackServices", () => ({
     getAllAlbumTracks: serviceMocks.getAllAlbumTracks,
     createAlbumTrack: serviceMocks.createAlbumTrack,
     deleteAlbumTrack: serviceMocks.deleteAlbumTrack,

@@ -4,9 +4,9 @@ import { Response, Request } from "express";
 import { histories } from "../data/history/history.data";
 import { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
 import { errorService } from "../interfaces/error/errorService";
-import { successService } from "../interfaces/error/SuccessService";
+import { successService } from "../interfaces/error/selectSuccessService";
 import { HistoryBD } from "../interfaces/history/historyBD";
-import { getAllHistories, getHistoryById, createHistory, putHistory, deleteHistory } from "../services/historyServices";
+import { getAllHistories, getHistoryById, createHistory, putHistory, deleteHistory } from "../Services/historyServices";
 import { createSuccessService } from "../interfaces/error/createSuccessService";
 
 export function getAllHistoriesController(_req: Request, res: Response): Response {

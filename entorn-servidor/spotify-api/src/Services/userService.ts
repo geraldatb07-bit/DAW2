@@ -4,7 +4,7 @@ import type { User } from "../interfaces/User/user";
 import type { UserBD } from "../interfaces/User/userBD";
 import type { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
 import type { errorService, errorService as ErrorService } from "../interfaces/error/errorService";
-import type { successService as SuccessService } from "../interfaces/error/SuccessService";
+import type { successService as SuccessService } from "../interfaces/error/selectSuccessService";
 import type { createSuccessService } from "../interfaces/error/createSuccessService";
 import { ConnectionPool, IResult, UniqueIdentifier } from "mssql";
 import { getConnection } from "../config/database";

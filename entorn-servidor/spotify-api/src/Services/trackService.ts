@@ -4,7 +4,7 @@ import { isValidTrack } from "../validators/track.validator";
 import type { createSuccessService } from "../interfaces/error/createSuccessService";
 import type { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
 import { errorService } from "../interfaces/error/errorService";
-import { successService } from "../interfaces/error/SuccessService";
+import { successService } from "../interfaces/error/selectSuccessService";
 import { Track } from "../interfaces/track/track";
 import { TrackBD } from "../interfaces/track/trackBD";
 import { ConnectionPool, IResult, UniqueIdentifier } from "mssql";

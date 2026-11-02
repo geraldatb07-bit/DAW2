@@ -1,5 +1,5 @@
 import { Response, Request } from "express";
-import { createCountry, getCountryById, putCountry } from "../services/countryService";
+import { createCountry, getCountryById, putCountry } from "../Services/countryService";
 import { createSuccessService } from "../interfaces/error/createSuccessService";
 import { randomUUID } from "crypto";
 import { countries } from "../data/country/country.data";
@@ -7,7 +7,7 @@ import { Country } from "../interfaces/Country/country";
 import { isValidCountry } from "../validators/country.validator";
 import { CountryBD } from "../interfaces/Country/countryBD";
 import { errorService } from "../interfaces/error/errorService";
-import { successService } from "../interfaces/error/SuccessService";
+import { successService } from "../interfaces/error/selectSuccessService";
 
 export function getAllCountryController(_req: Request, res: Response): Response {
     return res.status(200).json(countries);

@@ -2,8 +2,8 @@ import { albumTracks } from "../data/albumTracks/albumTracks.data";
 import { AlbumTrackBD } from "../interfaces/albumTracks/albumTracksBD";
 import { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
 import { errorService } from "../interfaces/error/errorService";
-import { successService } from "../interfaces/error/SuccessService";
-import { getAllAlbumTracks, createAlbumTrack, deleteAlbumTrack } from "../services/albumTrackServices";
+import { successService } from "../interfaces/error/selectSuccessService";
+import { getAllAlbumTracks, createAlbumTrack, deleteAlbumTrack } from "../Services/albumTrackServices";
 import { Response, Request } from "express";
 
 export function getAllAlbumTracksController(_req: Request, res: Response): Response {

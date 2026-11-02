@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createUser, deleteUser, getAllUsers, getUserById, updateUser } from "../services/userService";
+import { createUser, deleteUser, getAllUsers, getUserById, updateUser } from "../Services/userService";
 import type { User } from "../interfaces/User/user";
 import { UserBD } from "../interfaces/User/userBD";
 import { errorService } from "../interfaces/error/errorService";

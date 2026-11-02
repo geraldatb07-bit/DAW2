@@ -1,91 +1,134 @@
-import { randomUUID } from "crypto";
-import { playlists } from "../data/playlist/playlist.data";
-import { users } from "../data/user/user.data";
-import type { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
-import type { errorService } from "../interfaces/error/errorService";
-import type { successService } from "../interfaces/error/SuccessService";
-import type { createSuccessService } from "../interfaces/error/createSuccessService";
-import type { Playlist } from "../interfaces/playlist/playlist";
-import type { PlaylistBD } from "../interfaces/playlist/playlistBD";
-import { UserBD } from "../interfaces/User/userBD";
-import { isValidPlaylist } from "../validators/playlist.validator";
-import sql, { ConnectionPool, IResult } from "mssql";
+import sql, { ConnectionPool, IResult, UniqueIdentifier } from "mssql";
 import { getConnection } from "../config/database";
-import { TrackBD } from "../interfaces/track/trackBD";
-
-
+import { createSuccessService } from "../interfaces/error/createSuccessService";
+import { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
+import { errorService } from "../interfaces/error/errorService";
+import { selectSuccessService } from "../interfaces/error/selectSuccesService";
+import { updateSuccessService } from "../interfaces/error/updateSuccessService";
+import type { Playlist } from "../interfaces/Playlist/playlist";
+import type { PlaylistBD } from "../interfaces/Playlist/playlistBD";
+import { isValidPlaylist } from "../validators/playlist.validator";
 
 export async function getAllPlaylists(): Promise<PlaylistBD[]> {
     const pool: ConnectionPool = await getConnection();
-        const request: sql.Request = pool.request();
-    
-        const queryText: string = `Select * from Track`;
-        const result: IResult<PlaylistBD> = await request.query(queryText);
-        return result.recordset;
-    
+    const request: sql.Request = pool.request();
+    const result: IResult<PlaylistBD> = await request.query(`SELECT * FROM Playlist`);
+    return result.recordset;
 }
 
-export function getPlaylistById(idPlaylist: string): PlaylistBD | undefined {
-    return playlists.find((playlist: PlaylistBD) => playlist.id === idPlaylist);
-}
+export async function getPlaylistById(idPlaylist: string): Promise<selectSuccessService<PlaylistBD> | errorService> {
+    const pool: ConnectionPool = await getConnection();
+    const request: sql.Request = pool.request();
+    request.input("id", UniqueIdentifier, idPlaylist);
 
-export function createPlaylist(playlist: Playlist): successService<PlaylistBD> | errorService {
-    if (!isValidPlaylist(playlist)) {
-        return { success: false, code: 400, message: "Invalid data." };
+    const result: IResult<PlaylistBD> = await request.query(`SELECT * FROM Playlist WHERE Playlist.id = @id`);
+
+    if (result.recordset.length === 0) {
+        return {
+            success: false,
+            code: 404,
+            message: "Playlist not found"
+        };
     }
 
-    const user = users.find((existingUser: UserBD) =>
-        existingUser.email === playlist.user.email.trim()
-        && existingUser.country.countryName === playlist.user.country.countryName
-    );
-    if (!user) {
-        return { success: false, code: 404, message: `User ${playlist.user.email} not found` };
-    }
-
-    const playlistRecord: PlaylistBD = {
-        id: randomUUID(),
-        title: playlist.title.trim().replace(/\s+/g, " "),
-        user
+    return {
+        success: true,
+        code: 200,
+        data: result.recordset[0]
     };
-
-    playlists.push(playlistRecord);
-    return { success: true, code: 201, data: playlistRecord };
 }
 
-export function updatePlaylist(idPlaylist: string, playlist: Playlist): createSuccessService<PlaylistBD> | errorService {
-    const playlistIndex: number = playlists.findIndex((item: PlaylistBD) => item.id === idPlaylist);
-    if (playlistIndex === -1) {
-        return { success: false, code: 404, message: "Playlist not found" };
-    }
-
+export async function createPlaylist(playlist: Playlist): Promise<createSuccessService<number> | errorService> {
     if (!isValidPlaylist(playlist)) {
-        return { success: false, code: 400, message: "invalid data" };
+        return { success: false, code: 400, message: "Invalid playlist data." };
     }
 
-    const user = users.find((existingUser: UserBD) =>
-        existingUser.email === playlist.user.email.trim()
-        && existingUser.country.countryName === playlist.user.country.countryName
-    );
-    if (!user) {
-        return { success: false, code: 404, message: `User ${playlist.user.email} not found` };
+    const pool: ConnectionPool = await getConnection();
+    const request: sql.Request = pool.request();
+
+    const userQuery = await request.query(`SELECT id FROM [User] WHERE email = @email`, {
+        email: playlist.user.email
+    });
+
+    if (userQuery.recordset.length === 0) {
+        return { success: false, code: 404, message: "User not found" };
     }
 
-    const updatedPlaylist: PlaylistBD = {
-        id: idPlaylist,
-        title: playlist.title.trim().replace(/\s+/g, " "),
-        user
+    const userId = userQuery.recordset[0].id;
+    const queryText = `INSERT INTO Playlist(title, user_id) VALUES (@title, @user_id)`;
+
+    request.input("title", sql.NVarChar, playlist.title.trim().replace(/\s+/g, " "));
+    request.input("user_id", UniqueIdentifier, userId);
+
+    const result: IResult<number> = await request.query(queryText);
+
+    return {
+        success: true,
+        code: 201,
+        data: result.rowsAffected[0]
     };
-
-    playlists[playlistIndex] = updatedPlaylist;
-    return { success: true, code: 200, data: updatedPlaylist, index: playlistIndex };
 }
 
-export function deletePlaylist(idPlaylist: string): deleteSuccessService | errorService {
-    const playlistIndex: number = playlists.findIndex((playlist: PlaylistBD) => playlist.id === idPlaylist);
-    if (playlistIndex === -1) {
-        return { success: false, code: 404, message: "Playlist not found" };
+export async function updatePlaylist(idPlaylist: string, playlist: Playlist): Promise<updateSuccessService<number> | errorService> {
+    if (!isValidPlaylist(playlist)) {
+        return {
+            success: false,
+            code: 400,
+            message: "Invalid playlist data."
+        };
     }
 
-    playlists.splice(playlistIndex, 1);
-    return { success: true, code: 204, index: playlistIndex };
+    const pool: ConnectionPool = await getConnection();
+    const request: sql.Request = pool.request();
+    const userQuery = await request.query(`SELECT id FROM [User] WHERE email = @email`, {
+        email: playlist.user.email
+    });
+
+    if (userQuery.recordset.length === 0) {
+        return { success: false, code: 404, message: "User not found" };
+    }
+
+    const userId = userQuery.recordset[0].id;
+    const queryText = `UPDATE Playlist SET title=@title, user_id=@user_id WHERE id=@id`;
+
+    request.input("title", sql.NVarChar, playlist.title.trim().replace(/\s+/g, " "));
+    request.input("user_id", UniqueIdentifier, userId);
+    request.input("id", UniqueIdentifier, idPlaylist);
+
+    const result: IResult<number> = await request.query(queryText);
+
+    if (result.rowsAffected[0] === 0) {
+        return {
+            success: false,
+            code: 404,
+            message: "Playlist not found"
+        };
+    }
+
+    return {
+        success: true,
+        code: 200,
+        data: result.rowsAffected[0]
+    };
+}
+
+export async function deletePlaylist(idPlaylist: string): Promise<deleteSuccessService | errorService> {
+    const pool: ConnectionPool = await getConnection();
+    const request: sql.Request = pool.request();
+    request.input("id", UniqueIdentifier, idPlaylist);
+
+    const result: IResult<PlaylistBD> = await request.query(`DELETE FROM Playlist WHERE Playlist.id = @id`);
+
+    if (result.rowsAffected[0] === 0) {
+        return {
+            success: false,
+            code: 404,
+            message: "Playlist not found"
+        };
+    }
+
+    return {
+        success: true,
+        code: 204
+    };
 }

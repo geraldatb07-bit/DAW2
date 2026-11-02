@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createPlaylist, deletePlaylist, getAllPlaylists, getPlaylistById, updatePlaylist } from "../services/playlistService";
+import { createPlaylist, deletePlaylist, getAllPlaylists, getPlaylistById, updatePlaylist } from "../Services/playlistService";
 import type { Playlist } from "../interfaces/playlist/playlist";
 import type { PlaylistBD } from "../interfaces/playlist/playlistBD";
 

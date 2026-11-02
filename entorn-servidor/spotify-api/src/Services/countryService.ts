@@ -1,84 +1,112 @@
-import { randomUUID } from "crypto";
-import { countries } from "../data/country/country.data";
-import { tracks } from "../data/track/track.data";
-import { isValidCountry } from "../validators/country.validator";
-import { Country } from "../interfaces/Country/country";
-import { CountryBD } from "../interfaces/Country/countryBD";
-import { errorService as ErrorService } from "../interfaces/error/errorService";
-import { TrackBD } from "../interfaces/track/trackBD";
-import { successService as SuccessService } from "../interfaces/error/SuccessService";
+import sql, { ConnectionPool, IResult, UniqueIdentifier } from "mssql";
+import { getConnection } from "../config/database";
 import { createSuccessService } from "../interfaces/error/createSuccessService";
 import { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
-import sql, { ConnectionPool, IResult } from "mssql";
-import { getConnection } from "../config/database";
-
+import { errorService } from "../interfaces/error/errorService";
+import { selectSuccessService } from "../interfaces/error/selectSuccesService";
+import { updateSuccessService } from "../interfaces/error/updateSuccessService";
+import { Country } from "../interfaces/Country/country";
+import { CountryBD } from "../interfaces/Country/countryBD";
+import { isValidCountry } from "../validators/country.validator";
 
 export async function getAllCountries(): Promise<CountryBD[]> {
     const pool: ConnectionPool = await getConnection();
-        const request: sql.Request = pool.request();
-    
-        const queryText: string = `Select * from Track`;
-        const result: IResult<CountryBD> = await request.query(queryText);
-        return result.recordset;
-    
+    const request: sql.Request = pool.request();
+    const result: IResult<CountryBD> = await request.query(`SELECT * FROM Country`);
+    return result.recordset;
 }
 
-export function getCountryById(id: string): CountryBD | undefined {
+export async function getCountryById(idCountry: string): Promise<selectSuccessService<CountryBD> | errorService> {
+    const pool: ConnectionPool = await getConnection();
+    const request: sql.Request = pool.request();
+    request.input("id", UniqueIdentifier, idCountry);
 
-    return countries.find(
-        (c: CountryBD) => { return c.id === id }
-    );
-}
+    const result: IResult<CountryBD> = await request.query(`SELECT * FROM Country WHERE Country.id = @id`);
 
-export function createCountry(country: Country): SuccessService<CountryBD> | ErrorService {
-
-    if (!isValidCountry(country)) {
-        return { success: false, code: 400, message: "fuck you" };
+    if (result.recordset.length === 0) {
+        return {
+            success: false,
+            code: 404,
+            message: "Country not found"
+        };
     }
 
-    // les correctes son dades
-    const uuid: string = randomUUID();
-
-    const countryRecord: CountryBD = {
-        id: uuid,
-        countryName: country.countryName.trim().replace(/\s+/g, " "),
-
+    return {
+        success: true,
+        code: 200,
+        data: result.recordset[0]
     };
-    countries.push(countryRecord);
-
-    return { success: true, data: countryRecord, code: 201 };
 }
 
-export function putCountry(country: CountryBD, id: string | string[]): createSuccessService<CountryBD> | ErrorService {
+export async function createCountry(country: Country): Promise<createSuccessService<number> | errorService> {
     if (!isValidCountry(country)) {
-        return { success: false, code: 400, message: "adeu" };
+        return { success: false, code: 400, message: "Invalid country data." };
     }
 
-    const index: number = tracks.findIndex(
-        (t: TrackBD) => { return t.id === id }
-    );
+    const pool: ConnectionPool = await getConnection();
+    const request: sql.Request = pool.request();
+    const queryText = `INSERT INTO Country(name) VALUES (@name)`;
 
-    if (index === -1) {
-        return { success: false, code: 404, message: `Pais invalid, com tu.` };
-    }
+    request.input("name", sql.NVarChar, country.countryName.trim().replace(/\s+/g, " "));
+    const result: IResult<number> = await request.query(queryText);
 
-    const countryBD: CountryBD = {
-        id: id as string,
-        countryName: country.countryName.trim().replace(/\s+/g, " "),
-
+    return {
+        success: true,
+        code: 201,
+        data: result.rowsAffected[0]
     };
-
-    return { success: true, data: countryBD, code: 201, index: index };
 }
 
-export function deleteCountry(id: string | string[]): deleteSuccessService | ErrorService {
-
-    const index: number = tracks.findIndex(
-        (t: TrackBD) => { return t.id === id }
-    );
-    if (index === -1) {
-        return { success: false, code: 404, message: `Track ${id} not found lol` };
+export async function putCountry(country: Country, idCountry: string): Promise<updateSuccessService<number> | errorService> {
+    if (!isValidCountry(country)) {
+        return {
+            success: false,
+            code: 400,
+            message: "Invalid country data."
+        };
     }
 
-    return { success: true, code: 204, index: index }
+    const pool: ConnectionPool = await getConnection();
+    const request: sql.Request = pool.request();
+    const queryText = `UPDATE Country SET name = @name WHERE id = @id`;
+
+    request.input("name", sql.NVarChar, country.countryName.trim().replace(/\s+/g, " "));
+    request.input("id", UniqueIdentifier, idCountry);
+
+    const result: IResult<number> = await request.query(queryText);
+
+    if (result.rowsAffected[0] === 0) {
+        return {
+            success: false,
+            code: 404,
+            message: "Country not found"
+        };
+    }
+
+    return {
+        success: true,
+        code: 200,
+        data: result.rowsAffected[0]
+    };
+}
+
+export async function deleteCountry(idCountry: string): Promise<deleteSuccessService | errorService> {
+    const pool: ConnectionPool = await getConnection();
+    const request: sql.Request = pool.request();
+    request.input("id", UniqueIdentifier, idCountry);
+
+    const result: IResult<CountryBD> = await request.query(`DELETE FROM Country WHERE Country.id = @id`);
+
+    if (result.rowsAffected[0] === 0) {
+        return {
+            success: false,
+            code: 404,
+            message: "Country not found"
+        };
+    }
+
+    return {
+        success: true,
+        code: 204
+    };
 }

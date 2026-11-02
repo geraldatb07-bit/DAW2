@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import { PlaylistTrackBD } from "../interfaces/playlistTrack/playlistTracksBD";
-import { createPlaylistTrack, deletePlaylistTrack, getAllPlaylistTracks, getPlaylistTrackById } from "../services/playlistTrackService";
+import { createPlaylistTrack, deletePlaylistTrack, getAllPlaylistTracks, getPlaylistTrackById } from "../Services/playlistTrackService";
 import { playlistTracks } from "../data/playlistTrack/playlistTracks.data";
 import { errorService } from "../interfaces/error/errorService";
 import { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
-import { successService } from "../interfaces/error/SuccessService";
+import { successService } from "../interfaces/error/selectSuccessService";
 
 export function getAllPlaylistTracksController(_req: Request, res: Response): Response {
     return res.status(200).json(getAllPlaylistTracks());

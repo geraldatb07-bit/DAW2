@@ -1,62 +1,72 @@
-import { randomUUID } from "crypto";
-import { playlists } from "../data/playlist/playlist.data";
-import { playlistTracks } from "../data/playlistTrack/playlistTracks.data";
-import { tracks } from "../data/track/track.data";
-import type { PlaylistTrackBD } from "../interfaces/playlistTrack/playlistTracksBD";
-import type { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
-import type { errorService } from "../interfaces/error/errorService";
-import type { successService } from "../interfaces/error/SuccessService";
-import sql, { ConnectionPool, IResult } from "mssql";
+import sql, { ConnectionPool, IResult, UniqueIdentifier } from "mssql";
 import { getConnection } from "../config/database";
-import { TrackBD } from "../interfaces/track/trackBD";
-
+import { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
+import { errorService } from "../interfaces/error/errorService";
+import { selectSuccessService } from "../interfaces/error/selectSuccesService";
+import type { PlaylistTrackBD } from "../interfaces/playlistTrack/playlistTracksBD";
 
 export async function getAllPlaylistTracks(): Promise<PlaylistTrackBD[]> {
     const pool: ConnectionPool = await getConnection();
-        const request: sql.Request = pool.request();
-    
-        const queryText: string = `Select * from Track`;
-        const result: IResult<PlaylistTrackBD> = await request.query(queryText);
-        return result.recordset;
+    const request: sql.Request = pool.request();
+    const result: IResult<PlaylistTrackBD> = await request.query(`SELECT * FROM PlaylistTracks`);
+    return result.recordset;
 }
 
-export function getPlaylistTrackById(idPlaylistTrack: string): PlaylistTrackBD | undefined {
-    return playlistTracks.find((playlistTrack: PlaylistTrackBD) => playlistTrack.id === idPlaylistTrack);
-}
+export async function getPlaylistTrackById(idPlaylistTrack: string): Promise<selectSuccessService<PlaylistTrackBD> | errorService> {
+    const pool: ConnectionPool = await getConnection();
+    const request: sql.Request = pool.request();
+    request.input("id", UniqueIdentifier, idPlaylistTrack);
 
-export function createPlaylistTrack(playlistTrack: { playlistId: string; trackId: string }): successService<PlaylistTrackBD> | errorService {
-    if (!playlistTrack || typeof playlistTrack.playlistId !== "string" || typeof playlistTrack.trackId !== "string") {
-        return { success: false, code: 400, message: "invalid data" };
+    const result: IResult<PlaylistTrackBD> = await request.query(`SELECT * FROM PlaylistTracks WHERE PlaylistTracks.id = @id`);
+
+    if (result.recordset.length === 0) {
+        return {
+            success: false,
+            code: 404,
+            message: "PlaylistTrack not found"
+        };
     }
 
-    const playlistId: string = playlistTrack.playlistId.trim();
-    const trackId: string = playlistTrack.trackId.trim();
-
-    const playlist = playlists.find((playlist) => playlist.id === playlistId);
-    if (!playlist) {
-        return { success: false, code: 404, message: `Playlist ${playlistId} not found` };
-    }
-    const track = tracks.find((track) => track.id === trackId);
-    if (!track) {
-        return { success: false, code: 404, message: `Track ${trackId} not found` };
-    }
-
-    const playlistTrackRecord: PlaylistTrackBD = {
-        id: randomUUID(),
-        playlist,
-        track
+    return {
+        success: true,
+        code: 200,
+        data: result.recordset[0]
     };
-
-    return { success: true, code: 201, data: playlistTrackRecord };
 }
 
-export function deletePlaylistTrack(idPlaylistTrack: string): deleteSuccessService | errorService {
-    const playlistTrackIndex: number = playlistTracks.findIndex(
-        (playlistTrack: PlaylistTrackBD) => playlistTrack.id === idPlaylistTrack
-    );
-    if (playlistTrackIndex === -1) {
-        return { success: false, code: 404, message: "PlaylistTrack not found" };
+export async function createPlaylistTrack(playlistTrack: { playlistId: string; trackId: string }): Promise<{ success: boolean; code: number; data: number } | errorService> {
+    const pool: ConnectionPool = await getConnection();
+    const request: sql.Request = pool.request();
+    const queryText = `INSERT INTO PlaylistTracks(playlist_id, track_id) VALUES (@playlist_id, @track_id)`;
+
+    request.input("playlist_id", UniqueIdentifier, playlistTrack.playlistId);
+    request.input("track_id", UniqueIdentifier, playlistTrack.trackId);
+
+    const result: IResult<number> = await request.query(queryText);
+    return {
+        success: true,
+        code: 201,
+        data: result.rowsAffected[0]
+    };
+}
+
+export async function deletePlaylistTrack(idPlaylistTrack: string): Promise<deleteSuccessService | errorService> {
+    const pool: ConnectionPool = await getConnection();
+    const request: sql.Request = pool.request();
+    request.input("id", UniqueIdentifier, idPlaylistTrack);
+
+    const result: IResult<PlaylistTrackBD> = await request.query(`DELETE FROM PlaylistTracks WHERE id = @id`);
+
+    if (result.rowsAffected[0] === 0) {
+        return {
+            success: false,
+            code: 404,
+            message: "PlaylistTrack not found"
+        };
     }
 
-    return { success: true, code: 204, index: playlistTrackIndex };
+    return {
+        success: true,
+        code: 204
+    };
 }
