@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { getAllCountryController, postCountryController, putCountryController } from "../controllers/countryController";
+import { getAllCountriesController, postCountryController, putCountryController } from "../controllers/countryController";
 
 export const countryRouter: Router = Router();
 
-countryRouter.get("/", getAllCountryController);
+countryRouter.get("/", getAllCountriesController);
 countryRouter.post("/", postCountryController);
 countryRouter.put("/:id", putCountryController);

@@ -2,9 +2,9 @@
 import express from "express";
 import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import type { Server } from "node:http";
-import { albumTrackRouter } from "../routes/albumTrackRoutes";
-import { historyRouter } from "../routes/historyRoutes";
-import { isValidArtist } from "../validators/artist.validator";
+import { albumTrackRouter } from "../src/routes/albumTrackRoutes";
+import { historyRouter } from "../src/routes/historyRoutes";
+import { isValidArtist } from "../src/validators/artist.validator";
 
 const serviceMocks = vi.hoisted(() => ({
     getAllTracks: vi.fn(),
@@ -22,6 +22,7 @@ const serviceMocks = vi.hoisted(() => ({
     createUser: vi.fn(),
     updateUser: vi.fn(),
     deleteUser: vi.fn(),
+    getAllCountries: vi.fn(),
     createCountry: vi.fn(),
     getCountryById: vi.fn(),
     putCountry: vi.fn(),
@@ -43,61 +44,63 @@ const serviceMocks = vi.hoisted(() => ({
     deleteAlbumTrack: vi.fn(),
 }));
 
-vi.mock("../Services/trackService", () => ({
+vi.mock("../src/Services/trackService", () => ({
     getAllTracks: serviceMocks.getAllTracks,
     getTrackById: serviceMocks.getTrackById,
     createTrack: serviceMocks.createTrack,
     updateTrack: serviceMocks.updateTrack,
     deleteTrack: serviceMocks.deleteTrack,
 }));
-vi.mock("../Services/artistService", () => ({
+vi.mock("../src/Services/artistService", () => ({
     getAllArtist: serviceMocks.getAllArtist,
     getArtistById: serviceMocks.getArtistById,
     createArtist: serviceMocks.createArtist,
     updateArtist: serviceMocks.updateArtist,
     deleteArtist: serviceMocks.deleteArtist,
 }));
-vi.mock("../Services/userService", () => ({
+vi.mock("../src/Services/userService", () => ({
     getAllUsers: serviceMocks.getAllUsers,
     getUserById: serviceMocks.getUserById,
     createUser: serviceMocks.createUser,
     updateUser: serviceMocks.updateUser,
     deleteUser: serviceMocks.deleteUser,
 }));
-vi.mock("../Services/countryService", () => ({
+vi.mock("../src/Services/countryService", () => ({
+    getAllCountries: serviceMocks.getAllCountries,
     createCountry: serviceMocks.createCountry,
     getCountryById: serviceMocks.getCountryById,
     putCountry: serviceMocks.putCountry,
 }));
-vi.mock("../Services/playlistService", () => ({
+vi.mock("../src/Services/playlistService", () => ({
     getAllPlaylists: serviceMocks.getAllPlaylists,
     getPlaylistById: serviceMocks.getPlaylistById,
     createPlaylist: serviceMocks.createPlaylist,
     updatePlaylist: serviceMocks.updatePlaylist,
     deletePlaylist: serviceMocks.deletePlaylist,
 }));
-vi.mock("../Services/playlistTrackService", () => ({
+vi.mock("../src/Services/playlistTrackService", () => ({
     getAllPlaylistTracks: serviceMocks.getAllPlaylistTracks,
     createPlaylistTrack: serviceMocks.createPlaylistTrack,
     deletePlaylistTrack: serviceMocks.deletePlaylistTrack,
 }));
-vi.mock("../Services/historyServices", () => ({
+vi.mock("../src/Services/historyServices", () => ({
     getAllHistories: serviceMocks.getAllHistories,
     getHistoryById: serviceMocks.getHistoryById,
     createHistory: serviceMocks.createHistory,
     putHistory: serviceMocks.putHistory,
     deleteHistory: serviceMocks.deleteHistory,
 }));
-vi.mock("../Services/albumTrackServices", () => ({
+vi.mock("../src/Services/albumTrackServices", () => ({
     getAllAlbumTracks: serviceMocks.getAllAlbumTracks,
     createAlbumTrack: serviceMocks.createAlbumTrack,
     deleteAlbumTrack: serviceMocks.deleteAlbumTrack,
 }));
 
-import { app } from "../appSpoty";
+import { app } from "../src/appSpoty";
 
 const track = { id: "track-1", title: "Example track", artist: "artist-1", duration: 180 };
 const artist = { id: "artist-1", nom: "Example artist", pseudonim: "Example", pais: { countryName: "França" } };
+const country = { id: "country-1", countryName: "França" };
 const user = { id: "user-1", email: "user@example.com", country: { countryName: "França" } };
 const playlist = { id: "playlist-1", title: "Example playlist", user };
 
@@ -137,7 +140,7 @@ beforeEach(() => {
     serviceMocks.deleteTrack.mockResolvedValue({ success: false, code: 404, message: "Track not found" });
 
     serviceMocks.getAllArtist.mockResolvedValue([artist]);
-    serviceMocks.getArtistById.mockReturnValue(artist);
+    serviceMocks.getArtistById.mockResolvedValue({ success: true, code: 200, data: artist });
     serviceMocks.createArtist.mockReturnValue({ success: false, code: 400, message: "Invalid data." });
     serviceMocks.updateArtist.mockReturnValue({ success: false, code: 404, message: "Artist not found" });
     serviceMocks.deleteArtist.mockReturnValue({ success: false, code: 404, message: "Artist not found" });
@@ -148,12 +151,13 @@ beforeEach(() => {
     serviceMocks.updateUser.mockResolvedValue({ success: false, code: 404, message: "User not found" });
     serviceMocks.deleteUser.mockResolvedValue({ success: false, code: 404, message: "User not found" });
 
+    serviceMocks.getAllCountries.mockResolvedValue([country]);
     serviceMocks.createCountry.mockReturnValue({ success: false, code: 400, message: "Invalid data." });
     serviceMocks.getCountryById.mockReturnValue(undefined);
     serviceMocks.putCountry.mockReturnValue({ success: false, code: 404, message: "Country not found" });
 
     serviceMocks.getAllPlaylists.mockReturnValue([playlist]);
-    serviceMocks.getPlaylistById.mockReturnValue(playlist);
+    serviceMocks.getPlaylistById.mockResolvedValue({ success: true, code: 200, data: playlist });
     serviceMocks.createPlaylist.mockReturnValue({ success: false, code: 400, message: "Invalid data." });
     serviceMocks.updatePlaylist.mockReturnValue({ success: false, code: 404, message: "Playlist not found" });
     serviceMocks.deletePlaylist.mockReturnValue({ success: false, code: 404, message: "Playlist not found" });
@@ -163,7 +167,7 @@ beforeEach(() => {
     serviceMocks.deletePlaylistTrack.mockReturnValue({ success: false, code: 404, message: "PlaylistTrack not found" });
 
     serviceMocks.getAllHistories.mockReturnValue([]);
-    serviceMocks.getHistoryById.mockReturnValue(undefined);
+    serviceMocks.getHistoryById.mockResolvedValue({ success: false, code: 404, message: "History not found" });
     serviceMocks.createHistory.mockReturnValue({ success: false, code: 400, message: "Invalid data." });
     serviceMocks.putHistory.mockReturnValue({ success: false, code: 404, message: "History not found" });
     serviceMocks.deleteHistory.mockReturnValue({ success: false, code: 404, message: "History not found" });
@@ -208,11 +212,11 @@ describe("API entry point and read routes", () => {
         ["/tracks", [track]],
         ["/tracks/track-1", { success: true, code: 200, data: track }],
         ["/artists", [artist]],
-        ["/artists/artist-1", artist],
+        ["/artists/artist-1", { success: true, code: 200, data: artist }],
         ["/users", [user]],
         ["/users/user-1", { success: true, code: 200, data: user }],
         ["/playlists", [playlist]],
-        ["/playlists/playlist-1", playlist],
+        ["/playlists/playlist-1", { success: true, code: 200, data: playlist }],
         ["/playlisttracks", []],
     ])("GET %s returns its service data", async (path, expected) => {
         const { response, payload } = await request(path);
