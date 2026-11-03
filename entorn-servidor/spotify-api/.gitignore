@@ -1,0 +1,6 @@
+node_modules/
+dist/
+.env
+/docker/DB/*.bin
+/docker/DB/*.mdf
+/docker/DB/*.ldf
