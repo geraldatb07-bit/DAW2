@@ -1,6 +1,10 @@
 import type { Track } from "../interface/interface-track";
 
-export function createRowSong(track: Track, cardTrack: (idTrack: string) => void): HTMLTableRowElement {
+export function createRowSong(
+    track: Track,
+    cardTrack: (idTrack: string) => void,
+    onPlayingChange: (button: HTMLButtonElement, stop: (() => void) | null) => void
+): HTMLTableRowElement {
     const songTr: HTMLTableRowElement = document.createElement("tr");
 
 
@@ -17,26 +21,25 @@ export function createRowSong(track: Track, cardTrack: (idTrack: string) => void
     const playTd: HTMLTableCellElement = document.createElement("td");
     const playBtn: HTMLButtonElement = document.createElement("button");
 
-    const isPlayingBtn: HTMLButtonElement | null = null;
-
     playBtn.textContent = "Play";
     let isPlaying: boolean = false;
 
+    const stopPlaying = (): void => {
+        isPlaying = false;
+        playBtn.textContent = "Play";
+    };
 
     playBtn.addEventListener("click", () => {
-        if (isPlayingBtn === playBtn) {
-
-        }
-        if (isPlaying === false) {
+        if (isPlaying) {
+            stopPlaying();
+            onPlayingChange(playBtn, null);
+        } else {
+            onPlayingChange(playBtn, stopPlaying);
             reproduccions++;
             reproductionsTd.textContent = reproduccions.toString();
             playBtn.textContent = "Playing";
-            isPlaying = !isPlaying;
-        } else {
-            playBtn.textContent = "Play";
-            isPlaying = !isPlaying;
+            isPlaying = true;
         }
-
     });
 
 
@@ -69,4 +72,3 @@ export function createRowSong(track: Track, cardTrack: (idTrack: string) => void
 function getIdTrack(track: Track): string {
     return track.id
 }
-

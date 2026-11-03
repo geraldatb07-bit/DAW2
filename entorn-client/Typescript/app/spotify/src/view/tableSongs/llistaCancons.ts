@@ -7,10 +7,21 @@ export function llistaCancons(
     cardTrack: (idTrack: string) => void
 ): void {
     let currentlyPlayingButton: HTMLButtonElement | null = null;
-    const PlayingButton = (button: HTMLButtonElement): boolean => {
+    let stopCurrentlyPlaying: (() => void) | null = null;
 
-    };
-    tracks.forEach(
-        (t: Track) => { tbody.appendChild(createRowSong(t, cardTrack)); }
-    )
+    tracks.forEach((t: Track) => {
+        const row = createRowSong(t, cardTrack, (button, stop) => {
+            if (stop) {
+                if (currentlyPlayingButton && currentlyPlayingButton !== button) {
+                    stopCurrentlyPlaying?.();
+                }
+                currentlyPlayingButton = button;
+                stopCurrentlyPlaying = stop;
+            } else if (currentlyPlayingButton === button) {
+                currentlyPlayingButton = null;
+                stopCurrentlyPlaying = null;
+            }
+        });
+        tbody.appendChild(row);
+    });
 }
