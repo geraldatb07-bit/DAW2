@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css'
 import type { TrackView } from './components/songs/Types/TrackView';
 import SongCard from './components/songs/SongCard';
@@ -29,12 +29,16 @@ function App() {
   )
 
   async function carregarDadesTrack(){
-
     const resposta: Response = await fetch("http://localhost:3000/tracks");
     const listTrack: Track[] = await resposta.json() as Track[];
     setTracks(listTrack)
   }
   
+  useEffect(
+    () => {
+      carregarDadesTrack();
+    },[]
+  )
 
   function handleClickRandomSong() {
       const random: number = Math.floor(Math.random() * tracks.length);
@@ -116,7 +120,7 @@ function App() {
               </tbody>
             </table>
             :<p>
-              <button onClick={carregarDadesTrack}>Carregar Tracks</button>
+              No track  available
             </p>
           }
             
@@ -137,13 +141,9 @@ function App() {
           <PlayingCard
             isPlaying={isPlaying}
             trackInfo={track}
-            onStop={() => setIsPlaying(false)}
-          ></PlayingCard>
+            onStop={() => setIsPlaying(false)}/>
         </aside>
-        </main>
-
-
-        
+      </main>
     </>
   )
 
