@@ -46,9 +46,8 @@ export async function createPlaylist(playlist: Playlist): Promise<createSuccessS
     const pool: ConnectionPool = await getConnection();
     const request: sql.Request = pool.request();
 
-    const userQuery = await request.query(`SELECT id FROM [User] WHERE email = @email`, {
-        email: playlist.user.email
-    });
+    request.input("email", sql.NVarChar, playlist.user.email);
+    const userQuery = await request.query(`SELECT id FROM [User] WHERE email = @email`);
 
     if (userQuery.recordset.length === 0) {
         return { success: false, code: 404, message: "User not found" };
@@ -80,9 +79,8 @@ export async function updatePlaylist(idPlaylist: string, playlist: Playlist): Pr
 
     const pool: ConnectionPool = await getConnection();
     const request: sql.Request = pool.request();
-    const userQuery = await request.query(`SELECT id FROM [User] WHERE email = @email`, {
-        email: playlist.user.email
-    });
+    request.input("email", sql.NVarChar, playlist.user.email);
+    const userQuery = await request.query(`SELECT id FROM [User] WHERE email = @email`);
 
     if (userQuery.recordset.length === 0) {
         return { success: false, code: 404, message: "User not found" };
