@@ -6,14 +6,15 @@ import type { Like } from './components/songs/Types/likes';
 import HeaderCard from './components/header/HeaderCard';
 import PlayingCard from './components/playing/PlayingCard';
 import ListSongs from './components/songs/ListSongs';
-import type { Track } from './Model/Track';
+import { ENV } from './Config/env';
+import type { GETTrack } from './APIManagement/Tracks/Interfaces/Track';
 
 
 
 
 function App() {
 
-  const[tracks, setTracks] = useState<Track[]>([]);
+  const[tracks, setTracks] = useState<GETTrack[]>([]);
 
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -29,8 +30,8 @@ function App() {
   )
 
   async function carregarDadesTrack(){
-    const resposta: Response = await fetch("http://localhost:3000/tracks");
-    const listTrack: Track[] = await resposta.json() as Track[];
+    const resposta: Response = await fetch(`${ENV.API_BASE_URL}/tracks`);
+    const listTrack: GETTrack[] = await resposta.json() as GETTrack[];
     setTracks(listTrack)
   }
   

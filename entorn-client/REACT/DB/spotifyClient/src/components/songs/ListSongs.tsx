@@ -1,4 +1,4 @@
-import type { Track } from "../../Model/Track";
+import type { GETTrack } from "../../APIManagement/Tracks/Interfaces/Track";
 import SongRow from "./SongRow";
 import type { SongListProps } from "./Types/SongListProps";
 
@@ -8,7 +8,7 @@ const ListSongs = (props: SongListProps) => {
     <>
         {
             props.tracks.map(
-                (t: Track) => {
+                (t: GETTrack) => {
                     return <SongRow
                         key={t.id}
                         title={t.title}
