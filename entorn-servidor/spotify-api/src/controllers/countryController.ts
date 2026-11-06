@@ -23,7 +23,7 @@ export async function getCountryByIdController(req: Request, res: Response): Pro
 }
 
 export async function postCountryController(req: Request, res: Response): Promise<Response> {
-    const result: createSuccessService<number> | errorService = await createCountry(req.body as Country);
+    const result: createSuccessService | errorService = await createCountry(req.body as Country);
 
     if (!result.success) {
         const errorResult = result as errorService;

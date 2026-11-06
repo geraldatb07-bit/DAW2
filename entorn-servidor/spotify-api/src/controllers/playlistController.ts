@@ -23,7 +23,7 @@ export async function getPlaylistByIdController(req: Request, res: Response): Pr
 }
 
 export async function postPlaylistController(req: Request, res: Response): Promise<Response> {
-    const result: createSuccessService<number> | errorService = await createPlaylist(req.body as Playlist);
+    const result: createSuccessService | errorService = await createPlaylist(req.body as Playlist);
 
     if (!result.success) {
         const errorResult = result as errorService;

@@ -38,9 +38,9 @@ export async function getHistoryById(idHistory: string): Promise<selectSuccessSe
     };
 }
 
-export async function createHistory(history: History): Promise<createSuccessService<number> | errorService> {
-    if (!isValidHistory(history)) {
-        return { success: false, code: 400, message: "Invalid history data." };
+export async function createHistory(history: History): Promise<createSuccessService | errorService> {
+    if(!isValidHistory(history)) {
+    return { success: false, code: 400, message: "Invalid history data." };
     }
 
     const pool: ConnectionPool = await getConnection();

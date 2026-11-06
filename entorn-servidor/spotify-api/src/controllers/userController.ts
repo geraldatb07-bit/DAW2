@@ -24,7 +24,7 @@ export async function getUserByIdController(req: Request, res: Response): Promis
 }
 
 export async function postUserController(req: Request, res: Response): Promise<Response> {
-    const result: createSuccessService<UserBD> | errorService = await createUser(req.body);
+    const result: createSuccessService | errorService = await createUser(req.body);
 
     if (!result.success) {
         const errorResult = result as errorService;

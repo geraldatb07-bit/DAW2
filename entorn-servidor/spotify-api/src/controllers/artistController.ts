@@ -23,7 +23,7 @@ export async function getArtistByIdController(req: Request, res: Response): Prom
 }
 
 export async function postArtistController(req: Request, res: Response): Promise<Response> {
-    const result: createSuccessService<number> | errorService = await createArtist(req.body as Artist);
+    const result: createSuccessService | errorService = await createArtist(req.body as Artist);
 
     if (!result.success) {
         const errorResult = result as errorService;

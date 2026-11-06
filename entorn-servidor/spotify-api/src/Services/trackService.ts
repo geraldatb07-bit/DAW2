@@ -1,10 +1,7 @@
-import { randomUUID } from "crypto";
-import { tracks } from "../data/track/track.data";
 import { isValidTrack } from "../validators/track.validator";
 import type { createSuccessService } from "../interfaces/error/createSuccessService";
 import type { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
 import { errorService } from "../interfaces/error/errorService";
-import { successService } from "../interfaces/error/selectSuccessService";
 import { Track } from "../interfaces/track/track";
 import { TrackBD } from "../interfaces/track/trackBD";
 import { ConnectionPool, IResult, UniqueIdentifier } from "mssql";
@@ -45,28 +42,28 @@ export async function getTrackById(idTrack: string): Promise<selectSuccessServic
     }
 }
 
-export async function createTrack(track: Track): Promise<createSuccessService<number> | errorService> {
-    if (!isValidTrack(track)) {
-        return { success: false, code: 400, message: "Invalid data." };
-    }
-    const title: string = track.title.trim().replace(/\s+/g, " ");
+export async function createTrack(track: Track): Promise<createSuccessService | errorService> {
+    if(!isValidTrack(track)) {
+    return { success: false, code: 400, message: "Invalid data." };
+}
+const title: string = track.title.trim().replace(/\s+/g, " ");
 
 
-    const pool: ConnectionPool = await getConnection();
-    const request: sql.Request = pool.request();
-    const queryText: string = `INSERT INTO TRACK(title,artist_id,duration)
+const pool: ConnectionPool = await getConnection();
+const request: sql.Request = pool.request();
+const queryText: string = `INSERT INTO TRACK(title,artist_id,duration)
     VALUES(@title,@artist_id,@duration)`;
 
-    request.input("title", sql.NVarChar, title);
-    request.input("artist_id", sql.UniqueIdentifier, track.artist);
-    request.input("duration", sql.Numeric, track.duration);
+request.input("title", sql.NVarChar, title);
+request.input("artist_id", sql.UniqueIdentifier, track.artist);
+request.input("duration", sql.Numeric, track.duration);
 
-    const result: IResult<number> = await request.query(queryText);
-    return {
-        success: true,
-        code: 201,
-        data: result.rowsAffected[0]
-    };
+const result: IResult<number> = await request.query(queryText);
+return {
+    success: true,
+    code: 201,
+    data: result.rowsAffected[0]
+};
 
 }
 
@@ -132,3 +129,6 @@ export async function deleteTrack(idTrack: string): Promise<deleteSuccessService
         code: 204,
     }
 }
+
+
+

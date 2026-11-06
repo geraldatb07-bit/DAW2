@@ -23,7 +23,7 @@ export async function getHistoryByIdController(req: Request, res: Response): Pro
 }
 
 export async function postHistoryController(req: Request, res: Response): Promise<Response> {
-    const result: createSuccessService<number> | errorService = await createHistory(req.body as History);
+    const result: createSuccessService | errorService = await createHistory(req.body as History);
 
     if (!result.success) {
         const errorResult = result as errorService;

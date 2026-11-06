@@ -4,7 +4,6 @@ import type { User } from "../interfaces/User/user";
 import type { UserBD } from "../interfaces/User/userBD";
 import type { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
 import type { errorService, errorService as ErrorService } from "../interfaces/error/errorService";
-import type { successService as SuccessService } from "../interfaces/error/selectSuccessService";
 import type { createSuccessService } from "../interfaces/error/createSuccessService";
 import { ConnectionPool, IResult, UniqueIdentifier } from "mssql";
 import { getConnection } from "../config/database";
@@ -44,7 +43,7 @@ export async function getUserById(idUser: string): Promise<selectSuccessService<
     }
 }
 
-export async function createUser(user: User): Promise<SuccessService<number> | ErrorService> {
+export async function createUser(user: User): Promise<createSuccessService | ErrorService> {
     if (!isValidUser(user)) {
         return { success: false, code: 400, message: "Invalid data." };
     }
@@ -68,7 +67,7 @@ export async function createUser(user: User): Promise<SuccessService<number> | E
     };
 }
 
-export async function updateUser(user: User): Promise<createSuccessService<UserBD> | ErrorService> {
+export async function updateUser(user: User): Promise<createSuccessService | ErrorService> {
     if (!isValidUser(user)) {
         return { success: false, 
                  code: 400, 

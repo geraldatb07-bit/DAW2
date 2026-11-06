@@ -39,31 +39,31 @@ export async function getArtistById(idArtist: string): Promise<selectSuccessServ
     };
 }
 
-export async function createArtist(artist: Artist): Promise<createSuccessService<number> | errorService> {
-    if (!isValidArtist(artist)) {
-        return { success: false, code: 400, message: "Invalid artist data." };
-    }
+export async function createArtist(artist: Artist): PromisecreateSuccessService | errorService> {
+    if(!isValidArtist(artist)) {
+    return { success: false, code: 400, message: "Invalid artist data." };
+}
 
-    const country = countries.find((c) => c.countryName.trim().toLowerCase() === artist.pais.countryName.trim().toLowerCase());
-    if (!country) {
-        return { success: false, code: 404, message: "Country not found" };
-    }
+const country = countries.find((c) => c.countryName.trim().toLowerCase() === artist.pais.countryName.trim().toLowerCase());
+if (!country) {
+    return { success: false, code: 404, message: "Country not found" };
+}
 
-    const pool: ConnectionPool = await getConnection();
-    const request: sql.Request = pool.request();
-    const queryText = `INSERT INTO Artist(name, pseudonym, country_id) VALUES (@name, @pseudonym, @country_id)`;
+const pool: ConnectionPool = await getConnection();
+const request: sql.Request = pool.request();
+const queryText = `INSERT INTO Artist(name, pseudonym, country_id) VALUES (@name, @pseudonym, @country_id)`;
 
-    request.input("name", sql.NVarChar, artist.nom.trim().replace(/\s+/g, " "));
-    request.input("pseudonym", sql.NVarChar, artist.pseudonim.trim().replace(/\s+/g, " "));
-    request.input("country_id", UniqueIdentifier, country.id);
+request.input("name", sql.NVarChar, artist.nom.trim().replace(/\s+/g, " "));
+request.input("pseudonym", sql.NVarChar, artist.pseudonim.trim().replace(/\s+/g, " "));
+request.input("country_id", UniqueIdentifier, country.id);
 
-    const result: IResult<number> = await request.query(queryText);
+const result: IResult<number> = await request.query(queryText);
 
-    return {
-        success: true,
-        code: 201,
-        data: result.rowsAffected[0]
-    };
+return {
+    success: true,
+    code: 201,
+    data: result.rowsAffected[0]
+};
 }
 
 export async function updateArtist(idArtist: string, artist: Artist): Promise<updateSuccessService<number> | errorService> {

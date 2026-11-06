@@ -22,7 +22,7 @@ export async function getAlbumTrackByIdController(req: Request, res: Response): 
 }
 
 export async function postAlbumTrackController(req: Request, res: Response): Promise<Response> {
-    const result: createSuccessService<number> | errorService = await createAlbumTrack(req.body as AlbumTrack);
+    const result: createSuccessService | errorService = await createAlbumTrack(req.body as AlbumTrack);
 
     if (!result.success) {
         const errorResult = result as errorService;

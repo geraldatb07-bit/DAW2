@@ -21,7 +21,7 @@ export async function getPlaylistTrackByIdController(req: Request, res: Response
 }
 
 export async function postPlaylistTrackController(req: Request, res: Response): Promise<Response> {
-    const result: createSuccessService<PlaylistTrackBD> | errorService = await createPlaylistTrack(req.body as { playlistId: string; trackId: string });
+    const result: createSuccessService | errorService = await createPlaylistTrack(req.body as { playlistId: string; trackId: string });
 
     if (!result.success) {
         const errorResult = result as errorService;

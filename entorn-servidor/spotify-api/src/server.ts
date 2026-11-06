@@ -1,5 +1,5 @@
 import { APICONFIG } from "./config/apiConfig";
-import { app } from "./appSpoty";
+import { app } from "./appSpotify";
 
 app.listen(APICONFIG.port, APICONFIG.host, () => {
     console.log(`Servidor escoltant a http://${APICONFIG.host}:${APICONFIG.port}`);
