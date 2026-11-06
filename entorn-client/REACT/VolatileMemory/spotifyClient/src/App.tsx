@@ -6,9 +6,10 @@ import SongCard from './components/songs/SongCard';
 import type { Like } from './components/songs/Types/likes';
 import HeaderCard from './components/header/HeaderCard';
 import PlayingCard from './components/playing/PlayingCard';
-import type { Track } from './Model/Track';
-import SongRow from './components/songs/SongRow';
 import ListSongs from './components/songs/ListSongs';
+import type { TrackListView } from './components/songs/Types/TrackListView';
+import type { HistoryView } from './components/history/Types/HistoryView';
+import HistoryCard from './components/history/HistoryCard';
 
 const totalTracks: number = tracks.length;
 
@@ -26,6 +27,12 @@ function App() {
       }
     }
   )
+
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const [history, setHistory] = useState<HistoryView[]>([]);
+
+
 
   function handleClickRandomSong() {
       const random: number = Math.floor(Math.random() * totalTracks);
@@ -83,17 +90,38 @@ function App() {
     }));
   }
 
-  const [isPlaying, setIsPlaying] = useState(false);
 
   function gestionarReproduccio() {
     if (!isPlaying) {
       incrementarReproduccions();
+      afegirAlHistorial(track);
     }
 
     setIsPlaying(!isPlaying);
   }
 
-  
+  function afegirAlHistorial(song: {title: string, artist: string, duration: number}) {
+    setHistory(prev => [
+      {
+        title: song.title,
+        artist: song.artist,
+        duration: song.duration,
+        playedTime: new Date().toLocaleString('ca-ES')
+      },
+      ...prev
+    ]);
+  }
+
+
+  function handleListTrackPlay(selectedTrack: TrackListView) {
+    setTrack({
+      ...selectedTrack,
+      reproduccions: 1,
+      likes: { like: false, totalLikes: 0 }
+    });
+    setIsPlaying(true);
+    afegirAlHistorial(selectedTrack);
+  }
 
   return (
     <>
@@ -103,13 +131,14 @@ function App() {
                     <title>ListSong</title>
                 </thead>
                 <tbody>
-                  <ListSongs tracks={tracks} />
+                  <ListSongs tracks={tracks} onPlay={handleListTrackPlay} />
                 </tbody>
             </table>
+            <HistoryCard history={history} />
             <aside>
           <HeaderCard
             headerInfo={{
-              nom: 'Gerard',
+              nom: 'Gerald',
               data: new Date().toLocaleString('ca-ES')
             }}
           />
@@ -119,7 +148,7 @@ function App() {
             like={() => gestionarLikes()}
             reset={handleClickReset} />
           <button onClick={handleClickRandomSong}>Random track</button>
-          <hr />
+          <hr style={{ width: "50%", marginLeft: "0" }} />
           <PlayingCard
             isPlaying={isPlaying}
             trackInfo={track}

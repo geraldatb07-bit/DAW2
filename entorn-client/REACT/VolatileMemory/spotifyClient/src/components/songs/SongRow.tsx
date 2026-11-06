@@ -4,7 +4,7 @@ import type { SongRowProps } from "./Types/SongRowProps";
 const SongRow = (props: SongRowProps) => {
 
     return (
-        <tr>
+        <tr onClick={props.onPlay}>
             <td>Títol: {props.title}</td>
             <td>Artist: {props.artist}</td>
             <td>Duration: {props.duration}</td>

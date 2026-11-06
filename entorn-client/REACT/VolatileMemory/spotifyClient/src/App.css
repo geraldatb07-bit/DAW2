@@ -10,3 +10,27 @@
     align-items: center;
     gap: 2rem;
 }
+
+table {
+    border: 1px solid black;
+    padding: 5px;
+    position: absolute;
+    right: 50px;
+    top: 200px;
+    border-spacing: 12px 4px;
+}
+
+.history-component {
+    border: 1px solid black;
+    padding: 5px;
+    position: absolute;
+    right: 50px;
+    top: 300px;
+}
+
+.history-component table {
+    position: static;
+    border: 0;
+    padding: 0;
+    border-spacing: 12px 4px;
+}
