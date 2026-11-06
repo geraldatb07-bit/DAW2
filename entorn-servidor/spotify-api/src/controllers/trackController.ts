@@ -6,6 +6,7 @@ import { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
 import { errorService } from "../interfaces/error/errorService";
 import { selectSuccessService } from "../interfaces/error/selectSuccesService";
 import { updateSuccessService } from "../interfaces/error/updateSuccessService";
+import { addTrackUserHistory } from "../Services/historyServices";
 
 export async function getAllTracksController(_req: Request, res: Response): Promise<Response> {
     const tracksBD: TrackBD[] = await getAllTracks();

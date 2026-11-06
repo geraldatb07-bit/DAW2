@@ -37,24 +37,24 @@ export async function getAlbumTrackById(idAlbumTrack: string): Promise<selectSuc
     };
 }
 
-export async function createAlbumTrack(albumTrack: AlbumTrack): PromisecreateSuccessService | errorService> {
-    if(!isValidAlbumTrack(albumTrack)) {
-    return { success: false, code: 400, message: "Invalid album track data." };
-}
+export async function createAlbumTrack(albumTrack: AlbumTrack): Promise<createSuccessService | errorService> {
+    if (!isValidAlbumTrack(albumTrack)) {
+        return { success: false, code: 400, message: "Invalid album track data." };
+    }
 
-const pool: ConnectionPool = await getConnection();
-const request: sql.Request = pool.request();
-const queryText = `INSERT INTO AlbumTracks(album_id, track_id) VALUES (@album_id, @track_id)`;
+    const pool: ConnectionPool = await getConnection();
+    const request: sql.Request = pool.request();
+    const queryText = `INSERT INTO AlbumTracks(album_id, track_id) VALUES (@album_id, @track_id)`;
 
-request.input("album_id", UniqueIdentifier, albumTrack.album);
-request.input("track_id", UniqueIdentifier, albumTrack.track);
+    request.input("album_id", UniqueIdentifier, albumTrack.album);
+    request.input("track_id", UniqueIdentifier, albumTrack.track);
 
-const result: IResult<number> = await request.query(queryText);
-return {
-    success: true,
-    code: 201,
-    data: result.rowsAffected[0]
-};
+    const result: IResult<number> = await request.query(queryText);
+    return {
+        success: true,
+        code: 201,
+        data: result.rowsAffected[0]
+    };
 }
 
 export async function deleteAlbumTrack(idAlbumTrack: string): Promise<deleteSuccessService | errorService> {

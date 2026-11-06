@@ -39,7 +39,7 @@ export async function getArtistById(idArtist: string): Promise<selectSuccessServ
     };
 }
 
-export async function createArtist(artist: Artist): PromisecreateSuccessService | errorService> {
+export async function createArtist(artist: Artist): Promise<createSuccessService | errorService> {
     if(!isValidArtist(artist)) {
     return { success: false, code: 400, message: "Invalid artist data." };
 }

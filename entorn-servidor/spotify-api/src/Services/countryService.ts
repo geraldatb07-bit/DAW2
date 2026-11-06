@@ -38,23 +38,23 @@ export async function getCountryById(idCountry: string): Promise<selectSuccessSe
     };
 }
 
-export async function createCountry(country: Country): PromisecreateSuccessService | errorService> {
-    if(!isValidCountry(country)) {
-    return { success: false, code: 400, message: "Invalid country data." };
-}
+export async function createCountry(country: Country): Promise<createSuccessService | errorService> {
+    if (!isValidCountry(country)) {
+        return { success: false, code: 400, message: "Invalid country data." };
+    }
 
-const pool: ConnectionPool = await getConnection();
-const request: sql.Request = pool.request();
-const queryText = `INSERT INTO Country(name) VALUES (@name)`;
+    const pool: ConnectionPool = await getConnection();
+    const request: sql.Request = pool.request();
+    const queryText = `INSERT INTO Country(name) VALUES (@name)`;
 
-request.input("name", sql.NVarChar, country.countryName.trim().replace(/\s+/g, " "));
-const result: IResult<number> = await request.query(queryText);
+    request.input("name", sql.NVarChar, country.countryName.trim().replace(/\s+/g, " "));
+    const result: IResult<number> = await request.query(queryText);
 
-return {
-    success: true,
-    code: 201,
-    data: result.rowsAffected[0]
-};
+    return {
+        success: true,
+        code: 201,
+        data: result.rowsAffected[0]
+    };
 }
 
 export async function putCountry(country: Country, idCountry: string): Promise<updateSuccessService<number> | errorService> {
