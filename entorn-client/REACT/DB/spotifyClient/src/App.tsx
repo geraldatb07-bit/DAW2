@@ -8,13 +8,14 @@ import PlayingCard from './components/playing/PlayingCard';
 import ListSongs from './components/songs/ListSongs';
 import { ENV } from './Config/env';
 import type { GETTrack } from './APIManagement/Tracks/Interfaces/Track';
+import type { AddHistory } from './APIManagement/History/Interfaces/HistoryCreate';
 
 
 
 
 function App() {
 
-  const[tracks, setTracks] = useState<GETTrack[]>([]);
+  const [tracks, setTracks] = useState<GETTrack[]>([]);
 
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -29,55 +30,73 @@ function App() {
     }
   )
 
-  async function carregarDadesTrack(){
+  async function carregarDadesTrack() {
     const resposta: Response = await fetch(`${ENV.API_BASE_URL}/tracks`);
     const listTrack: GETTrack[] = await resposta.json() as GETTrack[];
     setTracks(listTrack)
   }
-  
+
   useEffect(
     () => {
       carregarDadesTrack();
-    },[]
+    }, []
   )
 
   function handleClickRandomSong() {
-      const random: number = Math.floor(Math.random() * tracks.length);
+    const random: number = Math.floor(Math.random() * tracks.length);
 
-      const trackRandom: TrackView = {
-        ...tracks[random],
-        "likes": {
-          "like": false,
-          "totalLikes": 0
-        },
-        "reproduccions": Math.floor(Math.random() * 5000),
-      }
+    const trackRandom: TrackView = {
+      ...tracks[random],
+      "likes": {
+        "like": false,
+        "totalLikes": 0
+      },
+      "reproduccions": Math.floor(Math.random() * 5000),
+    }
 
     setTrack(trackRandom);
   }
 
-  function incrementarReproduccions() {
+  async function incrementarReproduccions() {
     const tr = (prev: TrackView): TrackView => {
       return {
         ...prev,
         "reproduccions": prev.reproduccions + 1
       }
     }
+    const newHistory: AddHistory = {
+      user: "C2CFE8EE-F0CF-4C57-A256-E3495D7CA7BC",
+      track: tracks[0].id
+    }
+    const response: Response = await fetch(
+      "http://localhost:3000/tracks/user/history",
+      {
+        method: "POST",
+        headers:{
+          "Content-type":"application/json"
+        },
+        body: JSON.stringify(newHistory)
+      })
+      if(!response.ok){
+        return false
+      }
+      const result = await response.json();
+      console.log(result)
     setTrack(tr);
   }
 
   function gestionarLikes() {
     const tr = (prev: TrackView): TrackView => {
 
-      let increment:number = 1;
-      if (prev.likes.like){
+      let increment: number = 1;
+      if (prev.likes.like) {
         increment = -1;
       }
-      const likeObj:Like = {
+      const likeObj: Like = {
         like: !prev.likes.like,
         totalLikes: prev.likes.totalLikes + increment
       }
-      
+
       return {
         ...prev,
         "likes": likeObj
@@ -105,13 +124,13 @@ function App() {
 
     setIsPlaying(!isPlaying);
   }
-  
+
 
   return (
     <>
-        <main>
-          {
-            tracks.length > 0 ?
+      <main>
+        {
+          tracks.length > 0 ?
             <table>
               <thead>
                 <title>ListSong</title>
@@ -120,11 +139,11 @@ function App() {
                 <ListSongs tracks={tracks} />
               </tbody>
             </table>
-            :<p>
+            : <p>
               No track  available
             </p>
-          }
-            
+        }
+
         <aside>
           <HeaderCard
             headerInfo={{
@@ -142,7 +161,7 @@ function App() {
           <PlayingCard
             isPlaying={isPlaying}
             trackInfo={track}
-            onStop={() => setIsPlaying(false)}/>
+            onStop={() => setIsPlaying(false)} />
         </aside>
       </main>
     </>
