@@ -18,3 +18,33 @@ table {
     right: 50px;
     top: 200px;
 }
+
+.library-component {
+    position: absolute;
+    right: 50px;
+    top: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.library-component>table {
+    position: static;
+}
+
+.playlist-component {
+    border: 1px solid black;
+    padding: 5px;
+}
+
+@media (max-width: 768px) {
+    .library-component {
+        position: static;
+        width: 100%;
+    }
+
+    .library-component>table {
+        width: 100%;
+    }
+}
+

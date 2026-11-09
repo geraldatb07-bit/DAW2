@@ -9,7 +9,7 @@ const ListSongs = (props: SongListProps) => {
         {
             props.tracks.map(
                 (t: GETTrack) => {
-                    return <SongRow
+                    return <SongRow onPlay={() => props.onPlayTrack(t)}
                         key={t.id}
                         title={t.title}
                         artist={t.artist}
