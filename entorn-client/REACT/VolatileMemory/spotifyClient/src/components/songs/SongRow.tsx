@@ -2,12 +2,15 @@ import type { SongRowProps } from "./Types/SongRowProps";
 
 
 const SongRow = (props: SongRowProps) => {
-
+    const isCurrentSongPlaying = props.isPlaying ? props.id === props.playingTrackId : false; 
     return (
-        <tr onClick={props.onPlay}>
+        <tr>
             <td>Títol: {props.title}</td>
             <td>Artist: {props.artist}</td>
             <td>Duration: {props.duration}</td>
+            <td>
+                {isCurrentSongPlaying ? null : <button onClick={props.onPlay}>Play</button>}
+            </td>
         </tr>
     )
 }

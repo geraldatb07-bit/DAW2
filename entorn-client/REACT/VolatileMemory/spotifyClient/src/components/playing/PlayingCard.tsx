@@ -10,7 +10,7 @@ const PlayingCard = (props: { isPlaying: boolean, trackInfo: TrackView, onStop: 
 
     function upSpeaker() {
         setPlaying(prev => {
-            if (prev.volum < 100) {
+            if (prev.volum < 10) {
                 return {
                     ...prev,
                     volum: prev.volum + 1

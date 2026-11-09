@@ -88,6 +88,7 @@ function App() {
         totalLikes: 0
       }
     }));
+    setHistory([]);
   }
 
 
@@ -131,7 +132,11 @@ function App() {
                     <title>ListSong</title>
                 </thead>
                 <tbody>
-                  <ListSongs tracks={tracks} onPlay={handleListTrackPlay} />
+                  <ListSongs 
+                    tracks={tracks} 
+                    onPlay={handleListTrackPlay}
+                    isPlaying={isPlaying}
+                    playingTrackId={track.id} />
                 </tbody>
             </table>
             <HistoryCard history={history} />

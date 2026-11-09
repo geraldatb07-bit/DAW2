@@ -15,6 +15,9 @@ const ListSongs = (props: SongListProps) => {
                         artist={t.artist}
                         duration={t.duration}
                         onPlay={() => props.onPlay(t)}
+                        id={t.id}
+                        isPlaying={props.isPlaying}
+                        playingTrackId={props.playingTrackId}
                     />
                 }
             ) 
