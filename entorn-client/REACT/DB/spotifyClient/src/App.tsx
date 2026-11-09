@@ -10,6 +10,7 @@ import { ENV } from './Config/env';
 import type { GETTrack } from './APIManagement/Tracks/Interfaces/Track';
 import type { AddHistory } from './APIManagement/History/Interfaces/HistoryCreate';
 import type { GETPlaylist } from './APIManagement/Playlists/Interfaces/Playlist';
+import type { GETPlaylistTrack } from './APIManagement/PlaylistTracks/Interfaces/PlaylistTrack';
 import PlaylistCard from './components/playlists/PlaylistCard';
 
 
@@ -21,6 +22,10 @@ function App() {
   const [isPlaying, setIsPlaying] = useState(false);
 
   const [playlists, setPlaylists] = useState<GETPlaylist[]>([]);
+
+  const [playlistTracks, setPlaylistTracks] = useState<GETTrack[]>([]);
+
+  const [selectedPlaylistTitle, setSelectedPlaylistTitle] = useState('');
 
   const [track, setTrack] = useState<TrackView>(
     {
@@ -62,6 +67,19 @@ function App() {
 
     const llista: GETPlaylist[] = await resposta.json();
     setPlaylists(llista);
+  }
+
+  async function handleSelectPlaylist(playlistId: string) {
+    const resposta = await fetch(`${ENV.API_BASE_URL}/playlisttracks`);
+    const relacions: GETPlaylistTrack[] = await resposta.json();
+    const trackIds = relacions
+      .filter(relacio => relacio.playlist_id === playlistId)
+      .map(relacio => relacio.track_id);
+
+    setSelectedPlaylistTitle(
+      playlists.find(playlist => playlist.id === playlistId)?.title ?? ''
+    );
+    setPlaylistTracks(tracks.filter(track => trackIds.includes(track.id)));
   }
 
   useEffect(
@@ -196,7 +214,13 @@ function App() {
               No track available
             </p>
         }
-        <PlaylistCard playlists={playlists} />
+        <PlaylistCard
+          playlists={playlists}
+          onSelectPlaylist={handleSelectPlaylist}
+          selectedPlaylistTitle={selectedPlaylistTitle}
+          tracks={playlistTracks}
+          onPlayTrack={handlePlayTrack}
+        />
         <aside>
           <HeaderCard
             headerInfo={{

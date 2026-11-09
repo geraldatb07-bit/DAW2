@@ -27,6 +27,12 @@ table {
     top: 300px;
 }
 
+.playlist-tracks-component table {
+    position: static;
+    border: 0;
+    padding: 0;
+}
+
 @media (max-width: 768px) {
     table,
     .playlist-component,
