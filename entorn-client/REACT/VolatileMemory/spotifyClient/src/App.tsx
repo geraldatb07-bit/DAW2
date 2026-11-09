@@ -11,8 +11,12 @@ import type { TrackListView } from './components/songs/Types/TrackListView';
 import type { HistoryView } from './components/history/Types/HistoryView';
 import HistoryCard from './components/history/HistoryCard';
 
-const totalTracks: number = tracks.length;
+export function formatDuration(duration: number): string {
+  const minutes = Math.floor(duration / 60);
+  const seconds = duration % 60;
 
+  return `${minutes}:${seconds}`;
+}
 
 
 function App() {
@@ -33,9 +37,8 @@ function App() {
   const [history, setHistory] = useState<HistoryView[]>([]);
 
 
-
   function handleClickRandomSong() {
-      const random: number = Math.floor(Math.random() * totalTracks);
+      const random: number = Math.floor(Math.random() * tracks.length);
 
       const trackRandom: TrackView = {
         ...tracks[random],

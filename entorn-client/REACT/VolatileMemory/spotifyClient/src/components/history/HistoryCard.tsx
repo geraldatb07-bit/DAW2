@@ -1,3 +1,4 @@
+import { formatDuration } from "../../App";
 import type { HistoryCardProps } from "./Types/HistoryCardProps";
 
 
@@ -12,7 +13,7 @@ const HistoryCard = (props: HistoryCardProps) => {
                     <tr key={index}>
                         <td>{song.title}</td>
                         <td>{song.artist}</td>
-                        <td>{song.duration}</td>
+                        <td>{formatDuration(song.duration)}</td>
                         <td>{song.playedTime}</td>
                     </tr>
                 ))}
