@@ -186,32 +186,17 @@ function App() {
                 <title>ListSong</title>
               </thead>
               <tbody>
-                <ListSongs 
-                tracks={tracks}
-                onPlayTrack={handlePlayTrack} 
+                <ListSongs
+                  tracks={tracks}
+                  onPlayTrack={handlePlayTrack}
                 />
               </tbody>
             </table>
             : <p>
-              No track  available
+              No track available
             </p>
         }
-        <div className="library-component">
-          {tracks.length > 0 ? (
-            <table>
-              <thead>
-                <title>ListSong</title>
-              </thead>
-              <tbody>
-                <ListSongs tracks={tracks} onPlayTrack={handlePlayTrack} />
-              </tbody>
-            </table>
-          ) : (
-            <p>No track available</p>
-          )}
-
-          <PlaylistCard playlists={playlists} />
-        </div>
+        <PlaylistCard playlists={playlists} />
         <aside>
           <HeaderCard
             headerInfo={{
