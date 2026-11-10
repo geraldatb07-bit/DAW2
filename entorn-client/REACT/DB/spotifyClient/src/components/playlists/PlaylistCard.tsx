@@ -6,28 +6,26 @@ const PlaylistCard = (props: PlaylistCardProps) => {
         <section className="playlist-component">
             <h2>Llistes de reproducció</h2>
 
-            {props.playlists.length === 0 ? (
-                <p>No hi ha playlists disponibles</p>
-            ) : (
+            {props.playlists.length === 0 ? <p>No hi ha playlists disponibles</p> : 
+            (
                 <ul>
                     {props.playlists.map(playlist => (
                         <li key={playlist.id}>
                             {playlist.title}
-                            <button onClick={() => props.onSelectPlaylist(playlist.id)}>
-                                Select
-                            </button>
+                            <button onClick={() => props.onSelectPlaylist(playlist.id)}>Select</button>
                         </li>
                     ))}
                 </ul>
             )}
 
-            {props.selectedPlaylistTitle !== '' && (
+            {props.selectedPlaylistTitle !== '' ? 
+            (
                 <PlaylistTracksCard
                     title={props.selectedPlaylistTitle}
                     tracks={props.tracks}
                     onPlayTrack={props.onPlayTrack}
                 />
-            )}
+            ): null}
         </section>
     );
 };

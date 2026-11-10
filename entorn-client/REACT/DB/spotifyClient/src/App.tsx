@@ -12,7 +12,13 @@ import type { AddHistory } from './APIManagement/History/Interfaces/HistoryCreat
 import type { GETPlaylist } from './APIManagement/Playlists/Interfaces/Playlist';
 import type { GETPlaylistTrack } from './APIManagement/PlaylistTracks/Interfaces/PlaylistTrack';
 import PlaylistCard from './components/playlists/PlaylistCard';
+import { tracks } from './Data/track/track.data';
 
+
+
+  export const randomIndex = Math.floor(Math.random() * tracks.length);
+  export const randomTrack = tracks[randomIndex];
+  export const randomReproduccions = Math.floor(Math.random() * 5000);
 
 
 function App() {
@@ -29,8 +35,8 @@ function App() {
 
   const [track, setTrack] = useState<TrackView>(
     {
-      ...tracks[Math.floor(Math.random() * tracks.length)],
-      "reproduccions": Math.floor(Math.random() * 5000),
+      ...tracks[randomIndex],
+      "reproduccions": randomReproduccions,
       "likes": {
         "like": false,
         "totalLikes": 0
@@ -42,8 +48,7 @@ function App() {
 
   async function carregarDadesTrack() {
     const resposta: Response = await fetch(`${ENV.API_BASE_URL}/tracks`);
-    const listTrack: GETTrack[] = await resposta.json() as GETTrack[];
-
+    const listTrack: GETTrack[] = await resposta.json() as GETTrack[]; 
     setTracks(listTrack);
 
     if (listTrack.length > 0) {
@@ -62,7 +67,7 @@ function App() {
     const resposta = await fetch(`${ENV.API_BASE_URL}/playlists`);
 
     if (!resposta.ok) {
-      throw new Error("Error en carregar les playlists");
+      return false;
     }
 
     const llista: GETPlaylist[] = await resposta.json();
@@ -70,15 +75,16 @@ function App() {
   }
 
   async function handleSelectPlaylist(playlistId: string) {
-    const resposta = await fetch(`${ENV.API_BASE_URL}/playlisttracks`);
-    const relacions: GETPlaylistTrack[] = await resposta.json();
-    const trackIds = relacions
-      .filter(relacio => relacio.playlist_id === playlistId)
-      .map(relacio => relacio.track_id);
+    const playlistSeleccionada = playlists.find(playlist => playlist.id === playlistId);
+    setSelectedPlaylistTitle(playlistSeleccionada ? playlistSeleccionada.title : '');
 
-    setSelectedPlaylistTitle(
-      playlists.find(playlist => playlist.id === playlistId)?.title ?? ''
-    );
+    const resposta = await fetch(`${ENV.API_BASE_URL}/playlisttracks`); // ens retorna totes les relacions entre playlists i tracks: id, playlis_id, track_id
+    const relacions: GETPlaylistTrack[] = await resposta.json();
+
+    const relacionsDeLaPlaylist : GETPlaylistTrack[] = relacions.filter(relacio => playlistId === relacio.playlist_id);
+
+    const trackIds = relacionsDeLaPlaylist.map(relacio => relacio.track_id);
+
     setPlaylistTracks(tracks.filter(track => trackIds.includes(track.id)));
   }
 
@@ -95,15 +101,13 @@ function App() {
   )
 
   function handleClickRandomSong() {
-    const random: number = Math.floor(Math.random() * tracks.length);
-
     const trackRandom: TrackView = {
-      ...tracks[random],
+      ...tracks[randomIndex],
       "likes": {
         "like": false,
         "totalLikes": 0
       },
-      "reproduccions": Math.floor(Math.random() * 5000),
+      "reproduccions": randomReproduccions,
     }
 
     setTrack(trackRandom);
