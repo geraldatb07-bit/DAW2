@@ -16,9 +16,16 @@ import { tracks } from './Data/track/track.data';
 
 
 
-  export const randomIndex = Math.floor(Math.random() * tracks.length);
-  export const randomTrack = tracks[randomIndex];
-  export const randomReproduccions = Math.floor(Math.random() * 5000);
+export const randomIndex = Math.floor(Math.random() * tracks.length);
+export const randomTrack = tracks[randomIndex];
+export const randomReproduccions = Math.floor(Math.random() * 5000);
+
+export function formatDuration(duration: number): string {
+  const minutes = Math.floor(duration / 60);
+  const seconds = duration % 60;
+
+  return `${minutes}:${seconds}`;
+}
 
 
 function App() {

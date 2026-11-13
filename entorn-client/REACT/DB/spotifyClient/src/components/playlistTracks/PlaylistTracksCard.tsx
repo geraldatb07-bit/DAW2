@@ -1,11 +1,5 @@
-import type { GETTrack } from "../../APIManagement/Tracks/Interfaces/Track";
 import ListSongs from "../songs/ListSongs";
-
-interface PlaylistTracksCardProps {
-    title: string;
-    tracks: GETTrack[];
-    onPlayTrack: (track: GETTrack) => void;
-}
+import type { PlaylistTracksCardProps } from "./Types/PlaylistTracksCardProps";
 
 const PlaylistTracksCard = (props: PlaylistTracksCardProps) => {
     return (
