@@ -1,7 +1,7 @@
 import type { SongCardProps } from "./Types/SongCardProps";
 import likeIcon from "../../assets/like.png";
 import dislikeIcon from "../../assets/dislike.png";
-import { formatDuration } from "../../App";
+import { formatDuration } from "../../Pages/Authenticated/Play";
 
 const SongCard = (props: SongCardProps) => {
 

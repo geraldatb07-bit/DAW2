@@ -1,4 +1,4 @@
-import { formatDuration } from "../../App";
+import { formatDuration } from "../../Pages/Authenticated/Play";
 import type { SongRowProps } from "./Types/SongRowProps";
 
 
