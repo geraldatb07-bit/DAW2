@@ -3,7 +3,6 @@ import { getConnection } from "../config/database";
 import { createSuccessService } from "../interfaces/error/createSuccessService";
 import { deleteSuccessService } from "../interfaces/error/deleteSuccessService";
 import { selectSuccessService } from "../interfaces/error/selectSuccesService";
-import { updateSuccessService } from "../interfaces/error/updateSuccessService";
 import { errorService } from "../interfaces/error/errorService";
 import { History } from "../interfaces/History/history";
 import { HistoryBD } from "../interfaces/History/historyBD";

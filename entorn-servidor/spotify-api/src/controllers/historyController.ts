@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createHistory, deleteHistory, getAllHistories, getHistoryById, putHistory } from "../Services/historyServices";
+import { createHistory, deleteHistory, getAllHistories, getHistoryById } from "../Services/historyServices";
 import { History } from "../interfaces/History/history";
 import { HistoryBD } from "../interfaces/History/historyBD";
 import { createSuccessService } from "../interfaces/error/createSuccessService";
@@ -23,17 +23,7 @@ export async function getHistoryByIdController(req: Request, res: Response): Pro
 }
 
 export async function postHistoryController(req: Request, res: Response): Promise<Response> {
-    const result: createSuccessService | errorService = await createHistory(req.body as History);
-
-    if (!result.success) {
-        const errorResult = result as errorService;
-        return res.status(errorResult.code).json({ message: errorResult.message });
-    }
-    return res.status(result.code).json(result);
-}
-
-export async function putHistoryController(req: Request, res: Response): Promise<Response> {
-    const result: updateSuccessService<number> | errorService = await putHistory(req.body as History, req.params.id as string);
+    const result: createSuccessService | errorService = await createHistory(req.body as HistoryBD);
 
     if (!result.success) {
         const errorResult = result as errorService;

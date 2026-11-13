@@ -9,6 +9,7 @@ import { userRouter } from "./routes/userRoutes";
 import { playlistsRouter } from "./routes/playlistRoutes";
 import { playlistTrackRouter } from "./routes/playlistTrackRoutes";
 import { albumTrackRouter } from "./routes/albumTrackRoutes";
+import { likeRouter } from "./routes/likeRoutes";
 
 
 export const app: Express = express();
@@ -32,3 +33,5 @@ app.use("/playlists", playlistsRouter);
 app.use("/playlisttracks", playlistTrackRouter);
 
 app.use("/albumstracks", albumTrackRouter);
+
+app.use("/likes", likeRouter)
